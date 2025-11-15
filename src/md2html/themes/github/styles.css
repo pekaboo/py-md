@@ -109,6 +109,7 @@ a:focus {
 
 .md2html-nav__item {
 	padding: 4px 0;
+	position: relative;
 }
 
 .md2html-nav__link,
@@ -138,6 +139,25 @@ a:focus {
 	font-weight: 600;
 }
 
+.md2html-nav__label {
+	cursor: pointer;
+}
+
+.md2html-nav__label::before {
+	content: "▸";
+	display: inline-block;
+	margin-right: 6px;
+	color: var(--md2html-muted);
+	transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.md2html-nav__item--expanded > .md2html-nav__label::before,
+.md2html-nav__item:hover > .md2html-nav__label::before,
+.md2html-nav__item:focus-within > .md2html-nav__label::before {
+	transform: rotate(90deg);
+	color: var(--md2html-outline-active);
+}
+
 .md2html-nav__list {
 	margin-left: 12px;
 	border-left: 1px solid var(--md2html-border);
@@ -145,7 +165,9 @@ a:focus {
 	display: none;
 }
 
-.md2html-nav__item--expanded > .md2html-nav__list {
+.md2html-nav__item--expanded > .md2html-nav__list,
+.md2html-nav__item:hover > .md2html-nav__list,
+.md2html-nav__item:focus-within > .md2html-nav__list {
 	display: block;
 }
 
