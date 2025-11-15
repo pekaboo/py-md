@@ -91,6 +91,17 @@ pytest
 
 核心模块位于 `src/md2html/`，默认主题位于 `src/md2html/themes/github/`。
 
+## 部署到 GitHub Pages
+
+```bash
+chmod +x ./scripts/deploy-gh-pages.sh  # 首次使用时赋予执行权限
+./scripts/deploy-gh-pages.sh "Deploy documentation"
+```
+
+脚本会先执行站点构建，然后通过 `gh-pages` 分支推送到远程（默认 `origin`）。可通过环境变量 `BRANCH`、`REMOTE`、`SOURCE_DIR`、`SITE_DIR` 和 `PYTHON` 调整默认行为。
+
+也可以使用仓库内置的 GitHub Actions 工作流（`.github/workflows/deploy.yml`），在每次推送到 `main` 时自动构建并发布到 GitHub Pages，或通过手动触发的 `workflow_dispatch` 发布。
+
 ## TODO
 
 - 目录索引页面生成
