@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ front_matter.lang or site.lang or 'zh-cn' }}">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,12 +24,32 @@
       {% set depth = node.segments | length %}
       {% set is_active = current_segments == node.segments %}
       {% set is_expanded = current_segments[:depth] == node.segments %}
-      <div class="md2html-nav__item{% if is_active %} md2html-nav__item--active{% endif %}{% if is_expanded %} md2html-nav__item--expanded{% endif %}">
-        {% if node.url %}<a class="md2html-nav__link" href="{{ nav_href(node.url) }}">{{ node.title }}</a>{% else %}<span class="md2html-nav__label">{{ node.title }}</span>{% endif %}
+  {% set node_key = node.url or (node.segments | join('/')) or (node.title | replace(' ', '-') | lower) %}
+  {% set child_id = ('nav-' ~ node_key) | replace('/', '-') | replace('.', '-') %}
+      <div class="md2html-nav__item{% if is_active %} md2html-nav__item--active{% endif %}{% if is_expanded %} md2html-nav__item--expanded{% endif %}"
+        data-nav-node="{{ node_key }}">
+        <div class="md2html-nav__entry{% if not node.children %} md2html-nav__entry--leaf{% endif %}">
+          {% if node.children %}
+          <button type="button"
+            class="md2html-nav__toggle"
+            data-nav-toggle="{{ node_key }}"
+            data-expanded="{% if is_expanded %}true{% else %}false{% endif %}"
+            {% if is_expanded %}data-initial-expanded="true"{% endif %}
+              {% if is_expanded %}aria-expanded="true"{% else %}aria-expanded="false"{% endif %}
+            aria-label="切换 {{ node.title }} 子目录">
+            <span class="md2html-nav__toggle-icon" aria-hidden="true"></span>
+          </button>
+          {% endif %}
+          {% if node.url %}
+          <a class="md2html-nav__link" href="{{ nav_href(node.url) }}">{{ node.title }}</a>
+          {% else %}
+          <span class="md2html-nav__text">{{ node.title }}</span>
+          {% endif %}
+        </div>
         {% if node.children %}
-          <div class="md2html-nav__list">
-            {{ render_nav(node.children, current_segments) }}
-          </div>
+  <div class="md2html-nav__list" id="{{ child_id }}">
+          {{ render_nav(node.children, current_segments) }}
+        </div>
         {% endif %}
       </div>
     {%- endfor %}

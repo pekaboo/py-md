@@ -112,9 +112,54 @@ a:focus {
 	position: relative;
 }
 
+.md2html-nav__entry {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.md2html-nav__entry--leaf {
+	padding-left: 22px;
+}
+
+.md2html-nav__toggle {
+	appearance: none;
+	background: transparent;
+	border: none;
+	padding: 6px 4px;
+	border-radius: 6px;
+	color: var(--md2html-muted);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.md2html-nav__toggle:hover,
+.md2html-nav__toggle:focus-visible {
+	color: var(--md2html-outline-active);
+	background-color: rgba(9, 105, 218, 0.08);
+	outline: none;
+}
+
+.md2html-nav__toggle-icon {
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 4px 0 4px 6px;
+	border-color: transparent transparent transparent currentColor;
+	transition: transform 0.2s ease;
+}
+
+.md2html-nav__item--expanded > .md2html-nav__entry > .md2html-nav__toggle .md2html-nav__toggle-icon {
+	transform: rotate(90deg);
+}
+
 .md2html-nav__link,
-.md2html-nav__label {
+.md2html-nav__text {
 	display: block;
+	flex: 1;
 	padding: 6px 8px;
 	border-radius: 6px;
 	color: var(--md2html-text);
@@ -128,34 +173,19 @@ a:focus {
 	text-decoration: none;
 }
 
-.md2html-nav__item--active > .md2html-nav__link {
+.md2html-nav__text {
+	color: var(--md2html-muted);
+}
+
+.md2html-nav__item--active > .md2html-nav__entry > .md2html-nav__link {
 	background-color: var(--md2html-nav-active);
 	color: var(--md2html-outline-active);
 	font-weight: 600;
 }
 
-.md2html-nav__item--active > .md2html-nav__label {
+.md2html-nav__item--active > .md2html-nav__entry > .md2html-nav__text {
 	color: var(--md2html-outline-active);
 	font-weight: 600;
-}
-
-.md2html-nav__label {
-	cursor: pointer;
-}
-
-.md2html-nav__label::before {
-	content: "▸";
-	display: inline-block;
-	margin-right: 6px;
-	color: var(--md2html-muted);
-	transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.md2html-nav__item--expanded > .md2html-nav__label::before,
-.md2html-nav__item:hover > .md2html-nav__label::before,
-.md2html-nav__item:focus-within > .md2html-nav__label::before {
-	transform: rotate(90deg);
-	color: var(--md2html-outline-active);
 }
 
 .md2html-nav__list {
@@ -165,9 +195,7 @@ a:focus {
 	display: none;
 }
 
-.md2html-nav__item--expanded > .md2html-nav__list,
-.md2html-nav__item:hover > .md2html-nav__list,
-.md2html-nav__item:focus-within > .md2html-nav__list {
+.md2html-nav__item--expanded > .md2html-nav__list {
 	display: block;
 }
 

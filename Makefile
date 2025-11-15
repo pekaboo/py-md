@@ -8,6 +8,11 @@ PYTHON ?= python3
 SRC_DIR := src
 BUILD_DIR := build
 DOCS_DIR := docs
+USER_PYTHONPATH := $(PYTHONPATH)
+LOCAL_PYTHONPATH := $(abspath $(SRC_DIR))
+
+# Ensure Python picks up the in-repo package during development
+export PYTHONPATH := $(LOCAL_PYTHONPATH)$(if $(strip $(USER_PYTHONPATH)),:$(USER_PYTHONPATH))
 
 # Phony targets are not real files, they are recipes
 .PHONY: help install test run watch serve clean
