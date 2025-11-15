@@ -201,6 +201,8 @@
       const drawerButtons = document.querySelectorAll('[data-action="open-drawer"]');
       const drawerDismissButtons = document.querySelectorAll('[data-drawer-dismiss]');
       const drawerMap = new Map();
+  const actionBar = document.querySelector('.md2html-header__actions');
+  const floatingQuery = globalThis.matchMedia ? globalThis.matchMedia('(max-width: 960px)') : null;
       for (const drawer of document.querySelectorAll('[data-drawer]')) {
         const name = drawer.dataset.drawer;
         if (name) {
@@ -329,18 +331,21 @@
         }
       }
 
+      let drawerLocksFloating = false;
+
       function updateDrawerBodyState() {
+        let anyOpen = false;
         for (const drawer of drawerMap.values()) {
           if (drawer.classList.contains('md2html-drawer--open')) {
-            if (pageBody) {
-              pageBody.classList.add('md2html-body--drawer-open');
-            }
-            return;
+            anyOpen = true;
+            break;
           }
         }
         if (pageBody) {
-          pageBody.classList.remove('md2html-body--drawer-open');
+          pageBody.classList.toggle('md2html-body--drawer-open', anyOpen);
         }
+        drawerLocksFloating = anyOpen;
+        refreshFloatingActions();
       }
 
       function setDrawerState(name, open) {
@@ -356,6 +361,35 @@
       function closeAllDrawers() {
         for (const name of drawerMap.keys()) {
           setDrawerState(name, false);
+        }
+      }
+
+      function isFloatingViewport() {
+        if (!floatingQuery) {
+          return globalThis.innerWidth <= 960;
+        }
+        return floatingQuery.matches;
+      }
+
+      function refreshFloatingActions() {
+        if (!actionBar) {
+          return;
+        }
+        if (!isFloatingViewport()) {
+          actionBar.classList.remove('md2html-header__actions--floating', 'md2html-header__actions--hidden');
+          return;
+        }
+        const scrollOffset = globalThis.scrollY || root.scrollTop || 0;
+        const shouldFloat = scrollOffset > 60 || drawerLocksFloating;
+        if (!shouldFloat) {
+          actionBar.classList.remove('md2html-header__actions--floating', 'md2html-header__actions--hidden');
+          return;
+        }
+        actionBar.classList.add('md2html-header__actions--floating');
+        if (drawerLocksFloating || scrollOffset < 140) {
+          actionBar.classList.add('md2html-header__actions--hidden');
+        } else {
+          actionBar.classList.remove('md2html-header__actions--hidden');
         }
       }
 
@@ -379,86 +413,110 @@
         }
       }
 
-      for (const container of navContainers) {
-        container.addEventListener('click', function (event) {
-          const target = event.target instanceof Element ? event.target : null;
-          if (!target) {
-            return;
-          }
-          const toggle = target.closest('[data-nav-toggle]');
-          if (!toggle) {
-            return;
-          }
-          event.preventDefault();
-          event.stopPropagation();
-          const item = toggle.closest('[data-nav-node]');
-          const key = toggle.dataset.navToggle;
-          if (!item || !key) {
-            return;
-          }
-          const isExpanded = item.classList.contains('md2html-nav__item--expanded');
-          const nextState = !isExpanded;
-          item.classList.toggle('md2html-nav__item--expanded', nextState);
-          toggle.ariaExpanded = nextState ? 'true' : 'false';
-          toggle.dataset.expanded = nextState ? 'true' : 'false';
-          if (nextState) {
-            expandedNavFolders.add(key);
-          } else {
-            expandedNavFolders.delete(key);
-          }
-          persistExpandedNav();
-          applyNavState();
-        });
+      function initNavHandlers() {
+        for (const container of navContainers) {
+          container.addEventListener('click', function (event) {
+            const target = event.target instanceof Element ? event.target : null;
+            if (!target) {
+              return;
+            }
+            const toggle = target.closest('[data-nav-toggle]');
+            if (!toggle) {
+              return;
+            }
+            event.preventDefault();
+            event.stopPropagation();
+            const item = toggle.closest('[data-nav-node]');
+            const key = toggle.dataset.navToggle;
+            if (!item || !key) {
+              return;
+            }
+            const isExpanded = item.classList.contains('md2html-nav__item--expanded');
+            const nextState = !isExpanded;
+            item.classList.toggle('md2html-nav__item--expanded', nextState);
+            toggle.ariaExpanded = nextState ? 'true' : 'false';
+            toggle.dataset.expanded = nextState ? 'true' : 'false';
+            if (nextState) {
+              expandedNavFolders.add(key);
+            } else {
+              expandedNavFolders.delete(key);
+            }
+            persistExpandedNav();
+            applyNavState();
+          });
+        }
       }
 
-      for (const button of drawerButtons) {
-        button.addEventListener('click', function () {
-          const targetName = button.dataset.target;
-          if (!targetName) {
-            return;
-          }
-          const drawer = drawerMap.get(targetName);
-          const isOpen = drawer ? drawer.classList.contains('md2html-drawer--open') : false;
-          if (isOpen) {
-            setDrawerState(targetName, false);
-          } else {
-            closeAllDrawers();
-            setDrawerState(targetName, true);
-          }
-        });
-      }
-
-      for (const dismiss of drawerDismissButtons) {
-        dismiss.addEventListener('click', function () {
-          const parentDrawer = dismiss.closest('[data-drawer]');
-          if (!parentDrawer) {
-            return;
-          }
-          const targetName = parentDrawer.dataset.drawer;
-          if (!targetName) {
-            return;
-          }
-          setDrawerState(targetName, false);
-        });
-      }
-
-      for (const link of document.querySelectorAll('[data-drawer] .md2html-nav__link, [data-drawer] .md2html-toc a')) {
-        link.addEventListener('click', function () {
-          closeAllDrawers();
-        });
-      }
-
-      document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape') {
-          for (const drawer of drawerMap.values()) {
-            if (drawer.classList.contains('md2html-drawer--open')) {
-              event.preventDefault();
+      function initDrawerHandlers() {
+        for (const button of drawerButtons) {
+          button.addEventListener('click', function () {
+            const targetName = button.dataset.target;
+            if (!targetName) {
+              return;
+            }
+            const drawer = drawerMap.get(targetName);
+            const isOpen = drawer ? drawer.classList.contains('md2html-drawer--open') : false;
+            if (isOpen) {
+              setDrawerState(targetName, false);
+            } else {
               closeAllDrawers();
-              break;
+              setDrawerState(targetName, true);
+            }
+          });
+        }
+
+        for (const dismiss of drawerDismissButtons) {
+          dismiss.addEventListener('click', function () {
+            const parentDrawer = dismiss.closest('[data-drawer]');
+            if (!parentDrawer) {
+              return;
+            }
+            const targetName = parentDrawer.dataset.drawer;
+            if (!targetName) {
+              return;
+            }
+            setDrawerState(targetName, false);
+          });
+        }
+
+        for (const link of document.querySelectorAll('[data-drawer] .md2html-nav__link, [data-drawer] .md2html-toc a')) {
+          link.addEventListener('click', function () {
+            closeAllDrawers();
+          });
+        }
+
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') {
+            for (const drawer of drawerMap.values()) {
+              if (drawer.classList.contains('md2html-drawer--open')) {
+                event.preventDefault();
+                closeAllDrawers();
+                break;
+              }
             }
           }
+        });
+      }
+
+      function initFloatingObservers() {
+        globalThis.addEventListener('scroll', refreshFloatingActions, { passive: true });
+        globalThis.addEventListener('resize', refreshFloatingActions);
+        if (!floatingQuery) {
+          return;
         }
-      });
+        const mqHandler = function () {
+          refreshFloatingActions();
+        };
+        if (typeof floatingQuery.addEventListener === 'function') {
+          floatingQuery.addEventListener('change', mqHandler);
+        } else if (typeof floatingQuery.addListener === 'function') {
+          floatingQuery.addListener(mqHandler);
+        }
+      }
+
+      initNavHandlers();
+      initDrawerHandlers();
+      initFloatingObservers();
 
       if (themeButton) {
         themeButton.addEventListener('click', toggleTheme);
@@ -477,6 +535,7 @@
       closeAllDrawers();
       applyExpand(getExpandPreference(), false);
       applyNavState();
+      refreshFloatingActions();
     })();
   </script>
 </body>

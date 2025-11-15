@@ -244,6 +244,8 @@ a:focus {
 	display: inline-flex;
 	align-items: center;
 	gap: 8px;
+	position: relative;
+	transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .md2html-action-button {
@@ -696,6 +698,36 @@ a:focus {
 
 	.md2html-drawer {
 		display: block;
+	}
+
+	.md2html-header__actions {
+		align-self: flex-start;
+	}
+
+	.md2html-header__actions.md2html-header__actions--floating {
+		position: fixed;
+		top: 16px;
+		right: 16px;
+		left: auto;
+		background-color: rgba(255, 255, 255, 0.94);
+		border: 1px solid var(--md2html-border);
+		border-radius: 12px;
+		padding: 8px 10px;
+		box-shadow: 0 18px 32px rgba(15, 23, 42, 0.22);
+		backdrop-filter: blur(12px);
+		gap: 6px;
+		z-index: 1400;
+	}
+
+	[data-md2html-theme="dark"] .md2html-header__actions.md2html-header__actions--floating {
+		background-color: rgba(22, 27, 34, 0.94);
+		box-shadow: 0 20px 36px rgba(0, 0, 0, 0.45);
+	}
+
+	.md2html-header__actions.md2html-header__actions--floating.md2html-header__actions--hidden {
+		opacity: 0;
+		transform: translateY(-16px);
+		pointer-events: none;
 	}
 }
 
