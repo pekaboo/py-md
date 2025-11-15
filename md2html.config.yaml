@@ -6,7 +6,10 @@ clean_output: true
 copy_static: true
 metadata:
   title: Yitu
-  description: 使用 md2html 生成的静态站点
+  description: 使用 Yitu-md 生成的静态站点
 
-navigation_label: 文档
+# GitHub Pages 自定义域名下的路径前缀
+base_url: /py-md
+
+navigation_label: 我的文档
 outline_label: 大纲

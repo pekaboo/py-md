@@ -102,6 +102,8 @@ chmod +x ./scripts/deploy-gh-pages.sh  # 首次使用时赋予执行权限
 
 也可以使用仓库内置的 GitHub Actions 工作流（`.github/workflows/deploy.yml`），在每次推送到 `main` 时自动构建并发布到 GitHub Pages，或通过手动触发的 `workflow_dispatch` 发布。
 
+> 如果 Pages 挂载在子路径（例如 `https://pages.example.com/py-md/`），请在 `md2html.config.yaml` 中设置 `base_url: /py-md`，确保导航链接保持同一路径前缀。
+
 ## TODO
 
 - 目录索引页面生成

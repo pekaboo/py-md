@@ -11,6 +11,7 @@ import webbrowser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlsplit, urlunsplit
 
 from watchdog.observers import Observer  # type: ignore[import]
 
@@ -47,6 +48,11 @@ class DevServer:
         self.host = host
         self.port = port
         self.open_browser = open_browser
+        base_url = str(config.extra.get("base_url", "") or "")
+        base_url = base_url.strip()
+        if base_url and not base_url.startswith("/"):
+            base_url = "/" + base_url
+        self.base_url_prefix = base_url.rstrip("/")
 
         theme_manager = ThemeManager(config.theme_dirs)
         theme = theme_manager.load(config.theme)
@@ -66,7 +72,13 @@ class DevServer:
         self._start_heartbeat()
         if self.open_browser:
             self._open_browser()
-        logger.info("Serving %s at http://%s:%d", self.config.output_dir, self.host, self.port)
+        logger.info(
+            "Serving %s at http://%s:%d%s",
+            self.config.output_dir,
+            self.host,
+            self.port,
+            self.base_url_prefix or "/",
+        )
         self._server.serve_forever()
 
     def shutdown(self) -> None:
@@ -91,6 +103,7 @@ class DevServer:
     def _build_handler(self):
         dev_server = self
         output_dir = self.config.output_dir
+        base_prefix = dev_server.base_url_prefix
 
         class LiveReloadRequestHandler(SimpleHTTPRequestHandler):
             def __init__(self, *args, **kwargs):
@@ -106,6 +119,15 @@ class DevServer:
                 if self.path == "/__livereload__":
                     dev_server._handle_livereload(self)
                     return
+                if base_prefix:
+                    parsed = urlsplit(self.path)
+                    path = parsed.path
+                    if path == base_prefix or path.startswith(base_prefix + "/"):
+                        stripped = path[len(base_prefix):] or "/"
+                        if not stripped.startswith("/"):
+                            stripped = "/" + stripped
+                        parsed = parsed._replace(path=stripped)
+                        self.path = urlunsplit(parsed)
                 super().do_GET()
 
             def end_headers(self) -> None:  # type: ignore[override]
@@ -199,7 +221,10 @@ class DevServer:
         return "\n".join(payload_lines) + "\n\n"
 
     def _open_browser(self) -> None:
-        url = f"http://{self.host}:{self.port}"
+        suffix = self.base_url_prefix or ""
+        if suffix:
+            suffix = f"{suffix}/" if not suffix.endswith("/") else f"{suffix}"
+        url = f"http://{self.host}:{self.port}{suffix or '/'}"
         try:
             webbrowser.open(url, new=2)
         except Exception as exc:  # pragma: no cover - platform specific
