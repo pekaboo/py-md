@@ -81,6 +81,24 @@
             {% endif %}
           </div>
           <div class="md2html-header__actions" aria-label="界面控制">
+            {% if navigation %}
+            <button type="button" class="md2html-action-button md2html-action-button--mobile" data-action="open-drawer" data-target="navigation" title="打开{{ navigation_label }}" aria-label="打开{{ navigation_label }}">
+              <span class="md2html-action-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M4 6.5h16a1 1 0 1 0 0-2H4a1 1 0 0 0 0 2Zm16 5H4a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2Zm0 7H4a1 1 0 0 0 0 2h16a1 1 0 1 0 0-2Z"/>
+                </svg>
+              </span>
+            </button>
+            {% endif %}
+            {% if toc %}
+            <button type="button" class="md2html-action-button md2html-action-button--mobile" data-action="open-drawer" data-target="outline" title="打开{{ outline_label }}" aria-label="打开{{ outline_label }}">
+              <span class="md2html-action-button__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M5 6a2 2 0 1 1 4 0 2 2 0 0 1-4 0Zm0 12a2 2 0 1 1 4 0 2 2 0 0 1-4 0ZM7 11a2 2 0 1 0-2 2 2 2 0 0 0 2-2Zm5-5.5a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1Zm1 5a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1Zm1 6a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1Z"/>
+                </svg>
+              </span>
+            </button>
+            {% endif %}
             <button type="button" class="md2html-action-button" data-action="toggle-theme" data-state="light" aria-pressed="false" title="切换黑白模式">
               <span class="md2html-action-button__icon md2html-action-button__icon--sun" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false">
@@ -108,23 +126,37 @@
           </div>
         </div>
       </header>
-      <div class="md2html-mobile-panels">
-        {% if navigation %}
-        <details class="md2html-mobile-panel" data-panel="navigation">
-          <summary>{{ navigation_label }}</summary>
-          <div class="md2html-mobile-panel__content">
-            <nav class="md2html-mobile-nav" aria-label="{{ navigation_label }}">
+      {% if navigation %}
+      <div class="md2html-drawer" data-drawer="navigation" aria-hidden="true">
+        <button type="button" class="md2html-drawer__backdrop" data-drawer-dismiss aria-label="关闭{{ navigation_label }}"></button>
+        <aside class="md2html-drawer__panel" aria-label="{{ navigation_label }}">
+          <div class="md2html-drawer__header">
+            <span class="md2html-drawer__title">{{ navigation_label }}</span>
+            <button type="button" class="md2html-drawer__close" data-drawer-dismiss aria-label="关闭{{ navigation_label }}">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="md2html-drawer__body">
+            <nav class="md2html-drawer__section" aria-label="{{ navigation_label }}">
               <div class="md2html-nav">
                 {{ render_nav(navigation, current_segments) }}
               </div>
             </nav>
           </div>
-        </details>
-        {% endif %}
-        {% if toc %}
-        <details class="md2html-mobile-panel" data-panel="outline">
-          <summary>{{ outline_label }}</summary>
-          <div class="md2html-mobile-panel__content">
+        </aside>
+      </div>
+      {% endif %}
+      {% if toc %}
+      <div class="md2html-drawer" data-drawer="outline" aria-hidden="true">
+        <button type="button" class="md2html-drawer__backdrop" data-drawer-dismiss aria-label="关闭{{ outline_label }}"></button>
+        <aside class="md2html-drawer__panel md2html-drawer__panel--right" aria-label="{{ outline_label }}">
+          <div class="md2html-drawer__header">
+            <span class="md2html-drawer__title">{{ outline_label }}</span>
+            <button type="button" class="md2html-drawer__close" data-drawer-dismiss aria-label="关闭{{ outline_label }}">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="md2html-drawer__body">
             <div class="md2html-toc">
               <div class="md2html-toc__list">
                 {%- for item in toc %}
@@ -135,9 +167,9 @@
               </div>
             </div>
           </div>
-        </details>
-        {% endif %}
+        </aside>
       </div>
+      {% endif %}
       <article class="md2html-article markdown-body">
         {{ content | safe }}
       </article>
@@ -165,6 +197,16 @@
       const navKey = "md2html-nav-expanded";
       const themeButton = document.querySelector('[data-action="toggle-theme"]');
       const expandButton = document.querySelector('[data-action="toggle-expand"]');
+      const pageBody = document.body;
+      const drawerButtons = document.querySelectorAll('[data-action="open-drawer"]');
+      const drawerDismissButtons = document.querySelectorAll('[data-drawer-dismiss]');
+      const drawerMap = new Map();
+      for (const drawer of document.querySelectorAll('[data-drawer]')) {
+        const name = drawer.dataset.drawer;
+        if (name) {
+          drawerMap.set(name, drawer);
+        }
+      }
       const navContainers = document.querySelectorAll('.md2html-nav');
 
       const prefersDark = globalThis.matchMedia && globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -287,6 +329,36 @@
         }
       }
 
+      function updateDrawerBodyState() {
+        for (const drawer of drawerMap.values()) {
+          if (drawer.classList.contains('md2html-drawer--open')) {
+            if (pageBody) {
+              pageBody.classList.add('md2html-body--drawer-open');
+            }
+            return;
+          }
+        }
+        if (pageBody) {
+          pageBody.classList.remove('md2html-body--drawer-open');
+        }
+      }
+
+      function setDrawerState(name, open) {
+        const drawer = drawerMap.get(name);
+        if (!drawer) {
+          return;
+        }
+        drawer.classList.toggle('md2html-drawer--open', open);
+        drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+        updateDrawerBodyState();
+      }
+
+      function closeAllDrawers() {
+        for (const name of drawerMap.keys()) {
+          setDrawerState(name, false);
+        }
+      }
+
       function applyNavState() {
         const items = document.querySelectorAll('[data-nav-node]');
         for (const item of items) {
@@ -339,6 +411,55 @@
         });
       }
 
+      for (const button of drawerButtons) {
+        button.addEventListener('click', function () {
+          const targetName = button.dataset.target;
+          if (!targetName) {
+            return;
+          }
+          const drawer = drawerMap.get(targetName);
+          const isOpen = drawer ? drawer.classList.contains('md2html-drawer--open') : false;
+          if (isOpen) {
+            setDrawerState(targetName, false);
+          } else {
+            closeAllDrawers();
+            setDrawerState(targetName, true);
+          }
+        });
+      }
+
+      for (const dismiss of drawerDismissButtons) {
+        dismiss.addEventListener('click', function () {
+          const parentDrawer = dismiss.closest('[data-drawer]');
+          if (!parentDrawer) {
+            return;
+          }
+          const targetName = parentDrawer.dataset.drawer;
+          if (!targetName) {
+            return;
+          }
+          setDrawerState(targetName, false);
+        });
+      }
+
+      for (const link of document.querySelectorAll('[data-drawer] .md2html-nav__link, [data-drawer] .md2html-toc a')) {
+        link.addEventListener('click', function () {
+          closeAllDrawers();
+        });
+      }
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          for (const drawer of drawerMap.values()) {
+            if (drawer.classList.contains('md2html-drawer--open')) {
+              event.preventDefault();
+              closeAllDrawers();
+              break;
+            }
+          }
+        }
+      });
+
       if (themeButton) {
         themeButton.addEventListener('click', toggleTheme);
       }
@@ -353,6 +474,7 @@
         updateThemeButton(prefersDark ? 'dark' : 'light');
       }
 
+      closeAllDrawers();
       applyExpand(getExpandPreference(), false);
       applyNavState();
     })();
