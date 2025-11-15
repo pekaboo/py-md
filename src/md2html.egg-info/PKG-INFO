@@ -1,0 +1,114 @@
+Metadata-Version: 2.4
+Name: md2html
+Version: 0.1.0
+Summary: Markdown to HTML converter with theme and custom containers
+Author: GitHub Copilot
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: markdown-it-py>=3.0.0
+Requires-Dist: mdit-py-plugins>=0.4.0
+Requires-Dist: Jinja2>=3.1.0
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: Pygments>=2.16
+Requires-Dist: watchdog>=4.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
+
+# md2html
+
+面向 `docs/` 栈的 Markdown → HTML 静态站点生成器，支持主题切换、自定义容器语法以及批量转换能力。默认内置 GitHub 风格主题，可在命令行或配置文件中自由切换。
+
+## 功能特性
+
+- 🚀 递归扫描 `docs/` 目录，输出镜像结构的 `.html` 页面
+- 🎨 主题可配置（内置 `github` 主题），支持自定义主题目录
+- 🧩 扩展语法：`::: hide` 折叠块、`::: note` / `::: warning` 信息块
+- 🧭 自动生成目录（TOC），标题 slug 去重
+- 🗂️ 静态资源原路径拷贝，确保图片、附件可用
+- 👷 配置文件 + CLI 双重控制，支持 watch 模式增量构建
+
+## 快速开始
+
+```bash
+# 安装依赖
+pip install -e .
+
+# 执行转换
+python -m md2html --src docs --dst build/html --theme github
+```
+
+默认会在 `build/html` 生成站点文件，可直接用浏览器打开。
+
+## 命令行参数
+
+| 参数 | 说明 |
+| --- | --- |
+| `--src` | Markdown 源目录，默认读取配置或 `docs` |
+| `--dst` | 输出 HTML 目录，默认 `build/html` |
+| `--theme` | 主题名称或路径，默认 `github` |
+| `--theme-dir` | 附加主题搜索目录，可多次指定 |
+| `--config` | 指定配置文件，默认 `md2html.config.yaml` |
+| `--no-clean` | 不清理输出目录（默认清理） |
+| `--no-copy-static` | 不复制非 Markdown 静态资源 |
+| `--watch` | 进入监听模式，变更实时刷新 |
+| `--site-title` / `--site-description` | 覆盖模板站点元数据 |
+| `--verbose` | 输出调试日志 |
+
+## 配置文件示例 `md2html.config.yaml`
+
+```yaml
+source_dir: docs
+output_dir: build/html
+theme: github
+theme_dirs:
+  - theme/
+metadata:
+  title: 公司知识库
+  description: 内部最佳实践与经验沉淀
+```
+
+配置文件路径可以自定义，CLI 参数始终具有最高优先级。
+
+## 自定义主题
+
+主题目录结构：
+
+```text
+my-theme/
+  config.yaml
+  base.html
+  styles.css
+  [syntax.css]
+```
+
+- `config.yaml`：基础信息、Pygments 高亮主题、容器默认标题等
+- `base.html`：Jinja2 模板，可访问 `content`、`toc`、`site` 等上下文
+- `styles.css`：主体样式
+- `syntax.css`：可选，若省略则使用 `pygments_style` 自动生成
+
+通过 `python -m md2html --theme-dir theme --theme my-theme` 指定。
+
+## 自定义容器语法
+
+| 语法 | 效果 |
+| --- | --- |
+| `::: hide [title]` | 折叠内容块，`title` 可选，默认“点击展开” |
+| `::: note [title]` | 信息提示框 |
+| `::: warning [title]` | 警告提示框 |
+
+容器内部可继续书写任意 Markdown 内容。
+
+## 开发与测试
+
+```bash
+pip install -e .[dev]
+pytest
+```
+
+核心模块位于 `src/md2html/`，默认主题位于 `src/md2html/themes/github/`。
+
+## TODO
+
+- 目录索引页面生成
+- 多语言 / 暗色主题切换开关
+- 站点级导航配置

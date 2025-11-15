@@ -1,0 +1,12 @@
+# md2html 默认配置示例
+source_dir: docs
+output_dir: build/html
+theme: github
+clean_output: true
+copy_static: true
+metadata:
+  title: Yitu
+  description: 使用 md2html 生成的静态站点
+
+navigation_label: 文档
+outline_label: 大纲

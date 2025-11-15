@@ -1,0 +1,3382 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>面试题参考答案</title>
+  
+  <meta name="description" content="使用 md2html 生成的静态站点" />
+  
+  <style>
+:root {:root {
+
+  color-scheme: light dark;  color-scheme: light dark;
+
+  --md2html-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;  --md2html-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --md2html-code-font: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;  --md2html-bg: #f6f8fa;
+
+  --md2html-bg: #f5f7fa;  --md2html-surface: #fff;
+
+  --md2html-surface: #ffffff;  --md2html-card-bg: #fff;
+
+  --md2html-card: #ffffff;  --md2html-sidebar-bg: #f7fafc;
+
+  --md2html-sidebar-bg: #f5f7fa;  --md2html-sidebar-border: #e4e7eb;
+
+  --md2html-outline-bg: #fbfcfe;  --md2html-text: #1f2328;
+
+  --md2html-text: #1f2a37;  --md2html-muted: #57606a;
+
+  --md2html-muted: #6b7280;  --md2html-border: #d0d7de;
+
+  --md2html-border: #e5e7eb;  --md2html-link: #0969da;
+
+  --md2html-border-strong: #d1d5db;  --md2html-link-hover: #054da7;
+
+  --md2html-link: #2563eb;  --md2html-nav-active: rgba(9, 105, 218, 0.12);
+
+  --md2html-link-hover: #1d4ed8;  --md2html-nav-hover: rgba(27, 31, 36, 0.08);
+
+  --md2html-nav-hover: rgba(37, 99, 235, 0.08);  --md2html-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+
+  --md2html-nav-active: rgba(37, 99, 235, 0.15);  --md2html-code-bg: rgba(27, 31, 36, 0.05);
+
+  --md2html-code-bg: rgba(15, 23, 42, 0.04);  --md2html-code-inline-bg: rgba(27, 31, 36, 0.08);
+
+  --md2html-code-inline-bg: rgba(15, 23, 42, 0.08);  --md2html-note-bg: #ddf4ff;
+
+  --md2html-note-bg: #e0f2ff;  --md2html-note-border: #54aeff;
+
+  --md2html-note-border: #38bdf8;  --md2html-warning-bg: #fff8c5;
+
+  --md2html-warning-bg: #fef3c7;  --md2html-warning-border: #d4a72c;
+
+  --md2html-warning-border: #f59e0b;}
+
+  --md2html-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+
+  --md2html-sidebar-width: 264px;[data-md2html-theme="light"] {
+
+  --md2html-outline-width: 236px;  color-scheme: light;
+
+  --md2html-header-height: 60px;  --md2html-bg: #fff;
+
+  --md2html-content-max: 880px;  --md2html-surface: #fff;
+
+}  --md2html-card-bg: #fff;
+
+  --md2html-sidebar-bg: #f7fafc;
+
+[data-md2html-theme="dark"] {  --md2html-sidebar-border: #e4e7eb;
+
+  color-scheme: dark;  --md2html-text: #1f2933;
+
+  --md2html-bg: #0f172a;  --md2html-muted: #5f6c80;
+
+  --md2html-surface: #111827;  --md2html-border: #e4e7eb;
+
+  --md2html-card: #111827;  --md2html-link: #0366d6;
+
+  --md2html-sidebar-bg: #0b1324;  --md2html-link-hover: #024ea2;
+
+  --md2html-outline-bg: #111827;  --md2html-nav-active: rgba(3, 102, 214, 0.16);
+
+  --md2html-text: #e2e8f0;  --md2html-nav-hover: rgba(15, 23, 42, 0.06);
+
+  --md2html-muted: #94a3b8;  --md2html-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+
+  --md2html-border: #1f2937;}
+
+  --md2html-border-strong: #27344a;
+
+  --md2html-link: #60a5fa;[data-md2html-theme="dark"] {
+
+  --md2html-link-hover: #93c5fd;  color-scheme: dark;
+
+  --md2html-nav-hover: rgba(96, 165, 250, 0.16);  --md2html-bg: #0b1120;
+
+  --md2html-nav-active: rgba(96, 165, 250, 0.28);  --md2html-surface: #0f172a;
+
+  --md2html-code-bg: rgba(15, 23, 42, 0.85);  --md2html-card-bg: #111827;
+
+  --md2html-code-inline-bg: rgba(148, 163, 184, 0.18);  --md2html-sidebar-bg: #111827;
+
+  --md2html-note-bg: rgba(56, 189, 248, 0.16);  --md2html-sidebar-border: #1f2937;
+
+  --md2html-note-border: rgba(56, 189, 248, 0.6);  --md2html-text: #e2e8f0;
+
+  --md2html-warning-bg: rgba(245, 158, 11, 0.16);  --md2html-muted: #94a3b8;
+
+  --md2html-warning-border: rgba(245, 158, 11, 0.6);  --md2html-border: #1e293b;
+
+  --md2html-shadow: 0 24px 42px rgba(2, 6, 23, 0.55);  --md2html-link: #60a5fa;
+
+}  --md2html-link-hover: #93c5fd;
+
+  --md2html-nav-active: rgba(96, 165, 250, 0.22);
+
+* {  --md2html-nav-hover: rgba(148, 163, 184, 0.12);
+
+  box-sizing: border-box;  --md2html-shadow: 0 12px 32px rgba(2, 6, 23, 0.5);
+
+}  --md2html-code-bg: rgba(15, 23, 42, 0.85);
+
+  --md2html-code-inline-bg: rgba(148, 163, 184, 0.16);
+
+html,  --md2html-note-bg: rgba(96, 165, 250, 0.15);
+
+body {  --md2html-note-border: rgba(96, 165, 250, 0.65);
+
+  height: 100%;  --md2html-warning-bg: rgba(250, 204, 21, 0.15);
+
+  margin: 0;  --md2html-warning-border: rgba(250, 204, 21, 0.65);
+
+  padding: 0;}
+
+}}
+
+
+
+body.md2html-body {@media (prefers-color-scheme: dark) {
+
+  font-family: var(--md2html-font-family);  :root {
+
+  background: var(--md2html-bg);    color-scheme: light dark;
+
+  color: var(--md2html-text);    --md2html-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  font-size: 16px;    --md2html-bg: #f6f8fa;
+
+  line-height: 1.65;    --md2html-surface: #ffffff;
+
+  min-height: 100vh;    --md2html-card-bg: #ffffff;
+
+  display: flex;    --md2html-sidebar-bg: #f6f8fa;
+
+  flex-direction: column;    --md2html-sidebar-border: #d0d7de;
+
+  transition: background 0.25s ease, color 0.25s ease;    --md2html-text: #1f2328;
+
+}    --md2html-muted: #57606a;
+
+    --md2html-border: #d0d7de;
+
+a {    --md2html-link: #0969da;
+
+  color: var(--md2html-link);    --md2html-link-hover: #054da7;
+
+  text-decoration: none;    --md2html-nav-active: rgba(9, 105, 218, 0.12);
+
+  transition: color 0.2s ease;    --md2html-nav-hover: rgba(27, 31, 36, 0.08);
+
+}    --md2html-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+
+    --md2html-code-bg: rgba(27, 31, 36, 0.05);
+
+a:hover,    --md2html-code-inline-bg: rgba(27, 31, 36, 0.08);
+
+a:focus {    --md2html-note-bg: #ddf4ff;
+
+  color: var(--md2html-link-hover);    --md2html-note-border: #54aeff;
+
+  text-decoration: underline;    --md2html-warning-bg: #fff8c5;
+
+}    --md2html-warning-border: #d4a72c;
+
+  }
+
+.md2html-layout {
+
+  display: grid;  @media (prefers-color-scheme: dark) {
+
+  grid-template-columns: var(--md2html-sidebar-width) minmax(0, 1fr) var(--md2html-outline-width);    :root {
+
+  gap: 0;      --md2html-bg: #0d1117;
+
+  flex: 1 1 auto;      --md2html-surface: #161b22;
+
+  min-height: 0;      --md2html-card-bg: #161b22;
+
+}      --md2html-sidebar-bg: #0d1117;
+
+      --md2html-sidebar-border: #30363d;
+
+.md2html-layout--no-outline {      --md2html-text: #e6edf3;
+
+  grid-template-columns: var(--md2html-sidebar-width) minmax(0, 1fr);      --md2html-muted: #8b949e;
+
+}      --md2html-border: #30363d;
+
+      --md2html-link: #58a6ff;
+
+.md2html-sidebar {      --md2html-link-hover: #79b9ff;
+
+  background: var(--md2html-sidebar-bg);      --md2html-nav-active: rgba(88, 166, 255, 0.18);
+
+  border-right: 1px solid var(--md2html-border);      --md2html-nav-hover: rgba(177, 186, 196, 0.08);
+
+  padding: 32px 28px;      --md2html-shadow: 0 12px 32px rgba(2, 6, 23, 0.45);
+
+  position: sticky;      --md2html-code-bg: rgba(1, 4, 9, 0.7);
+
+  top: 0;      --md2html-code-inline-bg: rgba(240, 246, 252, 0.14);
+
+  align-self: start;      --md2html-note-bg: rgba(13, 110, 253, 0.16);
+
+  height: 100vh;      --md2html-note-border: #58a6ff;
+
+  overflow-y: auto;      --md2html-warning-bg: rgba(255, 196, 54, 0.18);
+
+  display: flex;      --md2html-warning-border: #d29922;
+
+  flex-direction: column;    }
+
+  gap: 28px;  }
+
+}
+
+  [data-md2html-theme="light"] {
+
+.md2html-sidebar::-webkit-scrollbar,    color-scheme: light;
+
+.md2html-outline::-webkit-scrollbar {    --md2html-bg: #ffffff;
+
+  width: 10px;    --md2html-surface: #ffffff;
+
+}    --md2html-card-bg: #ffffff;
+
+    --md2html-sidebar-bg: #f7fafc;
+
+.md2html-sidebar::-webkit-scrollbar-thumb,    --md2html-sidebar-border: #e4e7eb;
+
+.md2html-outline::-webkit-scrollbar-thumb {    --md2html-text: #1f2933;
+
+  background: rgba(148, 163, 184, 0.35);    --md2html-muted: #5f6c80;
+
+  border-radius: 999px;    --md2html-border: #e4e7eb;
+
+}    --md2html-link: #0366d6;
+
+    --md2html-link-hover: #024ea2;
+
+.md2html-sidebar::-webkit-scrollbar-track,    --md2html-nav-active: rgba(3, 102, 214, 0.16);
+
+.md2html-outline::-webkit-scrollbar-track {    --md2html-nav-hover: rgba(15, 23, 42, 0.06);
+
+  background: transparent;    --md2html-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+
+}  }
+
+
+
+.md2html-sidebar__brand-title {  [data-md2html-theme="dark"] {
+
+  font-size: 1.15rem;    color-scheme: dark;
+
+  font-weight: 600;    --md2html-bg: #0b1120;
+
+  color: var(--md2html-text);    --md2html-surface: #0f172a;
+
+}    --md2html-card-bg: #111827;
+
+    --md2html-sidebar-bg: #111827;
+
+.md2html-sidebar__brand-description {    --md2html-sidebar-border: #1f2937;
+
+  font-size: 0.92rem;    --md2html-text: #e2e8f0;
+
+  color: var(--md2html-muted);    --md2html-muted: #94a3b8;
+
+  margin-top: 6px;    --md2html-border: #1e293b;
+
+}    --md2html-link: #60a5fa;
+
+    --md2html-link-hover: #93c5fd;
+
+.md2html-sidebar__section-title {    --md2html-nav-active: rgba(96, 165, 250, 0.22);
+
+  font-size: 0.72rem;    --md2html-nav-hover: rgba(148, 163, 184, 0.12);
+
+  font-weight: 700;    --md2html-shadow: 0 12px 32px rgba(2, 6, 23, 0.45);
+
+  text-transform: uppercase;    --md2html-code-bg: rgba(15, 23, 42, 0.85);
+
+  letter-spacing: 0.08em;    --md2html-code-inline-bg: rgba(148, 163, 184, 0.16);
+
+  color: var(--md2html-muted);    --md2html-note-bg: rgba(96, 165, 250, 0.15);
+
+}    --md2html-note-border: rgba(96, 165, 250, 0.65);
+
+    --md2html-warning-bg: rgba(250, 204, 21, 0.15);
+
+.md2html-nav {    --md2html-warning-border: rgba(250, 204, 21, 0.65);
+
+  display: flex;  }
+
+  flex-direction: column;
+
+  gap: 4px;  body.md2html-body {
+
+}    margin: 0;
+
+    font-family: var(--md2html-font-family);
+
+.md2html-nav__item {    background: var(--md2html-bg);
+
+  border-radius: 10px;    color: var(--md2html-text);
+
+  padding: 8px 12px;    line-height: 1.6;
+
+  transition: background 0.2s ease, color 0.2s ease;    transition: background 0.3s ease, color 0.3s ease;
+
+}  }
+
+
+
+.md2html-nav__item:hover {  a {
+
+  background: var(--md2html-nav-hover);    color: var(--md2html-link);
+
+}    transition: color 0.2s ease;
+
+  }
+
+.md2html-nav__item--active {
+
+  background: var(--md2html-nav-active);  a:hover {
+
+  font-weight: 600;    color: var(--md2html-link-hover);
+
+  color: var(--md2html-link);  }
+
+}
+
+  .md2html-layout {
+
+.md2html-nav__item--expanded > .md2html-nav__list {    display: grid;
+
+  display: flex;    grid-template-columns: 280px minmax(0, 1fr) 260px;
+
+}    min-height: 100vh;
+
+  }
+
+.md2html-nav__link,
+
+.md2html-nav__label {  .md2html-layout--no-outline {
+
+  color: inherit;    grid-template-columns: 280px minmax(0, 1fr);
+
+  text-decoration: none;  }
+
+  display: block;
+
+  overflow: hidden;  .md2html-sidebar {
+
+  text-overflow: ellipsis;  position: sticky;
+
+  white-space: nowrap;  top: var(--md2html-header-height);
+
+}  align-self: start;
+
+  max-height: calc(100vh - var(--md2html-header-height));
+
+.md2html-nav__list {  min-width: var(--md2html-sidebar-width);
+
+  display: none;  width: var(--md2html-sidebar-width);
+
+  flex-direction: column;  display: flex;
+
+  gap: 4px;  flex-direction: column;
+
+  margin-top: 6px;  gap: 2rem;
+
+  margin-left: 12px;  padding: 2.5rem 2rem;
+
+  padding-left: 12px;  background: var(--md2html-sidebar-bg);
+
+  border-left: 1px solid var(--md2html-border);  border-right: 1px solid var(--md2html-sidebar-border);
+
+}  overflow-y: auto;
+
+  z-index: 1001;
+
+.md2html-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 48px 56px 56px;
+  position: relative;
+  background: var(--md2html-bg);
+}
+
+.md2html-main > * {
+  width: min(100%, var(--md2html-content-max));
+}
+
+  padding: 48px 56px 56px;    gap: 0.5rem;
+
+  position: relative;  }
+
+  background: var(--md2html-bg);
+
+}  .md2html-sidebar__brand-title {
+
+    font-size: 1.1rem;
+
+.md2html-header {    font-weight: 600;
+
+  display: flex;  }
+
+  align-items: center;
+
+  justify-content: space-between;  .md2html-sidebar__brand-description {
+
+  gap: 24px;    color: var(--md2html-muted);
+
+  background: var(--md2html-surface);    font-size: 0.9rem;
+
+  border: 1px solid var(--md2html-border);  }
+
+  border-radius: 18px;
+
+  padding: 20px 28px;  .md2html-sidebar__section-title {
+
+  box-shadow: var(--md2html-shadow);    font-size: 0.75rem;
+
+  position: sticky;    font-weight: 700;
+
+  top: 32px;    text-transform: uppercase;
+
+  z-index: 5;    letter-spacing: 0.04em;
+
+}    color: var(--md2html-muted);
+
+    margin-bottom: 0.75rem;
+
+.md2html-header__text {  }
+
+  min-width: 0;
+
+  display: flex;  .md2html-sidebar__nav {
+
+  flex-direction: column;    display: flex;
+
+  gap: 8px;    flex-direction: column;
+
+}    gap: 0.75rem;
+
+  }
+
+.md2html-header__title {
+
+  font-size: 1.35rem;  .md2html-nav {
+
+  font-weight: 600;    display: flex;
+
+  margin: 0;    flex-direction: column;
+
+  color: var(--md2html-text);    gap: 0.25rem;
+
+}  }
+
+
+
+.md2html-header__description {  .md2html-nav__item {
+
+  margin: 0;    border-radius: 10px;
+
+  color: var(--md2html-muted);    transition: background 0.2s ease, color 0.2s ease;
+
+  font-size: 0.98rem;    padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+
+}  }
+
+
+
+.md2html-header__actions {  .md2html-nav__item:hover {
+
+  display: flex;    background: var(--md2html-nav-hover);
+
+  gap: 12px;  }
+
+  flex: 0 0 auto;
+
+}  .md2html-nav__item--active {
+
+    background: var(--md2html-nav-active);
+
+.md2html-action-button {    font-weight: 600;
+
+  border: none;  }
+
+  background: none;
+
+  padding: 8px;  .md2html-nav__link,
+
+  border-radius: 999px;  .md2html-nav__label {
+
+  color: var(--md2html-muted);    display: block;
+
+  font-size: 1.35rem;    text-decoration: none;
+
+  line-height: 1;    color: inherit;
+
+  cursor: pointer;  }
+
+  transition: background 0.2s ease, color 0.2s ease;
+
+}  .md2html-nav__list {
+
+    margin-top: 0.35rem;
+
+.md2html-action-button:hover,    margin-left: 0.75rem;
+
+.md2html-action-button:focus-visible {    border-left: 1px solid var(--md2html-border);
+
+  background: var(--md2html-nav-hover);    padding-left: 0.75rem;
+
+  color: var(--md2html-link);    display: none;
+
+  outline: none;    flex-direction: column;
+
+}    gap: 0.25rem;
+
+  }
+
+.md2html-action-button:focus-visible {
+
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);  .md2html-nav__item--expanded > .md2html-nav__list {
+
+}    display: flex;
+
+  }
+
+.md2html-action-button__icon {
+
+  display: none;  .md2html-main {
+
+  width: 20px;  display: flex;
+
+  height: 20px;  flex: 1 1 auto;
+
+}  min-height: 0;
+
+  width: 100vw;
+
+.md2html-action-button__icon svg {  }
+
+  width: 100%;
+
+  height: 100%;  .md2html-header {
+
+  fill: currentColor;  background: var(--md2html-card-bg);
+
+}  border-bottom: 1px solid var(--md2html-border);
+
+  border-radius: 0;
+
+.md2html-action-button[data-state="light"] .md2html-action-button__icon--sun,  padding: 0 1.5rem;
+
+.md2html-action-button[data-state="dark"] .md2html-action-button__icon--moon,  box-shadow: var(--md2html-shadow);
+
+.md2html-action-button[data-state="collapsed"] .md2html-action-button__icon--expand,  height: var(--md2html-header-height);
+
+.md2html-action-button[data-state="expanded"] .md2html-action-button__icon--collapse {  display: flex;
+
+  display: block;  align-items: center;
+
+}  position: sticky;
+
+  top: 0;
+
+.md2html-mobile-panels {  z-index: 1002;
+
+  display: none;  }
+
+  flex-direction: column;
+
+  gap: 16px;  .md2html-header__inner {
+
+}    display: flex;
+
+    justify-content: space-between;
+
+.md2html-mobile-panel {    align-items: center;
+
+  border: 1px solid var(--md2html-border);    gap: 1rem;
+
+  border-radius: 14px;  }
+
+  overflow: hidden;
+
+  background: var(--md2html-card);  .md2html-header__text {
+
+}    flex: 1 1 auto;
+
+  }
+
+.md2html-mobile-panel > summary {
+
+  padding: 14px 18px;  .md2html-header__title {
+
+  font-weight: 600;    margin: 0;
+
+  list-style: none;    font-size: 2rem;
+
+  display: flex;    font-weight: 600;
+
+  align-items: center;  }
+
+  justify-content: space-between;
+
+  cursor: pointer;  .md2html-header__description {
+
+}    margin: 0.75rem 0 0;
+
+    color: var(--md2html-muted);
+
+.md2html-mobile-panel > summary::-webkit-details-marker {    font-size: 1rem;
+
+  display: none;  }
+
+}
+
+  .md2html-header__actions {
+
+.md2html-mobile-panel > summary::after {    display: flex;
+
+  content: "\25BC";    gap: 0.5rem;
+
+  font-size: 0.75rem;    flex: 0 0 auto;
+
+  color: var(--md2html-muted);  }
+
+  transition: transform 0.2s ease;
+
+}  .md2html-action-button {
+
+  background: none;
+
+.md2html-mobile-panel[open] > summary::after {  border: none;
+
+  transform: rotate(180deg);  cursor: pointer;
+
+}  padding: 0.5rem;
+
+  border-radius: 50%;
+
+.md2html-mobile-panel__content {  color: var(--md2html-muted);
+
+  border-top: 1px solid var(--md2html-border);  font-size: 1.35rem;
+
+  padding: 14px 18px 18px;  transition: background 0.2s, color 0.2s;
+
+  background: var(--md2html-surface);  outline: none;
+
+}  }
+
+
+
+.md2html-mobile-nav {  .md2html-action-button:hover {
+
+  max-height: 45vh;  background: var(--md2html-nav-hover);
+
+  overflow-y: auto;  color: var(--md2html-link);
+
+}  }
+
+
+
+.md2html-article {  .md2html-action-button:active {
+
+  max-width: var(--md2html-content-max);    transform: translateY(1px);
+
+  background: var(--md2html-card);  }
+
+  border: 1px solid var(--md2html-border);
+
+  border-radius: 18px;  .md2html-action-button:focus-visible {
+
+  padding: 40px 48px;    outline: 2px solid var(--md2html-link);
+
+  box-shadow: var(--md2html-shadow);    outline-offset: 2px;
+
+}  }
+
+
+
+.md2html-outline {  .md2html-action-button__icon {
+
+  background: var(--md2html-outline-bg);    width: 1.25rem;
+
+  border-left: 1px solid var(--md2html-border);    height: 1.25rem;
+
+  padding: 40px 28px;    display: none;
+
+  position: sticky;  }
+
+  top: 0;
+
+  align-self: start;  .md2html-action-button__icon svg {
+
+  height: 100vh;    width: 100%;
+
+  overflow-y: auto;    height: 100%;
+
+  display: flex;    fill: currentColor;
+
+  flex-direction: column;  }
+
+  gap: 18px;
+
+}  .md2html-action-button[data-state="light"] .md2html-action-button__icon--sun {
+
+    display: block;
+
+.md2html-outline__section-title {  }
+
+  font-size: 0.72rem;
+
+  font-weight: 700;  .md2html-action-button[data-state="dark"] .md2html-action-button__icon--moon {
+
+  text-transform: uppercase;    display: block;
+
+  letter-spacing: 0.08em;  }
+
+  color: var(--md2html-muted);
+
+}  .md2html-action-button[data-state="collapsed"] .md2html-action-button__icon--expand {
+
+    display: block;
+
+.md2html-toc {  }
+
+  background: var(--md2html-card);
+
+  border: 1px solid var(--md2html-border);  .md2html-action-button[data-state="expanded"] .md2html-action-button__icon--collapse {
+
+  border-radius: 16px;    display: block;
+
+  padding: 18px 20px;  }
+
+  box-shadow: var(--md2html-shadow);
+
+}  .md2html-mobile-panels {
+
+    display: none;
+
+.md2html-toc__list {    gap: 1rem;
+
+  display: flex;    margin-bottom: 2rem;
+
+  flex-direction: column;  }
+
+  gap: 10px;
+
+}  .md2html-mobile-panel {
+
+    border: 1px solid var(--md2html-border);
+
+.md2html-toc__item {    border-radius: 0.75rem;
+
+  font-size: 0.94rem;    background: var(--md2html-card-bg);
+
+  color: var(--md2html-muted);    overflow: hidden;
+
+  transition: color 0.2s ease;  }
+
+}
+
+  .md2html-mobile-panel > summary {
+
+.md2html-toc__item a {    list-style: none;
+
+  color: inherit;    cursor: pointer;
+
+  text-decoration: none;    padding: 0.75rem 1rem;
+
+}    font-weight: 600;
+
+    display: flex;
+
+.md2html-toc__item a:hover,    justify-content: space-between;
+
+.md2html-toc__item a:focus {    align-items: center;
+
+  color: var(--md2html-link);  }
+
+  text-decoration: underline;
+
+}  .md2html-mobile-panel > summary::after {
+
+    content: "▾";
+
+.md2html-toc__item--level-2 {    font-size: 0.9rem;
+
+  padding-left: 12px;    color: var(--md2html-muted);
+
+}    transform: rotate(0deg);
+
+    transition: transform 0.2s ease;
+
+.md2html-toc__item--level-3 {  }
+
+  padding-left: 24px;
+
+}  .md2html-mobile-panel[open] > summary::after {
+
+    transform: rotate(180deg);
+
+.md2html-toc__item--level-4,  }
+
+.md2html-toc__item--level-5,
+
+.md2html-toc__item--level-6 {  .md2html-mobile-panel > summary::-webkit-details-marker {
+
+  padding-left: 36px;    display: none;
+
+}  }
+
+
+
+.markdown-body {  .md2html-mobile-panel__content {
+
+  color: inherit;    padding: 0.75rem 1rem 1rem;
+
+}    border-top: 1px solid var(--md2html-border);
+
+  }
+
+.markdown-body h1,
+
+.markdown-body h2,  .md2html-mobile-nav {
+
+.markdown-body h3,    max-height: 45vh;
+
+.markdown-body h4,    overflow-y: auto;
+
+.markdown-body h5,  }
+
+.markdown-body h6 {
+
+  color: inherit;  .md2html-mobile-panel[open] > summary {
+
+  font-weight: 700;    background: var(--md2html-sidebar-bg);
+
+  scroll-margin-top: 120px;  }
+
+}
+
+  .md2html-outline {
+
+.markdown-body h1 { font-size: 2.15rem; }    position: sticky;
+
+.markdown-body h2 { font-size: 1.8rem; }    top: 0;
+
+.markdown-body h3 { font-size: 1.45rem; }    align-self: start;
+
+.markdown-body h4 { font-size: 1.25rem; }    max-height: 100vh;
+
+.markdown-body h5 { font-size: 1.05rem; }    display: flex;
+
+.markdown-body h6 { font-size: 0.95rem; }    flex-direction: column;
+
+    gap: 0.75rem;
+
+.markdown-body p,    padding: 2.5rem 2.5rem 3rem 1.5rem;
+
+.markdown-body ul,    background: var(--md2html-bg);
+
+.markdown-body ol,    border-left: 1px solid var(--md2html-border);
+
+.markdown-body blockquote,    overflow-y: auto;
+
+.markdown-body pre,  }
+
+.markdown-body table,
+
+.markdown-body figure {  .md2html-outline__section-title {
+
+  margin-top: 1.05em;    font-size: 0.75rem;
+
+  margin-bottom: 1.05em;    font-weight: 700;
+
+}    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+
+.markdown-body ul,    color: var(--md2html-muted);
+
+.markdown-body ol {  }
+
+  padding-left: 1.35em;
+
+}  .md2html-toc {
+
+    background: var(--md2html-card-bg);
+
+.markdown-body blockquote {    border: 1px solid var(--md2html-border);
+
+  border-left: 3px solid var(--md2html-border-strong);    border-radius: 12px;
+
+  padding-left: 1.25em;    padding: 1rem;
+
+  color: var(--md2html-muted);    box-shadow: var(--md2html-shadow);
+
+  margin-left: 0;  }
+
+}
+
+  .md2html-toc__list {
+
+.markdown-body code {    display: flex;
+
+  background: var(--md2html-code-inline-bg);    flex-direction: column;
+
+  border-radius: 6px;    gap: 0.4rem;
+
+  padding: 0.16em 0.45em;  }
+
+  font-family: var(--md2html-code-font);
+
+}  .md2html-toc__item {
+
+    font-size: 0.88rem;
+
+.markdown-body pre {  }
+
+  background: var(--md2html-code-bg);
+
+  border-radius: 14px;  .md2html-toc__item--level-2 {
+
+  padding: 1.2em 1.4em;    padding-left: 0.75rem;
+
+  border: 1px solid var(--md2html-border);  }
+
+  overflow: auto;
+
+}  .md2html-toc__item--level-3 {
+
+    padding-left: 1.25rem;
+
+.markdown-body pre code {  }
+
+  background: transparent;
+
+  padding: 0;  .md2html-toc__item--level-4,
+
+}  .md2html-toc__item--level-5,
+
+  .md2html-toc__item--level-6 {
+
+.md2html-hide {    padding-left: 1.75rem;
+
+  border: 1px solid var(--md2html-border);  }
+
+  border-radius: 14px;
+
+  margin: 1.5rem 0;  .md2html-article {
+
+  background: var(--md2html-nav-active);    background: var(--md2html-card-bg);
+
+}    border: 1px solid var(--md2html-border);
+
+    border-radius: 18px;
+
+.md2html-hide summary {    padding: 3rem;
+
+  cursor: pointer;    box-shadow: var(--md2html-shadow);
+
+  padding: 0.95rem 1.15rem;  }
+
+  font-weight: 600;
+
+}  .markdown-body {
+
+    color: inherit;
+
+.md2html-hide__body {  }
+
+  border-top: 1px solid var(--md2html-border);
+
+  padding: 0.95rem 1.15rem;  .markdown-body a {
+
+}    color: var(--md2html-link);
+
+    text-decoration: none;
+
+.md2html-admonition {  }
+
+  border-left: 4px solid var(--md2html-border-strong);
+
+  border-radius: 10px;  .markdown-body a:hover {
+
+  padding: 1rem 1.2rem;    text-decoration: underline;
+
+  margin: 1.8rem 0;  }
+
+  background: rgba(15, 23, 42, 0.04);
+
+}  .markdown-body h1,
+
+  .markdown-body h2,
+
+.md2html-admonition__title {  .markdown-body h3,
+
+  font-weight: 600;  .markdown-body h4,
+
+  margin-bottom: 0.45rem;  .markdown-body h5,
+
+}  .markdown-body h6 {
+
+    color: inherit;
+
+.md2html-admonition__body {    scroll-margin-top: 96px;
+
+  margin: 0;  }
+
+}
+
+  .md2html-hide {
+
+.md2html-admonition--note {    border: 1px solid var(--md2html-border);
+
+  background: var(--md2html-note-bg);    border-radius: 10px;
+
+  border-color: var(--md2html-note-border);    margin: 1.25rem 0;
+
+}    background: var(--md2html-nav-active);
+
+  }
+
+.md2html-admonition--warning {
+
+  background: var(--md2html-warning-bg);  .md2html-hide summary {
+
+  border-color: var(--md2html-warning-border);    cursor: pointer;
+
+}    padding: 0.85rem 1rem;
+
+    font-weight: 600;
+
+@media (max-width: 1280px) {  }
+
+  .md2html-layout {
+
+    grid-template-columns: 220px minmax(0, 1fr);  .md2html-hide__body {
+
+  }    border-top: 1px solid var(--md2html-border);
+
+    padding: 0.85rem 1rem;
+
+  .md2html-layout--no-outline {  }
+
+    grid-template-columns: 220px minmax(0, 1fr);
+
+  }  .md2html-admonition {
+
+    border-left: 4px solid var(--md2html-border);
+
+  .md2html-outline {    border-radius: 8px;
+
+    display: none;    padding: 1rem 1.25rem;
+
+  }    margin: 1.75rem 0;
+
+}    background: rgba(27, 31, 36, 0.03);
+
+  }
+
+@media (max-width: 1024px) {
+
+  .md2html-layout,  .md2html-admonition__title {
+
+  .md2html-layout--no-outline {    font-weight: 600;
+
+    grid-template-columns: minmax(0, 1fr);    margin-bottom: 0.5rem;
+
+  }  }
+
+
+
+  .md2html-sidebar {  .md2html-admonition__body {
+
+    display: none;    margin: 0;
+
+  }  }
+
+
+
+  .md2html-main {  .md2html-admonition--note {
+
+    padding: 36px 24px 48px;    background: var(--md2html-note-bg);
+
+  }    border-color: var(--md2html-note-border);
+
+  }
+
+  .md2html-header {
+
+    position: static;  .md2html-admonition--warning {
+
+  }    background: var(--md2html-warning-bg);
+
+    border-color: var(--md2html-warning-border);
+
+  .md2html-mobile-panels {  }
+
+    display: flex;
+
+  }  code {
+
+}    background: var(--md2html-code-inline-bg);
+
+    border-radius: 6px;
+
+@media (max-width: 720px) {    padding: 0.15rem 0.4rem;
+
+  .md2html-main {    font-family: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+
+    padding: 28px 18px 40px;  }
+
+  }
+
+  pre {
+
+  .md2html-header {    background: var(--md2html-code-bg);
+
+    flex-direction: column;    border: 1px solid var(--md2html-border);
+
+    align-items: stretch;    border-radius: 12px;
+
+    gap: 18px;    padding: 1.25rem 1.5rem;
+
+    padding: 18px 20px;    overflow: auto;
+
+  }  }
+
+
+
+  .md2html-header__actions {  pre code {
+
+    justify-content: flex-end;    background: transparent;
+
+  }    padding: 0;
+
+  }
+
+  .md2html-article {
+
+    padding: 28px 22px;  @media (max-width: 1200px) {
+
+  }    .md2html-layout {
+
+}      grid-template-columns: 240px minmax(0, 1fr);
+
+    }
+
+@media (max-width: 520px) {
+
+  body.md2html-body {    .md2html-layout--no-outline {
+
+    font-size: 15px;      grid-template-columns: 240px minmax(0, 1fr);
+
+  }    }
+
+
+
+  .md2html-header {    .md2html-outline {
+
+    padding: 16px 18px;      display: none;
+
+  }    }
+
+
+
+  .md2html-article {    .md2html-main {
+
+    padding: 24px 20px;      padding: 2.5rem 3rem;
+
+  }    }
+
+  }
+
+  .md2html-action-button {
+
+    font-size: 1.2rem;  @media (max-width: 960px) {
+
+  }    .md2html-layout,
+
+}    .md2html-layout--no-outline {
+
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .md2html-sidebar {
+      display: none;
+    }
+
+    .md2html-outline {
+      display: none;
+    }
+
+    .md2html-mobile-panels {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .md2html-header__inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.25rem;
+    }
+
+    .md2html-header__actions {
+      align-self: flex-end;
+    }
+
+    .md2html-main {
+      padding: 2.25rem 1.5rem 3rem;
+    }
+
+    .md2html-article {
+      padding: 2.25rem 1.75rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .md2html-header {
+      padding: 1.75rem 1.5rem;
+    }
+
+    .md2html-article {
+      padding: 2rem 1.5rem;
+    }
+
+    .md2html-action-button {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+  }
+}
+
+.md2html-header__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--md2html-text);
+  white-space: nowrap;
+}
+
+.md2html-header__description {
+  margin: 0.75rem 0 0;
+  color: var(--md2html-muted);
+  font-size: 1rem;
+}
+
+.md2html-article {
+  background: var(--md2html-surface);
+  border: 1px solid var(--md2html-border);
+  border-radius: 18px;
+  padding: 3rem;
+  box-shadow: var(--md2html-shadow);
+}
+
+.markdown-body {
+  color: inherit;
+}
+
+.markdown-body a {
+  color: var(--md2html-link);
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  color: inherit;
+  scroll-margin-top: 96px;
+}
+
+.md2html-hide {
+  border: 1px solid var(--md2html-border);
+  border-radius: 10px;
+  margin: 1.25rem 0;
+  background: rgba(9, 105, 218, 0.08);
+}
+
+.md2html-hide summary {
+  cursor: pointer;
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+}
+
+.md2html-hide__body {
+  border-top: 1px solid var(--md2html-border);
+  padding: 0.85rem 1rem;
+}
+
+.md2html-admonition {
+  border-left: 4px solid var(--md2html-border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1.75rem 0;
+  background: rgba(27, 31, 36, 0.03);
+}
+
+.md2html-admonition__title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.md2html-admonition__body {
+  margin: 0;
+}
+
+.md2html-admonition--note {
+  background: var(--md2html-note-bg);
+  border-color: var(--md2html-note-border);
+}
+
+.md2html-admonition--warning {
+  background: var(--md2html-warning-bg);
+  border-color: var(--md2html-warning-border);
+}
+
+code {
+  background: var(--md2html-code-inline-bg);
+  border-radius: 6px;
+  padding: 0.15rem 0.4rem;
+  font-family: "JetBrains Mono", "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+
+pre {
+  background: var(--md2html-code-bg);
+  border: 1px solid var(--md2html-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  overflow: auto;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+@media (max-width: 1200px) {
+  .md2html-layout {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .md2html-main {
+    padding: 2.5rem 3rem;
+  }
+
+  .md2html-outline {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  .md2html-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .md2html-sidebar {
+    position: static;
+    max-height: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--md2html-border);
+  }
+
+  .md2html-main {
+    padding: 2rem 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .md2html-sidebar {
+    padding: 2rem 1.25rem;
+  }
+
+  .md2html-header {
+    padding: 1.5rem 1.75rem;
+  }
+
+  .md2html-article {
+    padding: 2rem 1.75rem;
+  }
+}
+</style>
+  <style>
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.md2html-code .hll { background-color: #ffffcc }
+.md2html-code { background: #f0f0f0; }
+.md2html-code .c { color: #60a0b0; font-style: italic } /* Comment */
+.md2html-code .err { border: 1px solid #FF0000 } /* Error */
+.md2html-code .k { color: #007020; font-weight: bold } /* Keyword */
+.md2html-code .o { color: #666666 } /* Operator */
+.md2html-code .ch { color: #60a0b0; font-style: italic } /* Comment.Hashbang */
+.md2html-code .cm { color: #60a0b0; font-style: italic } /* Comment.Multiline */
+.md2html-code .cp { color: #007020 } /* Comment.Preproc */
+.md2html-code .cpf { color: #60a0b0; font-style: italic } /* Comment.PreprocFile */
+.md2html-code .c1 { color: #60a0b0; font-style: italic } /* Comment.Single */
+.md2html-code .cs { color: #60a0b0; background-color: #fff0f0 } /* Comment.Special */
+.md2html-code .gd { color: #A00000 } /* Generic.Deleted */
+.md2html-code .ge { font-style: italic } /* Generic.Emph */
+.md2html-code .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.md2html-code .gr { color: #FF0000 } /* Generic.Error */
+.md2html-code .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.md2html-code .gi { color: #00A000 } /* Generic.Inserted */
+.md2html-code .go { color: #888888 } /* Generic.Output */
+.md2html-code .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+.md2html-code .gs { font-weight: bold } /* Generic.Strong */
+.md2html-code .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.md2html-code .gt { color: #0044DD } /* Generic.Traceback */
+.md2html-code .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.md2html-code .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.md2html-code .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.md2html-code .kp { color: #007020 } /* Keyword.Pseudo */
+.md2html-code .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.md2html-code .kt { color: #902000 } /* Keyword.Type */
+.md2html-code .m { color: #40a070 } /* Literal.Number */
+.md2html-code .s { color: #4070a0 } /* Literal.String */
+.md2html-code .na { color: #4070a0 } /* Name.Attribute */
+.md2html-code .nb { color: #007020 } /* Name.Builtin */
+.md2html-code .nc { color: #0e84b5; font-weight: bold } /* Name.Class */
+.md2html-code .no { color: #60add5 } /* Name.Constant */
+.md2html-code .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+.md2html-code .ni { color: #d55537; font-weight: bold } /* Name.Entity */
+.md2html-code .ne { color: #007020 } /* Name.Exception */
+.md2html-code .nf { color: #06287e } /* Name.Function */
+.md2html-code .nl { color: #002070; font-weight: bold } /* Name.Label */
+.md2html-code .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+.md2html-code .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.md2html-code .nv { color: #bb60d5 } /* Name.Variable */
+.md2html-code .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.md2html-code .w { color: #bbbbbb } /* Text.Whitespace */
+.md2html-code .mb { color: #40a070 } /* Literal.Number.Bin */
+.md2html-code .mf { color: #40a070 } /* Literal.Number.Float */
+.md2html-code .mh { color: #40a070 } /* Literal.Number.Hex */
+.md2html-code .mi { color: #40a070 } /* Literal.Number.Integer */
+.md2html-code .mo { color: #40a070 } /* Literal.Number.Oct */
+.md2html-code .sa { color: #4070a0 } /* Literal.String.Affix */
+.md2html-code .sb { color: #4070a0 } /* Literal.String.Backtick */
+.md2html-code .sc { color: #4070a0 } /* Literal.String.Char */
+.md2html-code .dl { color: #4070a0 } /* Literal.String.Delimiter */
+.md2html-code .sd { color: #4070a0; font-style: italic } /* Literal.String.Doc */
+.md2html-code .s2 { color: #4070a0 } /* Literal.String.Double */
+.md2html-code .se { color: #4070a0; font-weight: bold } /* Literal.String.Escape */
+.md2html-code .sh { color: #4070a0 } /* Literal.String.Heredoc */
+.md2html-code .si { color: #70a0d0; font-style: italic } /* Literal.String.Interpol */
+.md2html-code .sx { color: #c65d09 } /* Literal.String.Other */
+.md2html-code .sr { color: #235388 } /* Literal.String.Regex */
+.md2html-code .s1 { color: #4070a0 } /* Literal.String.Single */
+.md2html-code .ss { color: #517918 } /* Literal.String.Symbol */
+.md2html-code .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.md2html-code .fm { color: #06287e } /* Name.Function.Magic */
+.md2html-code .vc { color: #bb60d5 } /* Name.Variable.Class */
+.md2html-code .vg { color: #bb60d5 } /* Name.Variable.Global */
+.md2html-code .vi { color: #bb60d5 } /* Name.Variable.Instance */
+.md2html-code .vm { color: #bb60d5 } /* Name.Variable.Magic */
+.md2html-code .il { color: #40a070 } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body class="md2html-body">
+  
+  
+  
+  
+  
+  
+  
+  <div class="md2html-layout">
+    <aside class="md2html-sidebar" aria-label="文档">
+      <div class="md2html-sidebar__brand">
+        <span class="md2html-sidebar__brand-title">Yitu</span>
+        
+        <span class="md2html-sidebar__brand-description">使用 md2html 生成的静态站点</span>
+        
+      </div>
+      
+      <nav class="md2html-sidebar__nav" aria-label="文档">
+        <div class="md2html-sidebar__section-title">文档</div>
+        <div class="md2html-nav">
+          
+      
+      
+      
+      <div class="md2html-nav__item">
+        <a class="md2html-nav__link" href="/index.html">欢迎使用 md2html爱上大大</a>
+        
+      </div>
+      
+      
+      
+      <div class="md2html-nav__item">
+        <span class="md2html-nav__label">me</span>
+        
+          <div class="md2html-nav__list">
+            
+      
+      
+      
+      <div class="md2html-nav__item">
+        <a class="md2html-nav__link" href="/me/about.html">about</a>
+        
+      </div>
+      
+      
+      
+      <div class="md2html-nav__item">
+        <a class="md2html-nav__link" href="/me/what.html">what</a>
+        
+      </div>
+          </div>
+        
+      </div>
+      
+      
+      
+      <div class="md2html-nav__item md2html-nav__item--active md2html-nav__item--expanded">
+        <a class="md2html-nav__link" href="/mians.html">面试题参考答案</a>
+        
+      </div>
+        </div>
+      </nav>
+      
+    </aside>
+    <main class="md2html-main">
+      <header class="md2html-header">
+        <div class="md2html-header__inner">
+          <div class="md2html-header__text">
+            <div class="md2html-header__title">面试题参考答案</div>
+            
+            <p class="md2html-header__description">使用 md2html 生成的静态站点</p>
+            
+          </div>
+          <div class="md2html-header__actions" role="group" aria-label="界面控制">
+            <button type="button" class="md2html-action-button" data-action="toggle-theme" data-state="light" aria-pressed="false" title="切换黑白模式">
+              <span class="md2html-action-button__icon md2html-action-button__icon--sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M12 4.5a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1Zm0 17a1 1 0 0 1-1-1V19a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1Zm7.5-7.5a1 1 0 0 1-1 1H17a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1Zm-14 0a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1Zm10.61-6.61a1 1 0 0 1 0-1.41l1.06-1.06a1 1 0 1 1 1.41 1.41L17.5 7.39a1 1 0 0 1-1.41 0Zm-9.22 9.22a1 1 0 0 1 0-1.41L6.94 11.64a1 1 0 0 1 1.41 1.41L7.39 14.7a1 1 0 0 1-1.41 0Zm9.22 0 1.06 1.06a1 1 0 0 1-1.41 1.41L14.7 17.5a1 1 0 0 1 1.41-1.41Zm-9.22-9.22L7.39 6.94A1 1 0 1 1 5.98 5.53L4.92 6.59A1 1 0 0 1 6.33 8ZM12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/>
+                </svg>
+              </span>
+              <span class="md2html-action-button__icon md2html-action-button__icon--moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M21 12.79a9 9 0 0 1-11.79 8.53 1 1 0 0 1-.21-1.8A7 7 0 0 0 13.48 4a1 1 0 0 1 .86-1.49A9 9 0 0 1 21 12.79Z"/>
+                </svg>
+              </span>
+            </button>
+            <button type="button" class="md2html-action-button" data-action="toggle-expand" data-state="collapsed" aria-pressed="false" title="展开或折叠隐藏内容">
+              <span class="md2html-action-button__icon md2html-action-button__icon--expand" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M6 9a1 1 0 0 1 .48-1.34l5-2a1 1 0 0 1 .9 0l5 2A1 1 0 0 1 18 9v6a1 1 0 0 1-.62.92l-5 2a1 1 0 0 1-.76 0l-5-2A1 1 0 0 1 6 15Zm2 .62v4.57L12 16l4-1.81V9.62L12 8Z"/>
+                </svg>
+              </span>
+              <span class="md2html-action-button__icon md2html-action-button__icon--collapse" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M6 9a1 1 0 0 1 .7-.95l5-1.67a1 1 0 0 1 .6 0l5 1.67A1 1 0 0 1 18 9v6a1 1 0 0 1-.7.95l-5 1.67a1 1 0 0 1-.6 0l-5-1.67A1 1 0 0 1 6 15Zm2 .62v4.08L12 16l4-1.3V9.62L12 8.38Z"/>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+      </header>
+      <div class="md2html-mobile-panels">
+        
+        <details class="md2html-mobile-panel" data-panel="navigation">
+          <summary>文档</summary>
+          <div class="md2html-mobile-panel__content">
+            <nav class="md2html-mobile-nav" aria-label="文档">
+              <div class="md2html-nav">
+                
+      
+      
+      
+      <div class="md2html-nav__item">
+        <a class="md2html-nav__link" href="/index.html">欢迎使用 md2html爱上大大</a>
+        
+      </div>
+      
+      
+      
+      <div class="md2html-nav__item">
+        <span class="md2html-nav__label">me</span>
+        
+          <div class="md2html-nav__list">
+            
+      
+      
+      
+      <div class="md2html-nav__item">
+        <a class="md2html-nav__link" href="/me/about.html">about</a>
+        
+      </div>
+      
+      
+      
+      <div class="md2html-nav__item">
+        <a class="md2html-nav__link" href="/me/what.html">what</a>
+        
+      </div>
+          </div>
+        
+      </div>
+      
+      
+      
+      <div class="md2html-nav__item md2html-nav__item--active md2html-nav__item--expanded">
+        <a class="md2html-nav__link" href="/mians.html">面试题参考答案</a>
+        
+      </div>
+              </div>
+            </nav>
+          </div>
+        </details>
+        
+        
+        <details class="md2html-mobile-panel" data-panel="outline">
+          <summary>大纲</summary>
+          <div class="md2html-mobile-panel__content">
+            <div class="md2html-toc">
+              <div class="md2html-toc__list">
+                <div class="md2html-toc__item md2html-toc__item--level-1">
+                  <a href="#面试题参考答案">面试题参考答案</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#1-hashmap-concurrenthashmap-aqs-hashset-与相关并发工具">1. HashMap / ConcurrentHashMap / AQS / HashSet 与相关并发工具</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-1">要点速览 · 1</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-1">基础要点 · 1</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-1">进阶扩展 · 1</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-1">⚠️注意事项 · 1</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#2-redis-数据类型与场景">2. Redis 数据类型与场景</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-2">要点速览 · 2</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-2">基础要点 · 2</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-2">进阶扩展 · 2</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-2">⚠️注意事项 · 2</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#3-jvm-内存模型-jmm">3. JVM 内存模型 (JMM)</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-3">要点速览 · 3</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-3">基础要点 · 3</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-3">进阶扩展 · 3</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-3">⚠️注意事项 · 3</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#4-新建类的-jvm-流程">4. 新建类的 JVM 流程</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-4">要点速览 · 4</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-4">基础要点 · 4</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-4">进阶扩展 · 4</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-4">⚠️注意事项 · 4</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#5-spring-boot-启动流程">5. Spring Boot 启动流程</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-5">要点速览 · 5</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-5">基础要点 · 5</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-5">进阶扩展 · 5</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-5">⚠️注意事项 · 5</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#7-spring-自动装配流程">7. Spring 自动装配流程</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-7">要点速览 · 7</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-7">基础要点 · 7</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-7">进阶扩展 · 7</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-7">⚠️注意事项 · 7</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#8-aop-原理与场景">8. AOP 原理与场景</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-8">要点速览 · 8</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-8">基础要点 · 8</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-8">进阶扩展 · 8</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-8">⚠️注意事项 · 8</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#9-三高系统设计考量">9. 三高系统设计考量</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-9">要点速览 · 9</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-9">基础要点 · 9</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-9">进阶扩展 · 9</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-9">⚠️注意事项 · 9</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#10-openfeign-远程调用原理">10. OpenFeign 远程调用原理</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-10">要点速览 · 10</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-10">基础要点 · 10</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-10">进阶扩展 · 10</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-10">⚠️注意事项 · 10</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#11-dubbo-调用原理">11. Dubbo 调用原理</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-11">要点速览 · 11</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-11">基础要点 · 11</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-11">进阶扩展 · 11</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-11">⚠️注意事项 · 11</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#12-threadlocal-使用场景">12. ThreadLocal 使用场景</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-12">要点速览 · 12</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-12">基础要点 · 12</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-12">进阶扩展 · 12</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-12">⚠️注意事项 · 12</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#13-threadlocal-结合-traceid-链路追踪">13. ThreadLocal 结合 TraceId 链路追踪</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-13">要点速览 · 13</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-13">基础要点 · 13</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-13">进阶扩展 · 13</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-13">⚠️注意事项 · 13</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#14-生产环境故障排查流程">14. 生产环境故障排查流程</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-14">要点速览 · 14</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-14">基础要点 · 14</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-14">进阶扩展 · 14</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-14">⚠️注意事项 · 14</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#15-布隆过滤器原理">15. 布隆过滤器原理</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-15">要点速览 · 15</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-15">基础要点 · 15</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-15">进阶扩展 · 15</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-15">⚠️注意事项 · 15</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#16-限流算法滑动窗口令牌桶漏桶">16. 限流算法（滑动窗口、令牌桶、漏桶）</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-16">要点速览 · 16</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-16">基础要点 · 16</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-16">进阶扩展 · 16</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-16">⚠️注意事项 · 16</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#17-常见设计模式">17. 常见设计模式</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-17">要点速览 · 17</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-17">基础要点 · 17</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-17">进阶扩展 · 17</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-17">⚠️注意事项 · 17</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#18-mysql-索引失效原因">18. MySQL 索引失效原因</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-18">要点速览 · 18</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-18">基础要点 · 18</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-18">进阶扩展 · 18</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-18">⚠️注意事项 · 18</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#19-锁类型与-mysql-行锁间隙锁临键锁">19. 锁类型与 MySQL 行锁/间隙锁/临键锁</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-19">要点速览 · 19</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-19">基础要点 · 19</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-19">进阶扩展 · 19</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-19">⚠️注意事项 · 19</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#20-spring-aop-失效场景">20. Spring AOP 失效场景</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-20">要点速览 · 20</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-20">基础要点 · 20</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-20">进阶扩展 · 20</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-20">⚠️注意事项 · 20</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#21-接口防刷方案设计">21. 接口防刷方案设计</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-21">要点速览 · 21</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-21">基础要点 · 21</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-21">进阶扩展 · 21</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-21">⚠️注意事项 · 21</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#22-40-亿-qq-号1gb-内存去重方案">22. 40 亿 QQ 号、1GB 内存去重方案</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-22">要点速览 · 22</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-22">基础要点 · 22</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-22">进阶扩展 · 22</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-22">⚠️注意事项 · 22</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#23-多线程-hashmap-死循环原因">23. 多线程 HashMap 死循环原因</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-23">要点速览 · 23</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-23">基础要点 · 23</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-23">进阶扩展 · 23</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-23">⚠️注意事项 · 23</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#24-transactional-失效原因">24. @Transactional 失效原因</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-24">要点速览 · 24</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-24">基础要点 · 24</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-24">进阶扩展 · 24</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-24">⚠️注意事项 · 24</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#25-事务传播机制">25. 事务传播机制</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-25">要点速览 · 25</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-25">基础要点 · 25</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-25">进阶扩展 · 25</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-25">⚠️注意事项 · 25</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#26-mvcc-readview-undo-log-redo-log-binlog">26. MVCC / ReadView / Undo Log / Redo Log / Binlog</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-26">要点速览 · 26</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-26">基础要点 · 26</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-26">进阶扩展 · 26</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-26">⚠️注意事项 · 26</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#27-项目中的异步编排">27. 项目中的异步编排</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-27">要点速览 · 27</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-27">基础要点 · 27</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-27">进阶扩展 · 27</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-27">⚠️注意事项 · 27</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#28-threadlocal-在异步多线程环境">28. ThreadLocal 在异步多线程环境</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-28">要点速览 · 28</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-28">基础要点 · 28</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-28">进阶扩展 · 28</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-28">⚠️注意事项 · 28</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-2">
+                  <a href="#29-threadlocal-使用流程需注意事项">29. ThreadLocal 使用流程需注意事项</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#要点速览-29">要点速览 · 29</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#基础要点-29">基础要点 · 29</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#进阶扩展-29">进阶扩展 · 29</a>
+                </div>
+                <div class="md2html-toc__item md2html-toc__item--level-3">
+                  <a href="#注意事项-29">⚠️注意事项 · 29</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+        
+      </div>
+      <article class="md2html-article markdown-body">
+        <h1 id="面试题参考答案">面试题参考答案</h1>
+<h2 id="1-hashmap-concurrenthashmap-aqs-hashset-与相关并发工具">1. HashMap / ConcurrentHashMap / AQS / HashSet 与相关并发工具</h2>
+<h3 id="要点速览-1">要点速览 · 1</h3>
+<ul>
+<li><code>HashMap</code> 数组+链表/红黑树，线程不安全；<code>ConcurrentHashMap</code> 分段锁→CAS；<code>HashSet</code> 基于 <code>HashMap</code>。</li>
+<li>AQS 提供模板化同步器；<code>synchronized</code>、<code>ReentrantLock</code>、<code>CopyOnWriteArrayList</code> 分别适配不同场景。</li>
+<li>并发结构选型取决于冲突概率、读写比例、迭代需求。</li>
+</ul>
+<h3 id="基础要点-1">基础要点 · 1</h3>
+<ul>
+<li><strong>HashMap</strong>：底层是数组+链表/红黑树，默认加载因子 0.75。<code>put</code> 通过 key hash 定位桶位，桶位冲突时形成链表，链表长度超过 8 且容量 ≥64 时转红黑树。</li>
+<li><strong>HashSet</strong>：内部将元素作为 <code>HashMap</code> 的 key，value 为常量 <code>PRESENT</code>，因此所有行为复用 <code>HashMap</code>。</li>
+<li><strong>synchronized</strong>：JVM 级别的内置锁，支持偏向锁、轻量级锁、重量级锁的自适应优化。</li>
+</ul>
+<h3 id="进阶扩展-1">进阶扩展 · 1</h3>
+<ul>
+<li><strong>ConcurrentHashMap</strong>：JDK7 分段锁（Segment），JDK8 采用 <code>CAS + synchronized</code> 在桶位粒度控制，链表转树同样触发条件。读操作基本无锁，写操作竞争点较少。</li>
+<li><strong>AQS(AbstractQueuedSynchronizer)</strong>：维护 <code>state</code> 和 FIFO 队列，提供 <code>acquire/release</code> 模板方法。<code>ReentrantLock</code>、<code>CountDownLatch</code>、<code>Semaphore</code> 等均基于 AQS。</li>
+<li><strong>ReentrantLock</strong>：可公平/非公平、可中断、可定时、可配合条件变量。底层依赖 AQS 的可重入 state 计数。</li>
+<li><strong>CopyOnWriteArrayList</strong>：写时复制，适合读多写少且迭代快照一致性需求。</li>
+</ul>
+<h3 id="注意事项-1">⚠️注意事项 · 1</h3>
+<ul>
+<li>HashMap 在多线程扩容可能导致环形链表死循环，绝不能直接共享。</li>
+<li>ConcurrentHashMap 迭代弱一致，不保证实时视图；需要强一致时考虑加锁或快照。</li>
+<li>CopyOnWrite 类在写多场景下开销巨大（复制数组），及时回收旧数组避免内存压力。</li>
+</ul>
+<h2 id="2-redis-数据类型与场景">2. Redis 数据类型与场景</h2>
+<h3 id="要点速览-2">要点速览 · 2</h3>
+<ul>
+<li>常用五大类型：String、Hash、List、Set、ZSet。</li>
+<li>扩展类型：Bitmap、HyperLogLog、Geo、Stream。</li>
+<li>场景选型基于数据结构特点。</li>
+</ul>
+<h3 id="基础要点-2">基础要点 · 2</h3>
+<ul>
+<li><strong>String</strong>：二进制安全，可存 JSON、计数器。典型场景：缓存对象、分布式锁、限流计数。</li>
+<li><strong>Hash</strong>：类似字典，适合存用户信息、配置项等结构化数据。</li>
+<li><strong>List</strong>：双端链表，用于消息队列、任务队列（<code>LPUSH</code>/<code>BRPOP</code>）。</li>
+<li><strong>Set</strong>：无序去重集合，用于标签、好友关系、抽奖。</li>
+<li><strong>ZSet</strong>：有序集合，成员分数排序，适合排行榜、延迟队列。</li>
+</ul>
+<h3 id="进阶扩展-2">进阶扩展 · 2</h3>
+<ul>
+<li><strong>Bitmap</strong>：位图，适合签到、活跃用户标记；1 bit 表示一个状态。</li>
+<li><strong>HyperLogLog</strong>：估算基数，适合 UV 统计，误差约 0.81%。</li>
+<li><strong>Geo</strong>：地理位置，查询附近地点。</li>
+<li><strong>Stream</strong>：消息队列，支持消费组、可靠消费。</li>
+</ul>
+<h3 id="注意事项-2">⚠️注意事项 · 2</h3>
+<ul>
+<li>选择数据结构时考虑内存占用与操作复杂度，避免误用 ZSet 做大宽表。</li>
+<li>Hash 内部字段过多会与 String 体积相差无几，需要设置 <code>hash-max-ziplist-entries/values</code>。</li>
+<li>Stream 需要定期 <code>XDEL</code>/<code>XTRIM</code> 避免无限增长。</li>
+</ul>
+<h2 id="3-jvm-内存模型-jmm">3. JVM 内存模型 (JMM)</h2>
+<h3 id="要点速览-3">要点速览 · 3</h3>
+<ul>
+<li>逻辑内存划分：堆、方法区、栈、本地方法栈、程序计数器。</li>
+<li>JMM 关注线程可见性、有序性、原子性。</li>
+<li><code>volatile</code>、<code>synchronized</code>、<code>final</code> 等提供内存语义保障。</li>
+</ul>
+<h3 id="基础要点-3">基础要点 · 3</h3>
+<ul>
+<li><strong>堆</strong>：对象实例存储，含新生代（Eden+两个 Survivor）与老年代。</li>
+<li><strong>方法区</strong>：类元数据、常量、静态变量（HotSpot 对应 Metaspace）。</li>
+<li><strong>虚拟机栈</strong>：栈帧保存局部变量、操作数栈。</li>
+<li><strong>程序计数器</strong>：记录当前线程执行字节码行号。</li>
+</ul>
+<h3 id="进阶扩展-3">进阶扩展 · 3</h3>
+<ul>
+<li>JMM 定义主内存与工作内存，线程操作需遵循 <code>load/store/use/assign</code> 规则。</li>
+<li><strong><code>volatile</code></strong>：禁止指令重排，写入后刷新主内存，读操作直接从主内存获取。</li>
+<li><strong>Happens-Before</strong>：程序次序、监视器锁、volatile、线程启动/终止、<code>final</code> 字段发布、传递性。</li>
+<li>垃圾收集器（G1、ZGC）结合内存区域优化暂停时间。</li>
+</ul>
+<h3 id="注意事项-3">⚠️注意事项 · 3</h3>
+<ul>
+<li><code>volatile</code> 仅保证可见性与有序性，不保证复合操作原子。</li>
+<li>栈溢出与堆溢出诊断方法不同，栈通过 <code>-Xss</code>，堆通过 <code>-Xmx/-Xms</code>。</li>
+<li>不恰当的 <code>finalize</code> 使用会增加 GC 压力。</li>
+</ul>
+<h2 id="4-新建类的-jvm-流程">4. 新建类的 JVM 流程</h2>
+<h3 id="要点速览-4">要点速览 · 4</h3>
+<ul>
+<li>类加载生命周期：加载→验证→准备→解析→初始化。</li>
+<li>类加载器委派模型：Bootstrap→Extension→Application。</li>
+<li>初始化阶段执行 <code>&lt;clinit&gt;</code>，实例化触发 <code>&lt;init&gt;</code>。</li>
+</ul>
+<h3 id="基础要点-4">基础要点 · 4</h3>
+<ul>
+<li><strong>加载</strong>：读取 class 字节流，生成字节数组。</li>
+<li><strong>验证</strong>：文件格式、元数据、字节码、符号引用合法性。</li>
+<li><strong>准备</strong>：为静态变量分配内存、设默认值。</li>
+<li><strong>解析</strong>：符号引用替换为直接引用。</li>
+<li><strong>初始化</strong>：执行 <code>&lt;clinit&gt;</code>，按声明顺序赋初值。</li>
+</ul>
+<h3 id="进阶扩展-4">进阶扩展 · 4</h3>
+<ul>
+<li>类加载器自定义需重写 <code>findClass</code>，遵循双亲委派；可破坏委派应谨慎。</li>
+<li>动态代理、SPI 利用线程上下文类加载器绕过双亲委派。</li>
+<li><code>new</code> 执行：类已加载→分配内存（TLAB/堆）→零值初始化→执行 <code>&lt;init&gt;</code>→返回引用。</li>
+</ul>
+<h3 id="注意事项-4">⚠️注意事项 · 4</h3>
+<ul>
+<li><code>&lt;clinit&gt;</code> 中使用未初始化类（循环依赖）会触发 <code>ExceptionInInitializerError</code>。</li>
+<li>多线程类初始化，JVM 用 <code>init_lock</code> 保证仅一次；避免在静态块内做耗时 IO。</li>
+<li>类卸载仅发生在自定义 ClassLoader 无引用且相关类无实例，谨防类加载泄漏。</li>
+</ul>
+<h2 id="5-spring-boot-启动流程">5. Spring Boot 启动流程</h2>
+<h3 id="要点速览-5">要点速览 · 5</h3>
+<ul>
+<li><code>SpringApplication.run</code> 启动；准备环境→加载上下文→刷新→执行 Runner。</li>
+<li>自动配置依赖 <code>SpringFactoriesLoader</code> 与条件装配。</li>
+<li>内嵌容器通过 <code>ServletWebServerFactory</code> 启动。</li>
+</ul>
+<h3 id="基础要点-5">基础要点 · 5</h3>
+<ul>
+<li>创建 <code>SpringApplication</code>：推断应用类型（Servlet/Reactive）、推断主类。</li>
+<li><strong>prepareEnvironment</strong>：加载配置文件、<code>EnvironmentPostProcessor</code>。</li>
+<li><strong>createApplicationContext</strong>：根据类型创建 <code>AnnotationConfigServletWebServerApplicationContext</code>。</li>
+<li><strong>refreshContext</strong>：BeanDefinition 注册、后置处理器、Bean 实例化。</li>
+</ul>
+<h3 id="进阶扩展-5">进阶扩展 · 5</h3>
+<ul>
+<li>自动配置读取 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>，通过 <code>@Conditional</code> 控制加载。</li>
+<li><code>SpringApplicationRunListeners</code> 贯穿启动过程（如 <code>EventPublishingRunListener</code>）。</li>
+<li>嵌入式容器通过 <code>EmbeddedWebServerFactoryCustomizer</code> 自定义端口、SSL。</li>
+</ul>
+<h3 id="注意事项-5">⚠️注意事项 · 5</h3>
+<ul>
+<li>自定义 <code>ApplicationContextInitializer</code>、<code>ApplicationRunner</code> 顺序需关注 <code>Ordered</code>。</li>
+<li>自动配置冲突时使用 <code>@ConditionalOnMissingBean</code>、<code>@AutoConfigureAfter</code> 避免覆盖。</li>
+<li>启动耗时排查可启用 <code>spring.main.log-startup-info=true</code> 和 <code>ApplicationStartup</code>。</li>
+</ul>
+<h2 id="7-spring-自动装配流程">7. Spring 自动装配流程</h2>
+<h3 id="要点速览-7">要点速览 · 7</h3>
+<ul>
+<li><code>@SpringBootApplication</code> → <code>@EnableAutoConfiguration</code> → Import Selector。</li>
+<li>BeanDefinition 注册后按生命周期实例化。</li>
+<li>条件注解决定装配。</li>
+</ul>
+<h3 id="基础要点-7">基础要点 · 7</h3>
+<ul>
+<li><code>EnableAutoConfigurationImportSelector</code> 读取 <code>AutoConfiguration.imports</code> 列表。</li>
+<li>通过 <code>ConditionEvaluationReport</code> 记录条件匹配原因。</li>
+<li>Bean 创建经历：实例化→属性填充→<code>Aware</code> 回调→<code>BeanPostProcessor</code>→初始化方法→就绪。</li>
+</ul>
+<h3 id="进阶扩展-7">进阶扩展 · 7</h3>
+<ul>
+<li>自定义 <code>@Conditional</code> 实现复杂条件，如环境变量、ClassPath、配置值。</li>
+<li><code>@ConfigurationProperties</code> + <code>Binder</code> 实现配置绑定。</li>
+<li>使用 <code>spring.factories</code> 或新版本 <code>AutoConfiguration.imports</code> 注册自定义自动配置模块。</li>
+</ul>
+<h3 id="注意事项-7">⚠️注意事项 · 7</h3>
+<ul>
+<li>避免把组件扫描到同名 Bean 导致 <code>BeanDefinitionOverrideException</code>。</li>
+<li>自动配置调试可用 <code>--debug</code> 查看条件报告。</li>
+<li><code>BeanFactoryPostProcessor</code> 与 <code>BeanPostProcessor</code> 顺序易混；注意生命周期。</li>
+</ul>
+<h2 id="8-aop-原理与场景">8. AOP 原理与场景</h2>
+<h3 id="要点速览-8">要点速览 · 8</h3>
+<ul>
+<li>基于代理：JDK 动态代理、CGLIB。</li>
+<li>织入：执行链构建、切面匹配。</li>
+<li>常用场景：日志、事务、安全、限流。</li>
+</ul>
+<h3 id="基础要点-8">基础要点 · 8</h3>
+<ul>
+<li>AOP 核心概念：切点（Pointcut）、通知（Advice）、切面（Aspect）、连接点（JoinPoint）。</li>
+<li>Spring AOP 默认运行期代理方式，针对接口用 JDK Proxy，无接口用 CGLIB。</li>
+</ul>
+<h3 id="进阶扩展-8">进阶扩展 · 8</h3>
+<ul>
+<li>BeanPostProcessor：<code>AnnotationAwareAspectJAutoProxyCreator</code> 在 Bean 初始化前创建代理。</li>
+<li>AOP 调用链通过 <code>MethodInterceptor</code> 链执行，类似责任链。</li>
+<li>与事务传播：事务本质也是 AOP，<code>TransactionInterceptor</code> 拦截方法执行。</li>
+</ul>
+<h3 id="注意事项-8">⚠️注意事项 · 8</h3>
+<ul>
+<li>自调用会绕过代理导致切面失效，可用 <code>AopContext.currentProxy()</code> 或分离 Bean。</li>
+<li>CGLIB 代理 final 类/方法无效；谨慎使用 <code>final</code>。</li>
+<li>过多切面增加调用开销，注意监控。</li>
+</ul>
+<h2 id="9-三高系统设计考量">9. 三高系统设计考量</h2>
+<h3 id="要点速览-9">要点速览 · 9</h3>
+<ul>
+<li>三高：高可用、高性能/高并发、高可扩展。</li>
+<li>架构分层、容量规划、降级限流。</li>
+<li>数据一致性与容灾策略。</li>
+</ul>
+<h3 id="基础要点-9">基础要点 · 9</h3>
+<ul>
+<li><strong>高可用</strong>：多活部署、故障转移、健康检查、自动化运维。</li>
+<li><strong>高性能/高并发</strong>：缓存、异步化、读写分离、负载均衡。</li>
+<li><strong>高可扩展</strong>：拆分服务、弹性伸缩、无状态服务。</li>
+</ul>
+<h3 id="进阶扩展-9">进阶扩展 · 9</h3>
+<ul>
+<li><strong>容量规划</strong>：QPS 预测、压测、模型计算 Peak Factor。</li>
+<li><strong>容灾</strong>：跨机房双活/多活、数据复制、RPO/RTO 指标。</li>
+<li><strong>一致性</strong>：分布式事务（TCC、SAGA）、幂等、补偿。</li>
+<li><strong>观测</strong>：埋点监控、链路追踪、灰度发布、熔断降级策略。</li>
+</ul>
+<h3 id="注意事项-9">⚠️注意事项 · 9</h3>
+<ul>
+<li>优先解决单点瓶颈，再谈复杂方案。</li>
+<li>避免过度设计：监控、自动化运维是落地关键。</li>
+<li>防止缓存雪崩/穿透，设计预热、限流、降级策略。</li>
+</ul>
+<h2 id="10-openfeign-远程调用原理">10. OpenFeign 远程调用原理</h2>
+<h3 id="要点速览-10">要点速览 · 10</h3>
+<ul>
+<li>基于动态代理生成 HTTP 客户端。</li>
+<li>与 Ribbon/LoadBalancer、Hystrix/Resilience4j 集成。</li>
+<li>支持契约与编码器/解码器扩展。</li>
+</ul>
+<h3 id="基础要点-10">基础要点 · 10</h3>
+<ul>
+<li>接口上标注 <code>@FeignClient</code>，Spring 在启动时创建代理。</li>
+<li>代理调用时构造请求：解析注解→拼装 URL→执行 <code>Client</code>（默认基于 Apache HttpClient 或 OkHttp）。</li>
+</ul>
+<h3 id="进阶扩展-10">进阶扩展 · 10</h3>
+<ul>
+<li><code>FeignClientsRegistrar</code> 注册 BeanDefinition，<code>FeignClientFactoryBean</code> 创建代理。</li>
+<li><code>Contract</code> 解析注解为 <code>MethodMetadata</code>，<code>Encoder/Decoder</code> 转换请求响应。</li>
+<li>与 Spring Cloud LoadBalancer 集成实现客户端负载均衡，结合拦截器做统一鉴权、日志。</li>
+</ul>
+<h3 id="注意事项-10">⚠️注意事项 · 10</h3>
+<ul>
+<li>接口方法返回类型要与 Decoder 匹配，避免 <code>ClassCastException</code>。</li>
+<li>默认超时较长，需结合业务设置 <code>ReadTimeout/ConnectTimeout</code>。</li>
+<li>大量并发调用需关注连接池与线程池配置。</li>
+</ul>
+<h2 id="11-dubbo-调用原理">11. Dubbo 调用原理</h2>
+<h3 id="要点速览-11">要点速览 · 11</h3>
+<ul>
+<li>注册中心（Zookeeper、Nacos）服务注册发现。</li>
+<li>消费端基于动态代理、负载均衡、集群容错。</li>
+<li>序列化、网络协议支持可插拔。</li>
+</ul>
+<h3 id="基础要点-11">基础要点 · 11</h3>
+<ul>
+<li>Provider 启动后暴露服务，注册到注册中心；Consumer 订阅服务列表。</li>
+<li>消费方调用代理→Invoker→Protocol→Client（如 Netty）。</li>
+</ul>
+<h3 id="进阶扩展-11">进阶扩展 · 11</h3>
+<ul>
+<li><strong>协议</strong>：Dubbo 协议（TCP + Hessian2），支持多协议（gRPC、REST）。</li>
+<li><strong>负载均衡</strong>：随机、轮询、一致性哈希、最少活跃。</li>
+<li><strong>容错策略</strong>：Failover、Failfast、Failsafe、Failback、Forking。</li>
+<li><strong>SPI</strong>：Dubbo 扩展机制，基于自定义 ClassLoader 与包装类。</li>
+</ul>
+<h3 id="注意事项-11">⚠️注意事项 · 11</h3>
+<ul>
+<li>注册中心不可用时，Consumer 使用本地缓存；确保缓存刷新策略。</li>
+<li>版本、分组隔离避免接口冲突。</li>
+<li>监控（Dubbo Admin、Metrics）对容量治理至关重要。</li>
+</ul>
+<h2 id="12-threadlocal-使用场景">12. ThreadLocal 使用场景</h2>
+<h3 id="要点速览-12">要点速览 · 12</h3>
+<ul>
+<li>为线程提供独立变量副本，适用线程封闭数据。</li>
+<li>常见场景：请求上下文、数据库连接、格式化器。</li>
+<li>注意内存泄漏，特别在线程池。</li>
+</ul>
+<h3 id="基础要点-12">基础要点 · 12</h3>
+<ul>
+<li><code>ThreadLocal.set</code> 将值存储在线程的 <code>ThreadLocalMap</code> 中，键是 <code>ThreadLocal</code> 本身。</li>
+<li>每个线程访问互不干扰，无需同步。</li>
+</ul>
+<h3 id="进阶扩展-12">进阶扩展 · 12</h3>
+<ul>
+<li>Web 应用中的上下文信息（用户信息、租户 ID）保存在 ThreadLocal。</li>
+<li><code>InheritableThreadLocal</code> 支持子线程继承值（需谨慎）。</li>
+<li>与 MDC（Mapped Diagnostic Context）结合，为日志注入上下文。</li>
+</ul>
+<h3 id="注意事项-12">⚠️注意事项 · 12</h3>
+<ul>
+<li>使用完必须 <code>remove</code>，防止线程池线程复用导致脏数据。</li>
+<li><code>ThreadLocal</code> key 是弱引用，但 value 不是——及时清理。</li>
+<li>避免用于大对象，减少内存压力。</li>
+</ul>
+<h2 id="13-threadlocal-结合-traceid-链路追踪">13. ThreadLocal 结合 TraceId 链路追踪</h2>
+<h3 id="要点速览-13">要点速览 · 13</h3>
+<ul>
+<li>请求入口生成 TraceId，保存在 ThreadLocal/MDC。</li>
+<li>Logback/Log4j2 通过 <code>%X{traceId}</code> 输出。</li>
+<li>跨线程、跨进程需传递 TraceId。</li>
+</ul>
+<h3 id="基础要点-13">基础要点 · 13</h3>
+<ul>
+<li>在 Gateway/Controller 拦截器生成 TraceId（UUID/Snowflake）。</li>
+<li>使用 <code>MDC.put(&quot;traceId&quot;, id)</code> 保存在日志上下文。</li>
+</ul>
+<h3 id="进阶扩展-13">进阶扩展 · 13</h3>
+<ul>
+<li><strong>跨 Dubbo</strong>：利用 RPC 上下文，Consumer 发送时写入 Attachment，Provider 读取后放入 ThreadLocal。</li>
+<li><strong>跨 Spring Cloud</strong>：Sleuth 使用 <code>TraceContext</code>，通过 HTTP header（<code>X-B3-TraceId</code>）。</li>
+<li><strong>跨 MQ</strong>：消息属性携带 TraceId，消费端取出后写入 ThreadLocal。</li>
+<li><strong>定时任务</strong>：触发时创建新的 TraceId，输出日志关联。</li>
+</ul>
+<h3 id="注意事项-13">⚠️注意事项 · 13</h3>
+<ul>
+<li>异步线程需手动复制 MDC（<code>MdcTaskDecorator</code>）。</li>
+<li>链路过长 TraceId 传递失败会断链，需监控 header 丢失。</li>
+<li>对敏感信息做脱敏，避免在日志暴露。</li>
+</ul>
+<h2 id="14-生产环境故障排查流程">14. 生产环境故障排查流程</h2>
+<h3 id="要点速览-14">要点速览 · 14</h3>
+<ul>
+<li>OOM：抓取堆 dump，分析对象占用。</li>
+<li>频繁 Full GC：监控 GC 日志，分析老年代/元空间压力。</li>
+<li>慢 SQL、接口慢：定位计划、索引、外部依赖。</li>
+<li>JVM 调优：基于监控数据迭代。</li>
+</ul>
+<h3 id="基础要点-14">基础要点 · 14</h3>
+<ul>
+<li><strong>OOM</strong>：启用 <code>-XX:+HeapDumpOnOutOfMemoryError</code>，使用 MAT/VisualVM 分析。定位内存泄漏（缓存未清理、集合无限增长）。</li>
+<li><strong>Full GC</strong>：查看 GC 日志（<code>-Xlog:gc*</code>），分析触发原因（晋升失败、元空间满）。</li>
+<li><strong>慢 SQL</strong>：开启慢查询日志，分析执行计划、索引命中；优化索引、SQL 改写。</li>
+<li><strong>接口慢</strong>：链路追踪定位瓶颈（数据库、下游、锁），查看线程池、连接池。</li>
+</ul>
+<h3 id="进阶扩展-14">进阶扩展 · 14</h3>
+<ul>
+<li><strong>OOM</strong>：分代区分（Eden/Old/Metaspace/Direct）不同策略；使用 <code>jmap</code>, <code>arthas</code>, <code>async-profiler</code>。</li>
+<li><strong>Full GC</strong>：调整新生代比例、晋升阈值、元空间大小；评估是否需要 G1/ZGC。</li>
+<li><strong>慢 SQL</strong>：利用 <code>Explain Analyze</code>、索引覆盖、分区表、缓存；关注 InnoDB buffer pool 命中率。</li>
+<li><strong>接口慢</strong>：限流降级、请求打散、依赖熔断；利用火焰图定位 CPU 热点。</li>
+<li><strong>JVM 调优</strong>：压测→监控→调整堆大小、GC 算法、线程栈尺寸。</li>
+</ul>
+<h3 id="注意事项-14">⚠️注意事项 · 14</h3>
+<ul>
+<li>线上调参数需灰度验证，避免一次性大改。</li>
+<li>Dump 文件包含敏感数据，妥善处理。</li>
+<li>慢 SQL 需结合数据量和业务场景，避免盲目添加索引导致写性能下降。</li>
+</ul>
+<h2 id="15-布隆过滤器原理">15. 布隆过滤器原理</h2>
+<h3 id="要点速览-15">要点速览 · 15</h3>
+<ul>
+<li>位数组 + 多个哈希函数判重，允许误判存在，不允许误判不存在。</li>
+<li>插入/查询 O(k)。</li>
+<li>适用于大规模去重、缓存穿透防护。</li>
+</ul>
+<h3 id="基础要点-15">基础要点 · 15</h3>
+<ul>
+<li>初始化位数组全 0，元素加入时通过 k 个哈希函数计算位置置 1。</li>
+<li>查询时所有位为 1 判为可能存在，否则一定不存在。</li>
+</ul>
+<h3 id="进阶扩展-15">进阶扩展 · 15</h3>
+<ul>
+<li>误判率由位数组长度 m、元素数 n、哈希函数个数 k 决定：<code>(1 - e^{-kn/m})^k</code>。</li>
+<li>可扩展布隆过滤器（分层）和计数布隆过滤器（支持删除）。</li>
+<li>Redis <code>bf.add</code>/<code>cf.add</code> (RedisBloom) 提供实现。</li>
+</ul>
+<h3 id="注意事项-15">⚠️注意事项 · 15</h3>
+<ul>
+<li>哈希函数独立性影响误判，需选取均匀的哈希。</li>
+<li>不能删除（标准 Bloom），删除需计数型但内存更大。</li>
+<li>误判率随元素增加而上升，应预估容量或扩展层级。</li>
+</ul>
+<h2 id="16-限流算法滑动窗口令牌桶漏桶">16. 限流算法（滑动窗口、令牌桶、漏桶）</h2>
+<h3 id="要点速览-16">要点速览 · 16</h3>
+<ul>
+<li>固定窗口：简单但有临界突刺问题。</li>
+<li>滑动窗口：平滑统计。</li>
+<li>令牌桶：控制平均速率允许突发。</li>
+<li>漏桶：平滑输出。</li>
+</ul>
+<h3 id="基础要点-16">基础要点 · 16</h3>
+<ul>
+<li><strong>滑动窗口</strong>：按时间片记录请求数，窗口移动时淘汰过期计数。</li>
+<li><strong>令牌桶</strong>：按速率生成令牌，桶满即丢；请求获取令牌才执行。</li>
+<li><strong>漏桶</strong>：请求进入漏桶，按常量速率流出，多余请求被丢弃。</li>
+</ul>
+<h3 id="进阶扩展-16">进阶扩展 · 16</h3>
+<ul>
+<li>分布式限流可用 Redis + Lua 原子操作，实现滑动窗口或令牌桶。</li>
+<li>令牌桶适合突发流量（比如支付答题），漏桶适合严格平滑输出（下游能力有限）。</li>
+<li>结合熔断、降级、黑名单、灰度发布形成全链路保护。</li>
+</ul>
+<h3 id="注意事项-16">⚠️注意事项 · 16</h3>
+<ul>
+<li>Redis 限流脚本需防雪崩，注意键过期策略。</li>
+<li>单机限流与分布式限流需区分；多实例需共享状态。</li>
+<li>限流反馈需友好（排队、降级页面）。</li>
+</ul>
+<h2 id="17-常见设计模式">17. 常见设计模式</h2>
+<h3 id="要点速览-17">要点速览 · 17</h3>
+<ul>
+<li>工厂、适配器、代理、模板、策略、责任链核心意图。</li>
+<li>结合场景说明使用时机。</li>
+<li>注意与框架实现的联系。</li>
+</ul>
+<h3 id="基础要点-17">基础要点 · 17</h3>
+<ul>
+<li><strong>工厂模式</strong>：隐藏对象创建（Spring IoC 容器、<code>FactoryBean</code>）。</li>
+<li><strong>适配器模式</strong>：接口转换（<code>HandlerAdapter</code>, JDBC 驱动）。</li>
+<li><strong>代理模式</strong>：控制访问、增强（Spring AOP、MyBatis Mapper）。</li>
+<li><strong>模板方法</strong>：定义算法骨架，子类实现（<code>JdbcTemplate</code>）。</li>
+<li><strong>策略模式</strong>：封装变化算法（支付渠道、序列化）。</li>
+<li><strong>责任链模式</strong>：多个处理器顺序处理（Servlet Filter、Netty Pipeline）。</li>
+</ul>
+<h3 id="进阶扩展-17">进阶扩展 · 17</h3>
+<ul>
+<li>组合使用：如策略 + 工厂动态选择实现。</li>
+<li>借助枚举/注解实现策略注册，减少 <code>if/else</code>。</li>
+<li>使用责任链处理可扩展需求，如审批流。</li>
+</ul>
+<h3 id="注意事项-17">⚠️注意事项 · 17</h3>
+<ul>
+<li>模式选择应基于问题，不要为模式而模式。</li>
+<li>责任链需处理终止条件，防止空链。</li>
+<li>策略注册需防止 Bean 重名或覆盖。</li>
+</ul>
+<h2 id="18-mysql-索引失效原因">18. MySQL 索引失效原因</h2>
+<h3 id="要点速览-18">要点速览 · 18</h3>
+<ul>
+<li>函数/表达式包裹列、类型转换导致无法走索引。</li>
+<li>模糊匹配左模糊、范围条件影响联合索引。</li>
+<li>统计信息过期、选择度低。</li>
+</ul>
+<h3 id="基础要点-18">基础要点 · 18</h3>
+<ul>
+<li><code>LIKE '%xxx'</code> 左模糊无法利用 B+Tree 前缀。</li>
+<li>对列做运算、<code>WHERE DATE(create_time)=...</code> 会导致全表扫描。</li>
+<li>数据类型不一致触发隐式转换。</li>
+</ul>
+<h3 id="进阶扩展-18">进阶扩展 · 18</h3>
+<ul>
+<li>联合索引遵循最左前缀；在范围查询后续列失效。</li>
+<li>OR 条件若其中一列无索引总体失效，可拆分 Union。</li>
+<li>统计信息 stale 使优化器选择错误，可 <code>ANALYZE TABLE</code>。</li>
+</ul>
+<h3 id="注意事项-18">⚠️注意事项 · 18</h3>
+<ul>
+<li>注意字符集排序规则影响索引；<code>ORDER BY</code> 最好复用索引顺序避免 filesort。</li>
+<li>长度过大的 <code>VARCHAR</code> 建议前缀索引，注意选择度。</li>
+<li>避免在 <code>where</code> 使用 <code>!=</code>、<code>&lt;&gt;</code>、<code>IS NULL</code> 破坏索引。</li>
+</ul>
+<h2 id="19-锁类型与-mysql-行锁间隙锁临键锁">19. 锁类型与 MySQL 行锁/间隙锁/临键锁</h2>
+<h3 id="要点速览-19">要点速览 · 19</h3>
+<ul>
+<li>锁分类：乐观/悲观、共享/排它、表锁/行锁。</li>
+<li>InnoDB 行级锁基于索引。</li>
+<li>间隙锁、临键锁用于防止幻读。</li>
+</ul>
+<h3 id="基础要点-19">基础要点 · 19</h3>
+<ul>
+<li><strong>共享锁(S)</strong>：允许并发读，不允许写。</li>
+<li><strong>排他锁(X)</strong>：独占访问。</li>
+<li><strong>行锁</strong>：通过索引记录锁定，避免锁全表。</li>
+</ul>
+<h3 id="进阶扩展-19">进阶扩展 · 19</h3>
+<ul>
+<li><strong>间隙锁(Gap Lock)</strong>：锁定索引区间，不含记录本身，防止插入。</li>
+<li><strong>临键锁(Next-Key Lock)</strong>：记录锁 + 间隙锁组合，默认 RR 隔离下用于范围查询。</li>
+<li><strong>意向锁</strong>：表级锁与行锁协调。</li>
+<li>锁冲突诊断：<code>information_schema.innodb_locks</code>、<code>performance_schema</code>。</li>
+</ul>
+<h3 id="注意事项-19">⚠️注意事项 · 19</h3>
+<ul>
+<li>查询未使用索引会退化为表锁。</li>
+<li>合理使用 <code>FOR UPDATE</code>，避免大事务长时间持锁。</li>
+<li>Gap Lock 仅在 RR 下生效；RC 可通过 <code>binlog_format=ROW</code> 减少锁范围。</li>
+</ul>
+<h2 id="20-spring-aop-失效场景">20. Spring AOP 失效场景</h2>
+<h3 id="要点速览-20">要点速览 · 20</h3>
+<ul>
+<li>自调用、非 Spring 管理、代理类型不匹配。</li>
+<li>Final 方法/类、私有方法无法代理。</li>
+<li>Bean 初始化顺序导致代理没生效。</li>
+</ul>
+<h3 id="基础要点-20">基础要点 · 20</h3>
+<ul>
+<li>同类方法互调绕过代理（<code>this.method()</code>）。</li>
+<li>Bean 未纳入 Spring 容器（<code>new</code> 出来）。</li>
+<li>使用 JDK 动态代理时目标类没有接口。</li>
+</ul>
+<h3 id="进阶扩展-20">进阶扩展 · 20</h3>
+<ul>
+<li>配置 <code>proxyTargetClass=true</code> 强制使用 CGLIB。</li>
+<li>使用 <code>@Lazy</code> + <code>ObjectProvider</code> 注入自身代理。</li>
+<li>在 <code>@PostConstruct</code> 内调用 AOP 方法同样无效。</li>
+</ul>
+<h3 id="注意事项-20">⚠️注意事项 · 20</h3>
+<ul>
+<li>在异步线程调用需确保拿到代理（组合 <code>@Async</code> + AOP 时顺序）。</li>
+<li>切面表达式写错或优先级导致未匹配。</li>
+<li>多重代理堆叠影响性能，检查 <code>Advisor</code> 顺序。</li>
+</ul>
+<h2 id="21-接口防刷方案设计">21. 接口防刷方案设计</h2>
+<h3 id="要点速览-21">要点速览 · 21</h3>
+<ul>
+<li>多维限流（IP、账号、设备）。</li>
+<li>黑白名单、设备指纹、验证码。</li>
+<li>日志审计、异常监控。</li>
+</ul>
+<h3 id="基础要点-21">基础要点 · 21</h3>
+<ul>
+<li><strong>限流</strong>：单 IP、单用户、单接口滑动窗口；慢速模式。</li>
+<li><strong>黑名单</strong>：响应式封禁恶意 IP/设备。</li>
+<li><strong>设备指纹</strong>：收集硬件信息、浏览器指纹。</li>
+</ul>
+<h3 id="进阶扩展-21">进阶扩展 · 21</h3>
+<ul>
+<li><strong>分层架构</strong>：CDN/WAF 初筛 → 网关限流 → 业务限流。</li>
+<li><strong>动态规则</strong>：结合行为模型、机器学习识别异常。</li>
+<li><strong>验证码/滑块</strong>：在阈值内渐进触发。</li>
+<li><strong>风控闭环</strong>：实时监控→人工复核→策略发布；支持灰度。</li>
+<li><strong>数据采集</strong>：埋点记录请求频率、成功率、UA、Referer。</li>
+</ul>
+<h3 id="注意事项-21">⚠️注意事项 · 21</h3>
+<ul>
+<li>合法高频用户需白名单或提额。</li>
+<li>设备指纹涉及隐私合规，遵守 GDPR/个人信息保护。</li>
+<li>限流失败需兜底页面或降级服务，防止直接 500。</li>
+</ul>
+<h2 id="22-40-亿-qq-号1gb-内存去重方案">22. 40 亿 QQ 号、1GB 内存去重方案</h2>
+<h3 id="要点速览-22">要点速览 · 22</h3>
+<ul>
+<li>数据量大、内存限制；考虑分桶 + 位图/外排序。</li>
+<li>布隆过滤器或位图 + 磁盘辅助。</li>
+<li>控制误判与资源。</li>
+</ul>
+<h3 id="基础要点-22">基础要点 · 22</h3>
+<ul>
+<li>假设 QQ 号为 32 位整数，可用位图：<code>40e8</code> 位 ≈ 5 GB，内存不够。</li>
+<li>采用分治：对数据按哈希写入多个文件（桶），每个桶容量约 1GB 内可处理。</li>
+</ul>
+<h3 id="进阶扩展-22">进阶扩展 · 22</h3>
+<ul>
+<li><strong>外部排序</strong>：
+<ol>
+<li>遍历数据使用哈希函数将 QQ 号写入 100 个桶文件（磁盘）。</li>
+<li>每次读取一个桶到内存，用位图或排序+去重，再写回。</li>
+</ol>
+</li>
+<li><strong>布隆过滤器</strong>：若允许低误判，可用布隆过滤器+磁盘校验；但需谨慎。</li>
+<li><strong>压缩位图</strong>：<code>RoaringBitmap</code> 可压缩稀疏数据；结合磁盘分片。</li>
+<li><strong>MapReduce/Hadoop</strong>：分布式去重，内存限制不再是单点问题。</li>
+</ul>
+<h3 id="注意事项-22">⚠️注意事项 · 22</h3>
+<ul>
+<li>分桶数需确保单桶数据量 &lt; 可用内存。</li>
+<li>处理顺序与磁盘 I/O 成本需优化，使用顺序写入避免随机 I/O。</li>
+<li>考虑数据倾斜（哈希冲突），可使用二级哈希或动态扩容桶。</li>
+</ul>
+<h2 id="23-多线程-hashmap-死循环原因">23. 多线程 HashMap 死循环原因</h2>
+<h3 id="要点速览-23">要点速览 · 23</h3>
+<ul>
+<li>JDK7 扩容迁移非线程安全，链表节点拆分时可能形成环。</li>
+<li>线程同时触发 <code>resize</code> 导致链表自旋，表现为 CPU 飙升。</li>
+<li>解决：使用并发容器或加锁，JDK8 改进但仍非线程安全。</li>
+</ul>
+<h3 id="基础要点-23">基础要点 · 23</h3>
+<ul>
+<li>HashMap 扩容时将桶内节点移动到新数组，未同步保护。</li>
+<li>多线程迁移同一桶，<code>next</code> 指针被覆盖，形成循环链。</li>
+<li>死循环体现为 get/put 卡住或 CPU 100%。</li>
+</ul>
+<h3 id="进阶扩展-23">进阶扩展 · 23</h3>
+<ul>
+<li>JDK8 引入尾插与链表树化，但扩容仍非原子；并发写会数据丢失。</li>
+<li>可通过 <code>Collections.synchronizedMap</code>、<code>ConcurrentHashMap</code>、<code>ImmutableMap</code> 规避。</li>
+<li>自定义分段锁或使用 <code>AtomicReference</code> + CAS 构建无锁结构。</li>
+</ul>
+<h3 id="注意事项-23">⚠️注意事项 · 23</h3>
+<ul>
+<li>不要在多线程环境直接共享可变 HashMap。</li>
+<li>即使只读，也需在构建后发布时保证可见性（<code>final</code> 或安全发布）。</li>
+<li>面试回答可补充 <code>computeIfAbsent</code> 线程安全差异。</li>
+</ul>
+<h2 id="24-transactional-失效原因">24. @Transactional 失效原因</h2>
+<h3 id="要点速览-24">要点速览 · 24</h3>
+<ul>
+<li>代理未生效：自调用、非 public 方法、对象未托管。</li>
+<li>声明式事务条件不满足：异常未抛出、传播行为不符。</li>
+<li>事务管理器或数据源配置问题。</li>
+</ul>
+<h3 id="基础要点-24">基础要点 · 24</h3>
+<ul>
+<li><code>@Transactional</code> 依赖 AOP 代理，仅对公共方法生效。</li>
+<li>自调用跳过代理，导致事务不启用。</li>
+<li>非运行期异常（默认仅 <code>RuntimeException</code>）不会触发回滚。</li>
+</ul>
+<h3 id="进阶扩展-24">进阶扩展 · 24</h3>
+<ul>
+<li>多数据源场景需指定 <code>transactionManager</code>，否则找不到 Bean。</li>
+<li>使用 JDK 代理时目标类需实现接口，否则需 <code>proxyTargetClass=true</code>。</li>
+<li>异步方法（<code>@Async</code>）在新线程执行，事务上下文丢失。</li>
+</ul>
+<h3 id="注意事项-24">⚠️注意事项 · 24</h3>
+<ul>
+<li>避免在构造函数、<code>@PostConstruct</code> 调用事务方法。</li>
+<li>明确 rollbackFor/ noRollbackFor，避免业务异常误吞。</li>
+<li>MyBatis mapper <code>SqlSessionTemplate</code> 自带事务管理，注意配置冲突。</li>
+</ul>
+<h2 id="25-事务传播机制">25. 事务传播机制</h2>
+<h3 id="要点速览-25">要点速览 · 25</h3>
+<ul>
+<li>Spring 提供 7 种传播方式，默认 <code>REQUIRED</code>。</li>
+<li>关键行为：加入现有事务、开启新事务、非事务执行。</li>
+<li>正确选择决定嵌套调用的一致性与隔离。</li>
+</ul>
+<h3 id="基础要点-25">基础要点 · 25</h3>
+<ul>
+<li><code>REQUIRED</code>：存在事务加入，否则新建。</li>
+<li><code>REQUIRES_NEW</code>：挂起当前事务，开启新事务。</li>
+<li><code>SUPPORTS</code>：有事务就加入，没有就非事务。</li>
+<li><code>MANDATORY</code>/<code>NEVER</code>/<code>NOT_SUPPORTED</code>/<code>NESTED</code> 各代表强制、有无事务约束。</li>
+</ul>
+<h3 id="进阶扩展-25">进阶扩展 · 25</h3>
+<ul>
+<li><code>NESTED</code> 依赖保存点，底层只对支持 <code>Savepoint</code> 的数据源有效。</li>
+<li>事务传播结合回滚规则可能导致外层事务决策不同。</li>
+<li>MQ 事务消息、TCC 方案可类比 <code>REQUIRES_NEW</code> 行为。</li>
+</ul>
+<h3 id="注意事项-25">⚠️注意事项 · 25</h3>
+<ul>
+<li>嵌套调用默认 <code>REQUIRED</code> 共用一个事务，一旦外层回滚全体回滚。</li>
+<li><code>REQUIRES_NEW</code> 可能导致外层回滚但内层已提交，需明确业务意义。</li>
+<li>使用声明式事务时注意与编程式事务混用的优先级。</li>
+</ul>
+<h2 id="26-mvcc-readview-undo-log-redo-log-binlog">26. MVCC / ReadView / Undo Log / Redo Log / Binlog</h2>
+<h3 id="要点速览-26">要点速览 · 26</h3>
+<ul>
+<li>MVCC 通过版本链、ReadView 提供快照读。</li>
+<li>Undo log 支持回滚与构建历史版本。</li>
+<li>Redo log 保证崩溃恢复，Binlog 用于主从复制。</li>
+</ul>
+<h3 id="基础要点-26">基础要点 · 26</h3>
+<ul>
+<li>InnoDB 行记录包含隐藏列 <code>trx_id</code>、<code>roll_pointer</code> 构建版本链。</li>
+<li>快照读生成 ReadView，记录当前活跃事务 ID 列表。</li>
+<li>Undo log 保存旧值；Redo log Write-Ahead 保证持久性；Binlog 顺序记录逻辑操作。</li>
+</ul>
+<h3 id="进阶扩展-26">进阶扩展 · 26</h3>
+<ul>
+<li>ReadView 判定规则：<code>trx_id</code> &lt; <code>up_limit_id</code> 可见，落在活跃集合不可见。</li>
+<li>Redo log (物理) 与 Binlog (逻辑) 双写，结合形成两阶段提交保证一致性。</li>
+<li>GC: Purge 线程清理不再需要的 Undo log；长事务阻塞清理导致 <code>history list length</code> 增长。</li>
+</ul>
+<h3 id="注意事项-26">⚠️注意事项 · 26</h3>
+<ul>
+<li>Repeatable Read 下快照读使用同一 ReadView，避免幻读需锁定读。</li>
+<li>定期监控 redo/buffer 池刷盘压力，避免 <code>checkpoint age</code> 膨胀。</li>
+<li>Binlog 模式 (ROW/STATEMENT/MIXED) 影响复制准确性与日志体积。</li>
+</ul>
+<h2 id="27-项目中的异步编排">27. 项目中的异步编排</h2>
+<h3 id="要点速览-27">要点速览 · 27</h3>
+<ul>
+<li>常见方案：消息队列、<code>CompletableFuture</code>、调度编排框架。</li>
+<li>核心关注点：任务依赖、失败补偿、可观测性。</li>
+<li>保证幂等与重试机制。</li>
+</ul>
+<h3 id="基础要点-27">基础要点 · 27</h3>
+<ul>
+<li>使用 MQ（Kafka/RabbitMQ）实现解耦，消费者异步处理耗时任务。</li>
+<li>应用内用线程池+<code>CompletableFuture</code>/<code>@Async</code> 并行查询。</li>
+<li>调度系统（xxl-job/Quartz）处理定时任务链。</li>
+</ul>
+<h3 id="进阶扩展-27">进阶扩展 · 27</h3>
+<ul>
+<li>落地时定义编排 DAG，利用工作流引擎（Camunda、Airflow）处理复杂依赖。</li>
+<li>结合事件总线与 Saga/TCC 实现跨服务补偿。</li>
+<li>通过链路追踪、埋点监控异步任务耗时、成功率。</li>
+</ul>
+<h3 id="注意事项-27">⚠️注意事项 · 27</h3>
+<ul>
+<li>控制线程池、消费者速率，避免洪峰拖垮下游。</li>
+<li>幂等键设计（主键、业务唯一标识）防止重复消费。</li>
+<li>异步失败需有告警与手动补偿渠道。</li>
+</ul>
+<h2 id="28-threadlocal-在异步多线程环境">28. ThreadLocal 在异步多线程环境</h2>
+<h3 id="要点速览-28">要点速览 · 28</h3>
+<ul>
+<li>ThreadLocal 默认仅限当前线程，异步线程无法继承。</li>
+<li>线程池复用导致脏数据、内存泄漏。</li>
+<li>解决：显式传递上下文或使用装饰器。</li>
+</ul>
+<h3 id="基础要点-28">基础要点 · 28</h3>
+<ul>
+<li>线程切换时 ThreadLocal 值不会自动传播。</li>
+<li>线程池中的线程复用旧值，若未 <code>remove</code> 会污染新任务。</li>
+<li>异步回调需在执行前设值，执行后清理。</li>
+</ul>
+<h3 id="进阶扩展-28">进阶扩展 · 28</h3>
+<ul>
+<li>使用 <code>TransmittableThreadLocal</code>（TTL）配合线程池自动传递上下文。</li>
+<li>Spring <code>TaskDecorator</code>、<code>MdcTaskDecorator</code> 可封装上下文复制与清理。</li>
+<li>Reactor/Sleuth 提供上下文传播 API（<code>Context</code>、<code>Hook</code>）。</li>
+</ul>
+<h3 id="注意事项-28">⚠️注意事项 · 28</h3>
+<ul>
+<li>控制 ThreadLocal 储存对象大小，避免 OOM。</li>
+<li>尽量使用不可变对象或快照，减少并发修改。</li>
+<li>上下文传递需考虑安全与隐私，避免越权。</li>
+</ul>
+<h2 id="29-threadlocal-使用流程需注意事项">29. ThreadLocal 使用流程需注意事项</h2>
+<h3 id="要点速览-29">要点速览 · 29</h3>
+<ul>
+<li>明确生命周期：初始化、使用、清理。</li>
+<li>遵循安全发布与访问模式。</li>
+<li>配合监控及时发现泄漏。</li>
+</ul>
+<h3 id="基础要点-29">基础要点 · 29</h3>
+<ul>
+<li>创建 ThreadLocal 时提供初始值供应器（<code>withInitial</code>）。</li>
+<li>使用完毕执行 <code>remove</code>，尤其在线程池场景。</li>
+<li>值对象需线程封闭，不共享可变引用。</li>
+</ul>
+<h3 id="进阶扩展-29">进阶扩展 · 29</h3>
+<ul>
+<li>建立统一封装（如 <code>ThreadLocalContext</code>）管理 set/remove，提高可维护性。</li>
+<li>日志 MDC 结合 ThreadLocal，需在过滤器/拦截器中集中清理。</li>
+<li>配合诊断工具监控 <code>ThreadLocalMap</code> 占用，可定期 dump 分析。</li>
+</ul>
+<h3 id="注意事项-29">⚠️注意事项 · 29</h3>
+<ul>
+<li>禁止在 ThreadLocal 存放连接等可复用资源，易造成泄漏。</li>
+<li>建议配合 try-finally 模式，确保异常情况下也清理。</li>
+<li>对关键上下文需提供 fallback（如默认租户），防止缺失导致 NPE。</li>
+</ul>
+
+      </article>
+    </main>
+    
+    <aside class="md2html-outline" aria-label="大纲">
+      <div class="md2html-outline__section-title">大纲</div>
+      <div class="md2html-toc">
+        <div class="md2html-toc__list">
+          <div class="md2html-toc__item md2html-toc__item--level-1">
+            <a href="#面试题参考答案">面试题参考答案</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#1-hashmap-concurrenthashmap-aqs-hashset-与相关并发工具">1. HashMap / ConcurrentHashMap / AQS / HashSet 与相关并发工具</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-1">要点速览 · 1</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-1">基础要点 · 1</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-1">进阶扩展 · 1</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-1">⚠️注意事项 · 1</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#2-redis-数据类型与场景">2. Redis 数据类型与场景</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-2">要点速览 · 2</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-2">基础要点 · 2</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-2">进阶扩展 · 2</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-2">⚠️注意事项 · 2</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#3-jvm-内存模型-jmm">3. JVM 内存模型 (JMM)</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-3">要点速览 · 3</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-3">基础要点 · 3</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-3">进阶扩展 · 3</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-3">⚠️注意事项 · 3</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#4-新建类的-jvm-流程">4. 新建类的 JVM 流程</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-4">要点速览 · 4</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-4">基础要点 · 4</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-4">进阶扩展 · 4</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-4">⚠️注意事项 · 4</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#5-spring-boot-启动流程">5. Spring Boot 启动流程</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-5">要点速览 · 5</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-5">基础要点 · 5</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-5">进阶扩展 · 5</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-5">⚠️注意事项 · 5</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#7-spring-自动装配流程">7. Spring 自动装配流程</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-7">要点速览 · 7</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-7">基础要点 · 7</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-7">进阶扩展 · 7</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-7">⚠️注意事项 · 7</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#8-aop-原理与场景">8. AOP 原理与场景</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-8">要点速览 · 8</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-8">基础要点 · 8</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-8">进阶扩展 · 8</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-8">⚠️注意事项 · 8</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#9-三高系统设计考量">9. 三高系统设计考量</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-9">要点速览 · 9</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-9">基础要点 · 9</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-9">进阶扩展 · 9</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-9">⚠️注意事项 · 9</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#10-openfeign-远程调用原理">10. OpenFeign 远程调用原理</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-10">要点速览 · 10</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-10">基础要点 · 10</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-10">进阶扩展 · 10</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-10">⚠️注意事项 · 10</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#11-dubbo-调用原理">11. Dubbo 调用原理</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-11">要点速览 · 11</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-11">基础要点 · 11</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-11">进阶扩展 · 11</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-11">⚠️注意事项 · 11</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#12-threadlocal-使用场景">12. ThreadLocal 使用场景</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-12">要点速览 · 12</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-12">基础要点 · 12</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-12">进阶扩展 · 12</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-12">⚠️注意事项 · 12</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#13-threadlocal-结合-traceid-链路追踪">13. ThreadLocal 结合 TraceId 链路追踪</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-13">要点速览 · 13</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-13">基础要点 · 13</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-13">进阶扩展 · 13</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-13">⚠️注意事项 · 13</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#14-生产环境故障排查流程">14. 生产环境故障排查流程</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-14">要点速览 · 14</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-14">基础要点 · 14</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-14">进阶扩展 · 14</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-14">⚠️注意事项 · 14</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#15-布隆过滤器原理">15. 布隆过滤器原理</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-15">要点速览 · 15</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-15">基础要点 · 15</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-15">进阶扩展 · 15</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-15">⚠️注意事项 · 15</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#16-限流算法滑动窗口令牌桶漏桶">16. 限流算法（滑动窗口、令牌桶、漏桶）</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-16">要点速览 · 16</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-16">基础要点 · 16</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-16">进阶扩展 · 16</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-16">⚠️注意事项 · 16</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#17-常见设计模式">17. 常见设计模式</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-17">要点速览 · 17</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-17">基础要点 · 17</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-17">进阶扩展 · 17</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-17">⚠️注意事项 · 17</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#18-mysql-索引失效原因">18. MySQL 索引失效原因</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-18">要点速览 · 18</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-18">基础要点 · 18</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-18">进阶扩展 · 18</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-18">⚠️注意事项 · 18</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#19-锁类型与-mysql-行锁间隙锁临键锁">19. 锁类型与 MySQL 行锁/间隙锁/临键锁</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-19">要点速览 · 19</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-19">基础要点 · 19</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-19">进阶扩展 · 19</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-19">⚠️注意事项 · 19</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#20-spring-aop-失效场景">20. Spring AOP 失效场景</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-20">要点速览 · 20</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-20">基础要点 · 20</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-20">进阶扩展 · 20</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-20">⚠️注意事项 · 20</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#21-接口防刷方案设计">21. 接口防刷方案设计</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-21">要点速览 · 21</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-21">基础要点 · 21</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-21">进阶扩展 · 21</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-21">⚠️注意事项 · 21</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#22-40-亿-qq-号1gb-内存去重方案">22. 40 亿 QQ 号、1GB 内存去重方案</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-22">要点速览 · 22</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-22">基础要点 · 22</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-22">进阶扩展 · 22</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-22">⚠️注意事项 · 22</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#23-多线程-hashmap-死循环原因">23. 多线程 HashMap 死循环原因</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-23">要点速览 · 23</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-23">基础要点 · 23</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-23">进阶扩展 · 23</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-23">⚠️注意事项 · 23</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#24-transactional-失效原因">24. @Transactional 失效原因</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-24">要点速览 · 24</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-24">基础要点 · 24</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-24">进阶扩展 · 24</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-24">⚠️注意事项 · 24</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#25-事务传播机制">25. 事务传播机制</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-25">要点速览 · 25</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-25">基础要点 · 25</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-25">进阶扩展 · 25</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-25">⚠️注意事项 · 25</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#26-mvcc-readview-undo-log-redo-log-binlog">26. MVCC / ReadView / Undo Log / Redo Log / Binlog</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-26">要点速览 · 26</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-26">基础要点 · 26</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-26">进阶扩展 · 26</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-26">⚠️注意事项 · 26</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#27-项目中的异步编排">27. 项目中的异步编排</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-27">要点速览 · 27</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-27">基础要点 · 27</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-27">进阶扩展 · 27</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-27">⚠️注意事项 · 27</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#28-threadlocal-在异步多线程环境">28. ThreadLocal 在异步多线程环境</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-28">要点速览 · 28</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-28">基础要点 · 28</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-28">进阶扩展 · 28</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-28">⚠️注意事项 · 28</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-2">
+            <a href="#29-threadlocal-使用流程需注意事项">29. ThreadLocal 使用流程需注意事项</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#要点速览-29">要点速览 · 29</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#基础要点-29">基础要点 · 29</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#进阶扩展-29">进阶扩展 · 29</a>
+          </div>
+          <div class="md2html-toc__item md2html-toc__item--level-3">
+            <a href="#注意事项-29">⚠️注意事项 · 29</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+  </div>
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const themeKey = "md2html-theme";
+      const expandKey = "md2html-expand-hidden";
+      const themeButton = document.querySelector('[data-action="toggle-theme"]');
+      const expandButton = document.querySelector('[data-action="toggle-expand"]');
+
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      function saveTheme(value) {
+        try {
+          localStorage.setItem(themeKey, value);
+        } catch (err) {
+          console.debug('Failed to persist theme preference', err);
+        }
+      }
+
+      function getStoredTheme() {
+        try {
+          const value = localStorage.getItem(themeKey);
+          return value === 'dark' || value === 'light' ? value : null;
+        } catch (err) {
+          console.debug('Failed to read theme preference', err);
+          return null;
+        }
+      }
+
+      function applyTheme(mode, persist = true) {
+        if (mode === 'dark' || mode === 'light') {
+          root.setAttribute('data-md2html-theme', mode);
+          if (persist) {
+            saveTheme(mode);
+          }
+        } else {
+          root.removeAttribute('data-md2html-theme');
+          if (persist) {
+            try {
+              localStorage.removeItem(themeKey);
+            } catch (err) {
+              console.debug('Failed to clear theme preference', err);
+            }
+          }
+        }
+        updateThemeButton(mode || (prefersDark ? 'dark' : 'light'));
+      }
+
+      function updateThemeButton(mode) {
+        if (!themeButton) return;
+        const isDark = mode === 'dark';
+        themeButton.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        themeButton.setAttribute('data-state', isDark ? 'dark' : 'light');
+      }
+
+      function toggleTheme() {
+        const current = root.getAttribute('data-md2html-theme') || getStoredTheme() || (prefersDark ? 'dark' : 'light');
+        const next = current === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+      }
+
+      function saveExpandPreference(value) {
+        try {
+          localStorage.setItem(expandKey, value ? 'true' : 'false');
+        } catch (err) {
+          console.debug('Failed to persist expand preference', err);
+        }
+      }
+
+      function getExpandPreference() {
+        try {
+          return localStorage.getItem(expandKey) === 'true';
+        } catch (err) {
+          console.debug('Failed to read expand preference', err);
+          return false;
+        }
+      }
+
+      function applyExpand(enabled, persist = true) {
+        document.querySelectorAll('.md2html-hide').forEach(function (details) {
+          if (!(details instanceof HTMLDetailsElement)) return;
+          if (enabled) {
+            details.setAttribute('open', '');
+            details.dataset.md2htmlForceOpen = 'true';
+          } else if (details.dataset.md2htmlForceOpen === 'true') {
+            details.removeAttribute('open');
+            delete details.dataset.md2htmlForceOpen;
+          }
+        });
+        if (expandButton) {
+          expandButton.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+          expandButton.setAttribute('data-state', enabled ? 'expanded' : 'collapsed');
+        }
+        if (persist) {
+          saveExpandPreference(enabled);
+        }
+      }
+
+      function toggleExpand() {
+        const current = expandButton && expandButton.getAttribute('data-state') === 'expanded';
+        applyExpand(!current);
+      }
+
+      if (themeButton) {
+        themeButton.addEventListener('click', toggleTheme);
+      }
+      if (expandButton) {
+        expandButton.addEventListener('click', toggleExpand);
+      }
+
+      const storedTheme = getStoredTheme();
+      if (storedTheme) {
+        applyTheme(storedTheme, false);
+      } else {
+        updateThemeButton(prefersDark ? 'dark' : 'light');
+      }
+
+      applyExpand(getExpandPreference(), false);
+    })();
+  </script>
+<script>
+(function () {
+  var source = new EventSource('/__livereload__');
+  source.addEventListener('reload', function () {
+    window.location.reload();
+  });
+  source.addEventListener('ping', function () {});
+  source.onerror = function () {
+    source.close();
+    setTimeout(function () { window.location.reload(); }, 2000);
+  };
+})();
+</script>
+</body>
+</html>
