@@ -514,12 +514,13 @@ a:focus {
 	transition: opacity 0.25s ease;
 }
 
+
 .md2html-drawer__panel {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
-	width: min(80vw, 320px);
+	width: min(92vw, 360px);
 	max-width: 360px;
 	background-color: var(--md2html-surface);
 	border-right: 1px solid var(--md2html-border);
@@ -717,6 +718,11 @@ a:focus {
 
 	.markdown-body h1 {
 		font-size: 28px;
+	}
+
+	.md2html-drawer__panel {
+		width: 100vw;
+		max-width: none;
 	}
 
 	.markdown-body h2 {
