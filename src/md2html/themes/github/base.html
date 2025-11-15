@@ -60,7 +60,7 @@
             <p class="md2html-header__description">{{ metadata.description or site.description }}</p>
             {% endif %}
           </div>
-          <div class="md2html-header__actions" role="group" aria-label="界面控制">
+          <div class="md2html-header__actions" aria-label="界面控制">
             <button type="button" class="md2html-action-button" data-action="toggle-theme" data-state="light" aria-pressed="false" title="切换黑白模式">
               <span class="md2html-action-button__icon md2html-action-button__icon--sun" aria-hidden="true">
                 <svg viewBox="0 0 24 24" focusable="false">
@@ -142,10 +142,12 @@
       const root = document.documentElement;
       const themeKey = "md2html-theme";
       const expandKey = "md2html-expand-hidden";
+      const navKey = "md2html-nav-expanded";
       const themeButton = document.querySelector('[data-action="toggle-theme"]');
       const expandButton = document.querySelector('[data-action="toggle-expand"]');
+      const navContainers = document.querySelectorAll('.md2html-nav');
 
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersDark = globalThis.matchMedia && globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
 
       function saveTheme(value) {
         try {
@@ -167,12 +169,12 @@
 
       function applyTheme(mode, persist = true) {
         if (mode === 'dark' || mode === 'light') {
-          root.setAttribute('data-md2html-theme', mode);
+          root.dataset.md2htmlTheme = mode;
           if (persist) {
             saveTheme(mode);
           }
         } else {
-          root.removeAttribute('data-md2html-theme');
+          delete root.dataset.md2htmlTheme;
           if (persist) {
             try {
               localStorage.removeItem(themeKey);
@@ -188,11 +190,11 @@
         if (!themeButton) return;
         const isDark = mode === 'dark';
         themeButton.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-        themeButton.setAttribute('data-state', isDark ? 'dark' : 'light');
+        themeButton.dataset.state = isDark ? 'dark' : 'light';
       }
 
       function toggleTheme() {
-        const current = root.getAttribute('data-md2html-theme') || getStoredTheme() || (prefersDark ? 'dark' : 'light');
+        const current = root.dataset.md2htmlTheme || getStoredTheme() || (prefersDark ? 'dark' : 'light');
         const next = current === 'dark' ? 'light' : 'dark';
         applyTheme(next);
       }
@@ -215,19 +217,19 @@
       }
 
       function applyExpand(enabled, persist = true) {
-        document.querySelectorAll('.md2html-hide').forEach(function (details) {
-          if (!(details instanceof HTMLDetailsElement)) return;
+        for (const details of document.querySelectorAll('.md2html-hide')) {
+          if (!(details instanceof HTMLDetailsElement)) continue;
           if (enabled) {
-            details.setAttribute('open', '');
+            details.open = true;
             details.dataset.md2htmlForceOpen = 'true';
           } else if (details.dataset.md2htmlForceOpen === 'true') {
-            details.removeAttribute('open');
+            details.open = false;
             delete details.dataset.md2htmlForceOpen;
           }
-        });
+        }
         if (expandButton) {
           expandButton.setAttribute('aria-pressed', enabled ? 'true' : 'false');
-          expandButton.setAttribute('data-state', enabled ? 'expanded' : 'collapsed');
+          expandButton.dataset.state = enabled ? 'expanded' : 'collapsed';
         }
         if (persist) {
           saveExpandPreference(enabled);
@@ -235,8 +237,86 @@
       }
 
       function toggleExpand() {
-        const current = expandButton && expandButton.getAttribute('data-state') === 'expanded';
-        applyExpand(!current);
+        const isExpanded = expandButton ? expandButton.dataset.state === 'expanded' : false;
+        applyExpand(!isExpanded);
+      }
+
+      function loadExpandedNav() {
+        try {
+          const raw = localStorage.getItem(navKey);
+          if (!raw) {
+            return new Set();
+          }
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            return new Set(parsed.filter(Boolean));
+          }
+        } catch (err) {
+          console.debug('Failed to read navigation state', err);
+        }
+        return new Set();
+      }
+
+      const expandedNavFolders = loadExpandedNav();
+
+      function persistExpandedNav() {
+        try {
+          localStorage.setItem(navKey, JSON.stringify(Array.from(expandedNavFolders)));
+        } catch (err) {
+          console.debug('Failed to persist navigation state', err);
+        }
+      }
+
+      function applyNavState() {
+        const items = document.querySelectorAll('[data-nav-node]');
+        for (const item of items) {
+          const key = item.dataset.navNode;
+          if (!key) continue;
+          const toggle = item.querySelector('[data-nav-toggle]');
+          const seeded = toggle && toggle.dataset.initialExpanded === 'true';
+          const hasActiveDescendant = item.classList.contains('md2html-nav__item--active') || Boolean(item.querySelector('.md2html-nav__item--active'));
+          const shouldExpand = expandedNavFolders.has(key) || hasActiveDescendant || seeded;
+          item.classList.toggle('md2html-nav__item--expanded', shouldExpand);
+          if (toggle) {
+            toggle.ariaExpanded = shouldExpand ? 'true' : 'false';
+            toggle.dataset.expanded = shouldExpand ? 'true' : 'false';
+            if (seeded) {
+              toggle.dataset.initialExpanded = 'false';
+            }
+          }
+        }
+      }
+
+      for (const container of navContainers) {
+        container.addEventListener('click', function (event) {
+          const target = event.target instanceof Element ? event.target : null;
+          if (!target) {
+            return;
+          }
+          const toggle = target.closest('[data-nav-toggle]');
+          if (!toggle) {
+            return;
+          }
+          event.preventDefault();
+          event.stopPropagation();
+          const item = toggle.closest('[data-nav-node]');
+          const key = toggle.dataset.navToggle;
+          if (!item || !key) {
+            return;
+          }
+          const isExpanded = item.classList.contains('md2html-nav__item--expanded');
+          const nextState = !isExpanded;
+          item.classList.toggle('md2html-nav__item--expanded', nextState);
+          toggle.ariaExpanded = nextState ? 'true' : 'false';
+          toggle.dataset.expanded = nextState ? 'true' : 'false';
+          if (nextState) {
+            expandedNavFolders.add(key);
+          } else {
+            expandedNavFolders.delete(key);
+          }
+          persistExpandedNav();
+          applyNavState();
+        });
       }
 
       if (themeButton) {
@@ -254,6 +334,7 @@
       }
 
       applyExpand(getExpandPreference(), false);
+      applyNavState();
     })();
   </script>
 </body>
