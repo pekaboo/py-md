@@ -97,9 +97,24 @@ class MarkdownRenderer:
         md = MarkdownIt("commonmark", {"html": True, "linkify": True, "typographer": True})
         md.use(tasklists_plugin, enabled=True)
         md.use(front_matter_plugin)
-        md.use(container_plugin, "hide", render=self._render_hide_container, validate=self._validate_container)  # type: ignore[arg-type]
-        md.use(container_plugin, "note", render=self._render_admonition("note"), validate=self._validate_container)  # type: ignore[arg-type]
-        md.use(container_plugin, "warning", render=self._render_admonition("warning"), validate=self._validate_container)  # type: ignore[arg-type]
+        md.use(
+            container_plugin,
+            "hide",
+            render=self._render_hide_container(),
+            validate=self._make_container_validator("hide"),
+        )  # type: ignore[arg-type]
+        md.use(
+            container_plugin,
+            "note",
+            render=self._render_admonition("note"),
+            validate=self._make_container_validator("note"),
+        )  # type: ignore[arg-type]
+        md.use(
+            container_plugin,
+            "warning",
+            render=self._render_admonition("warning"),
+            validate=self._make_container_validator("warning"),
+        )  # type: ignore[arg-type]
         return md
 
     def _decorate_headings(self, tokens: List[Token]) -> List[Dict[str, Any]]:
@@ -144,32 +159,68 @@ class MarkdownRenderer:
         return metadata
 
     @staticmethod
-    def _validate_container(params: str, markup: str) -> bool:
-        return bool(params.strip())
+    def _make_container_validator(expected: str):
+        expected_lower = expected.lower()
 
-    def _render_hide_container(self, tokens: List[Token], idx: int, options: Dict[str, Any], env: Dict[str, Any]) -> str:
-        token = tokens[idx]
-        params = token.info.strip()
-        title = params.split(" ", 1)[1].strip() if " " in params else ""
-        if token.nesting == 1:
-            summary = title or env.get("default_hide_title", "点击展开")
-            summary = escape(summary)
-            return (
-                '<details class="md2html-hide">\n'
-                f"  <summary>{summary}</summary>\n"
-                "  <div class=\"md2html-hide__body\">\n"
-            )
-        return "  </div>\n</details>\n"
+        def _validator(params: str, markup: str) -> bool:
+            info = params.strip()
+            if not info:
+                return False
+            head = info.split(None, 1)[0]
+            return head.lower() == expected_lower
+
+        return _validator
+
+    @staticmethod
+    def _extract_container_label(params: str, expected: str) -> str:
+        info = params.strip()
+        if not info:
+            return ""
+        head, _, remainder = info.partition(" ")
+        if head.lower() == expected.lower():
+            return remainder.lstrip()
+        if info.lower().startswith(expected.lower()):
+            return info[len(expected) :].lstrip()
+        return info
+
+    def _render_hide_container(self):
+        def _renderer(
+            renderer: Any,
+            tokens: List[Token],
+            idx: int,
+            options: Dict[str, Any],
+            env: Dict[str, Any],
+        ) -> str:
+            token = tokens[idx]
+            params = token.info
+            title = self._extract_container_label(params, "hide")
+            if token.nesting == 1:
+                summary = title or env.get("default_hide_title", "点击展开")
+                summary = escape(summary)
+                return (
+                    '<details class="md2html-hide">\n'
+                    f"  <summary>{summary}</summary>\n"
+                    "  <div class=\"md2html-hide__body\">\n"
+                )
+            return "  </div>\n</details>\n"
+
+        return _renderer
 
     def _render_admonition(self, kind: str):
         defaults = self.theme.admonition_defaults()
         default_title = defaults.get(kind, {}).get("title", kind.title())
         css_class = f"md2html-admonition md2html-admonition--{kind}"
 
-        def _renderer(tokens: List[Token], idx: int, options: Dict[str, Any], env: Dict[str, Any]) -> str:
+        def _renderer(
+            renderer: Any,
+            tokens: List[Token],
+            idx: int,
+            options: Dict[str, Any],
+            env: Dict[str, Any],
+        ) -> str:
             token = tokens[idx]
-            params = token.info.strip()
-            label = params.split(" ", 1)[1].strip() if " " in params else ""
+            params = token.info
+            label = self._extract_container_label(params, kind)
             title = escape(label or default_title)
             if token.nesting == 1:
                 return (
