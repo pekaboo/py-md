@@ -114,6 +114,17 @@ a:focus {
 	margin-bottom: 24px;
 }
 
+.md2html-sidebar__brand-link {
+	display: inline-block;
+	text-decoration: none;
+	color: inherit;
+}
+
+.md2html-sidebar__brand-link:hover,
+.md2html-sidebar__brand-link:focus {
+	text-decoration: none;
+}
+
 .md2html-sidebar__brand-title {
 	font-size: 20px;
 	font-weight: 600;

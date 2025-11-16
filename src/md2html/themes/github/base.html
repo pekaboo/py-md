@@ -90,10 +90,12 @@
   <div class="md2html-layout{% if not toc %} md2html-layout--no-outline{% endif %}">
   <aside class="md2html-sidebar" aria-label="{{ navigation_label }}">
       <div class="md2html-sidebar__brand">
-        <span class="md2html-sidebar__brand-title">{{ site.title or metadata.title or '文档' }}</span>
-        {% if site.description %}
-        <span class="md2html-sidebar__brand-description">{{ site.description }}</span>
-        {% endif %}
+  <a class="md2html-sidebar__brand-link" href="{{ nav_href('index.html') }}">
+          <span class="md2html-sidebar__brand-title">{{ site.title or metadata.title or '文档' }}</span>
+          {% if site.description %}
+          <span class="md2html-sidebar__brand-description">{{ site.description }}</span>
+          {% endif %}
+        </a>
       </div>
       {% if navigation %}
       <nav class="md2html-sidebar__nav" aria-label="{{ navigation_label }}">
