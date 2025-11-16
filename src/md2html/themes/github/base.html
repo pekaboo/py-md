@@ -76,6 +76,7 @@
           {% if node.url %}
           <a class="md2html-nav__link" href="{{ nav_href(node.url) }}" data-nav-title="{{ node.title }}">{{ node.title }}</a>
           {% else %}
+          <!-- --- -->
           <span class="md2html-nav__text" data-nav-title="{{ node.title }}">{{ node.title }}</span>
           {% endif %}
         </div>
@@ -90,7 +91,7 @@
   <div class="md2html-layout{% if not toc %} md2html-layout--no-outline{% endif %}">
   <aside class="md2html-sidebar" aria-label="{{ navigation_label }}">
       <div class="md2html-sidebar__brand">
-  <a class="md2html-sidebar__brand-link" href="{{ nav_href('index.html') }}">
+        <a class="md2html-sidebar__brand-link" href="{{ nav_href('index.html') }}" aria-label="返回主页面">
           <span class="md2html-sidebar__brand-title">{{ site.title or metadata.title or '文档' }}</span>
           {% if site.description %}
           <span class="md2html-sidebar__brand-description">{{ site.description }}</span>
@@ -100,7 +101,8 @@
       {% if navigation %}
       <nav class="md2html-sidebar__nav" aria-label="{{ navigation_label }}">
         <div class="md2html-sidebar__header">
-          <div class="md2html-sidebar__section-title">{{ navigation_label }}</div>
+          <!-- --- -->
+          <!-- <div class="md2html-sidebar__section-title">{{ navigation_label }}</div> -->
           <div class="md2html-sidebar__search">
             <input type="search" class="md2html-sidebar__search-input" placeholder="搜索章节" aria-label="搜索章节" data-md2html-nav-search />
           </div>
