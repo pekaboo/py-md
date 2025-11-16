@@ -17,6 +17,7 @@
   {% set outline_label = site.get('outline_label', '大纲') %}
   {% set base_url = (site.get('base_url') or '').rstrip('/') %}
   {% set nav_scope = navigation %}
+  {% set nav_root = None %}
   {% if current_segments and current_segments[0] != 'index' %}
     {% set root_segment = current_segments[0] %}
     {% set ns = namespace(match=None) %}
@@ -26,7 +27,25 @@
       {% endif %}
     {% endfor %}
     {% if ns.match %}
-      {% set nav_scope = [ns.match] %}
+      {% set nav_root = ns.match %}
+      {% if ns.match.children %}
+        {% set derived = namespace(items=[]) %}
+        {% set root_leaf = {
+          'title': ns.match.title,
+          'url': ns.match.url,
+          'segments': ns.match.segments,
+          'children': [],
+          'name': ns.match.name if 'name' in ns.match else ns.match.title,
+          'is_leaf': True,
+        } %}
+        {% set derived.items = derived.items + [root_leaf] %}
+        {% for child in ns.match.children %}
+          {% set derived.items = derived.items + [child] %}
+        {% endfor %}
+        {% set nav_scope = derived.items %}
+      {% else %}
+        {% set nav_scope = [ns.match] %}
+      {% endif %}
     {% endif %}
   {% endif %}
   {% macro nav_href(url) -%}
