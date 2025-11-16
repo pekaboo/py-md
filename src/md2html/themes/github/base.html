@@ -16,6 +16,19 @@
   {% set navigation_label = site.get('navigation_label', '文档') %}
   {% set outline_label = site.get('outline_label', '大纲') %}
   {% set base_url = (site.get('base_url') or '').rstrip('/') %}
+  {% set nav_scope = navigation %}
+  {% if current_segments and current_segments[0] != 'index' %}
+    {% set root_segment = current_segments[0] %}
+    {% set ns = namespace(match=None) %}
+    {% for node in navigation %}
+      {% if ns.match is none and node.segments and node.segments[0] == root_segment %}
+        {% set ns.match = node %}
+      {% endif %}
+    {% endfor %}
+    {% if ns.match %}
+      {% set nav_scope = [ns.match] %}
+    {% endif %}
+  {% endif %}
   {% macro nav_href(url) -%}
     {%- if base_url -%}{{ base_url }}/{{ url }}{%- else -%}/{{ url }}{%- endif -%}
   {%- endmacro %}
@@ -72,7 +85,7 @@
           </div>
         </div>
         <div class="md2html-nav" data-md2html-nav>
-          {{ render_nav(navigation, current_segments) }}
+          {{ render_nav(nav_scope, current_segments) }}
         </div>
         <div class="md2html-nav__empty is-hidden" data-md2html-nav-empty>未找到匹配目录</div>
       </nav>
@@ -149,7 +162,7 @@
                 <input type="search" class="md2html-sidebar__search-input" placeholder="搜索章节" aria-label="搜索章节" data-md2html-nav-search />
               </div>
               <div class="md2html-nav" data-md2html-nav>
-                {{ render_nav(navigation, current_segments) }}
+                {{ render_nav(nav_scope, current_segments) }}
               </div>
               <div class="md2html-nav__empty is-hidden" data-md2html-nav-empty>未找到匹配目录</div>
             </nav>
