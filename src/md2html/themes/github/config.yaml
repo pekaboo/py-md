@@ -9,3 +9,5 @@ admonitions:
     title: 提示
   warning:
     title: 注意
+  info:
+    title: 说明

@@ -35,6 +35,16 @@ def test_note_container_renders_admonition(renderer: MarkdownRenderer) -> None:
     assert "提示" in result.html
 
 
+def test_info_container_renders_admonition(renderer: MarkdownRenderer) -> None:
+    markdown = """::: info 说明
+内容
+:::
+"""
+    result = renderer.render(markdown, source_path=Path("doc.md"))
+    assert "md2html-admonition--info" in result.html
+    assert "说明" in result.html
+
+
 def test_front_matter_parser() -> None:
     markdown = "---\ntitle: 示例\n---\n\n正文"  # noqa: S105
     front_matter, body = parse_front_matter(markdown)

@@ -794,6 +794,15 @@ a:focus {
 	margin-bottom: 0;
 }
 
+.md2html-admonition--info {
+	border-left: 4px solid #0ea5e9;
+	background-color: rgba(14, 165, 233, 0.12);
+}
+
+.md2html-admonition--info .md2html-admonition__title {
+	color: #0369a1;
+}
+
 .md2html-admonition--note {
 	border-left: 4px solid #1e88e5;
 	background-color: rgba(30, 136, 229, 0.12);
@@ -819,6 +828,15 @@ a:focus {
 [data-md2html-theme="dark"] .md2html-admonition {
 	border-color: rgba(88, 166, 255, 0.35);
 	background-color: rgba(88, 166, 255, 0.08);
+}
+
+[data-md2html-theme="dark"] .md2html-admonition--info {
+	border-left-color: #67e8f9;
+	background-color: rgba(103, 232, 249, 0.16);
+}
+
+[data-md2html-theme="dark"] .md2html-admonition--info .md2html-admonition__title {
+	color: #22d3ee;
 }
 
 [data-md2html-theme="dark"] .md2html-admonition--note {

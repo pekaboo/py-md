@@ -115,6 +115,12 @@ class MarkdownRenderer:
             render=self._render_admonition("warning"),
             validate=self._make_container_validator("warning"),
         )  # type: ignore[arg-type]
+        md.use(
+            container_plugin,
+            "info",
+            render=self._render_admonition("info"),
+            validate=self._make_container_validator("info"),
+        )  # type: ignore[arg-type]
         return md
 
     def _decorate_headings(self, tokens: List[Token]) -> List[Dict[str, Any]]:
