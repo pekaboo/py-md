@@ -19,7 +19,7 @@
   {% macro nav_href(url) -%}
     {%- if base_url -%}{{ base_url }}/{{ url }}{%- else -%}/{{ url }}{%- endif -%}
   {%- endmacro %}
-  {% macro render_nav(nodes, current_segments) -%}
+  {% macro render_nav(nodes, current_segments, parent_key=None) -%}
     {%- for node in nodes %}
       {% set depth = node.segments | length %}
       {% set is_active = current_segments == node.segments %}
@@ -27,7 +27,8 @@
   {% set node_key = node.url or (node.segments | join('/')) or (node.title | replace(' ', '-') | lower) %}
   {% set child_id = ('nav-' ~ node_key) | replace('/', '-') | replace('.', '-') %}
       <div class="md2html-nav__item{% if is_active %} md2html-nav__item--active{% endif %}{% if is_expanded %} md2html-nav__item--expanded{% endif %}"
-        data-nav-node="{{ node_key }}">
+        data-nav-node="{{ node_key }}"
+        {% if parent_key %}data-nav-parent="{{ parent_key }}"{% endif %}>
         <div class="md2html-nav__entry{% if not node.children %} md2html-nav__entry--leaf{% endif %}">
           {% if node.children %}
           <button type="button"
@@ -41,21 +42,21 @@
           </button>
           {% endif %}
           {% if node.url %}
-          <a class="md2html-nav__link" href="{{ nav_href(node.url) }}">{{ node.title }}</a>
+          <a class="md2html-nav__link" href="{{ nav_href(node.url) }}" data-nav-title="{{ node.title }}">{{ node.title }}</a>
           {% else %}
-          <span class="md2html-nav__text">{{ node.title }}</span>
+          <span class="md2html-nav__text" data-nav-title="{{ node.title }}">{{ node.title }}</span>
           {% endif %}
         </div>
         {% if node.children %}
   <div class="md2html-nav__list" id="{{ child_id }}">
-          {{ render_nav(node.children, current_segments) }}
+          {{ render_nav(node.children, current_segments, node_key) }}
         </div>
         {% endif %}
       </div>
     {%- endfor %}
   {%- endmacro %}
   <div class="md2html-layout{% if not toc %} md2html-layout--no-outline{% endif %}">
-    <aside class="md2html-sidebar" aria-label="{{ navigation_label }}">
+  <aside class="md2html-sidebar" aria-label="{{ navigation_label }}">
       <div class="md2html-sidebar__brand">
         <span class="md2html-sidebar__brand-title">{{ site.title or metadata.title or '文档' }}</span>
         {% if site.description %}
@@ -64,14 +65,20 @@
       </div>
       {% if navigation %}
       <nav class="md2html-sidebar__nav" aria-label="{{ navigation_label }}">
-        <div class="md2html-sidebar__section-title">{{ navigation_label }}</div>
-        <div class="md2html-nav">
+        <div class="md2html-sidebar__header">
+          <div class="md2html-sidebar__section-title">{{ navigation_label }}</div>
+          <div class="md2html-sidebar__search">
+            <input type="search" class="md2html-sidebar__search-input" placeholder="搜索章节" aria-label="搜索章节" data-md2html-nav-search />
+          </div>
+        </div>
+        <div class="md2html-nav" data-md2html-nav>
           {{ render_nav(navigation, current_segments) }}
         </div>
+        <div class="md2html-nav__empty is-hidden" data-md2html-nav-empty>未找到匹配目录</div>
       </nav>
       {% endif %}
     </aside>
-    <main class="md2html-main">
+  <main class="md2html-main">
       <header class="md2html-header">
         <div class="md2html-header__inner">
           <div class="md2html-header__text">
@@ -127,7 +134,7 @@
         </div>
       </header>
       {% if navigation %}
-      <div class="md2html-drawer" data-drawer="navigation" aria-hidden="true">
+  <div class="md2html-drawer" data-drawer="navigation" aria-hidden="true">
         <button type="button" class="md2html-drawer__backdrop" data-drawer-dismiss aria-label="关闭{{ navigation_label }}"></button>
         <aside class="md2html-drawer__panel" aria-label="{{ navigation_label }}">
           <div class="md2html-drawer__header">
@@ -138,16 +145,20 @@
           </div>
           <div class="md2html-drawer__body">
             <nav class="md2html-drawer__section" aria-label="{{ navigation_label }}">
-              <div class="md2html-nav">
+              <div class="md2html-sidebar__search">
+                <input type="search" class="md2html-sidebar__search-input" placeholder="搜索章节" aria-label="搜索章节" data-md2html-nav-search />
+              </div>
+              <div class="md2html-nav" data-md2html-nav>
                 {{ render_nav(navigation, current_segments) }}
               </div>
+              <div class="md2html-nav__empty is-hidden" data-md2html-nav-empty>未找到匹配目录</div>
             </nav>
           </div>
         </aside>
       </div>
       {% endif %}
       {% if toc %}
-      <div class="md2html-drawer" data-drawer="outline" aria-hidden="true">
+  <div class="md2html-drawer" data-drawer="outline" aria-hidden="true">
         <button type="button" class="md2html-drawer__backdrop" data-drawer-dismiss aria-label="关闭{{ outline_label }}"></button>
         <aside class="md2html-drawer__panel md2html-drawer__panel--right" aria-label="{{ outline_label }}">
           <div class="md2html-drawer__header">
@@ -157,14 +168,18 @@
             </button>
           </div>
           <div class="md2html-drawer__body">
-            <div class="md2html-toc">
+            <div class="md2html-outline__search">
+              <input type="search" class="md2html-outline__search-input" placeholder="搜索标题" aria-label="搜索标题" data-md2html-toc-search />
+            </div>
+            <div class="md2html-toc" data-md2html-toc>
               <div class="md2html-toc__list">
                 {%- for item in toc %}
-                <div class="md2html-toc__item md2html-toc__item--level-{{ item.level }}">
+                <div class="md2html-toc__item md2html-toc__item--level-{{ item.level }}" data-toc-level="{{ item.level }}" data-toc-slug="{{ item.slug }}">
                   <a href="#{{ item.slug }}">{{ item.title }}</a>
                 </div>
                 {%- endfor %}
               </div>
+              <div class="md2html-toc__empty is-hidden" data-md2html-toc-empty>未找到匹配标题</div>
             </div>
           </div>
         </aside>
@@ -176,19 +191,26 @@
     </main>
     {% if toc %}
     <aside class="md2html-outline" aria-label="{{ outline_label }}">
-      <div class="md2html-outline__section-title">{{ outline_label }}</div>
-      <div class="md2html-toc">
+      <div class="md2html-outline__header">
+        <div class="md2html-outline__section-title">{{ outline_label }}</div>
+        <div class="md2html-outline__search">
+          <input type="search" class="md2html-outline__search-input" placeholder="搜索标题" aria-label="搜索标题" data-md2html-toc-search />
+        </div>
+      </div>
+      <div class="md2html-toc" data-md2html-toc>
         <div class="md2html-toc__list">
           {%- for item in toc %}
-          <div class="md2html-toc__item md2html-toc__item--level-{{ item.level }}">
+          <div class="md2html-toc__item md2html-toc__item--level-{{ item.level }}" data-toc-level="{{ item.level }}" data-toc-slug="{{ item.slug }}">
             <a href="#{{ item.slug }}">{{ item.title }}</a>
           </div>
           {%- endfor %}
         </div>
+        <div class="md2html-toc__empty is-hidden" data-md2html-toc-empty>未找到匹配标题</div>
       </div>
     </aside>
     {% endif %}
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
   <script>
     (function () {
       const root = document.documentElement;
@@ -209,7 +231,7 @@
           drawerMap.set(name, drawer);
         }
       }
-      const navContainers = document.querySelectorAll('.md2html-nav');
+  const navContainers = document.querySelectorAll('[data-md2html-nav]');
 
       const prefersDark = globalThis.matchMedia && globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -305,30 +327,61 @@
         applyExpand(!isExpanded);
       }
 
-      function loadExpandedNav() {
+      function createEmptyNavState() {
+        return {
+          expanded: new Set(),
+          collapsed: new Set(),
+          legacy: false,
+        };
+      }
+
+      function loadNavState() {
         try {
           const raw = localStorage.getItem(navKey);
           if (!raw) {
-            return new Set();
+            return createEmptyNavState();
           }
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
-            return new Set(parsed.filter(Boolean));
+            return {
+              expanded: new Set(parsed.filter(Boolean)),
+              collapsed: new Set(),
+              legacy: true,
+            };
+          }
+          if (parsed && typeof parsed === 'object') {
+            const expanded = Array.isArray(parsed.expanded) ? parsed.expanded.filter(Boolean) : [];
+            const collapsed = Array.isArray(parsed.collapsed) ? parsed.collapsed.filter(Boolean) : [];
+            return {
+              expanded: new Set(expanded),
+              collapsed: new Set(collapsed),
+              legacy: false,
+            };
           }
         } catch (err) {
           console.debug('Failed to read navigation state', err);
         }
-        return new Set();
+        return createEmptyNavState();
       }
 
-      const expandedNavFolders = loadExpandedNav();
+      const navState = loadNavState();
 
-      function persistExpandedNav() {
+      function persistNavState() {
         try {
-          localStorage.setItem(navKey, JSON.stringify(Array.from(expandedNavFolders)));
+          localStorage.setItem(
+            navKey,
+            JSON.stringify({
+              expanded: Array.from(navState.expanded),
+              collapsed: Array.from(navState.collapsed),
+            })
+          );
         } catch (err) {
           console.debug('Failed to persist navigation state', err);
         }
+      }
+
+      if (navState.legacy) {
+        persistNavState();
       }
 
       let drawerLocksFloating = false;
@@ -393,20 +446,48 @@
         }
       }
 
+      function navItemHasActiveDescendant(item) {
+        return item.classList.contains('md2html-nav__item--active') || Boolean(item.querySelector('.md2html-nav__item--active'));
+      }
+
+      function resolveNavExpansion(key, item, toggle) {
+        if (navState.collapsed.has(key)) {
+          return false;
+        }
+        if (navState.expanded.has(key)) {
+          return true;
+        }
+        const seeded = Boolean(toggle && toggle.dataset.initialExpanded === 'true');
+        return seeded || navItemHasActiveDescendant(item);
+      }
+
+      function setToggleState(toggle, expanded) {
+        toggle.ariaExpanded = expanded ? 'true' : 'false';
+        toggle.dataset.expanded = expanded ? 'true' : 'false';
+      }
+
+      function updateNavPreference(key, expanded) {
+        if (expanded) {
+          navState.expanded.add(key);
+          navState.collapsed.delete(key);
+        } else {
+          navState.collapsed.add(key);
+          navState.expanded.delete(key);
+        }
+        persistNavState();
+      }
+
       function applyNavState() {
         const items = document.querySelectorAll('[data-nav-node]');
         for (const item of items) {
           const key = item.dataset.navNode;
           if (!key) continue;
           const toggle = item.querySelector('[data-nav-toggle]');
-          const seeded = toggle && toggle.dataset.initialExpanded === 'true';
-          const hasActiveDescendant = item.classList.contains('md2html-nav__item--active') || Boolean(item.querySelector('.md2html-nav__item--active'));
-          const shouldExpand = expandedNavFolders.has(key) || hasActiveDescendant || seeded;
+          const shouldExpand = resolveNavExpansion(key, item, toggle);
           item.classList.toggle('md2html-nav__item--expanded', shouldExpand);
           if (toggle) {
-            toggle.ariaExpanded = shouldExpand ? 'true' : 'false';
-            toggle.dataset.expanded = shouldExpand ? 'true' : 'false';
-            if (seeded) {
+            setToggleState(toggle, shouldExpand);
+            if (toggle.dataset.initialExpanded === 'true') {
               toggle.dataset.initialExpanded = 'false';
             }
           }
@@ -434,14 +515,8 @@
             const isExpanded = item.classList.contains('md2html-nav__item--expanded');
             const nextState = !isExpanded;
             item.classList.toggle('md2html-nav__item--expanded', nextState);
-            toggle.ariaExpanded = nextState ? 'true' : 'false';
-            toggle.dataset.expanded = nextState ? 'true' : 'false';
-            if (nextState) {
-              expandedNavFolders.add(key);
-            } else {
-              expandedNavFolders.delete(key);
-            }
-            persistExpandedNav();
+            setToggleState(toggle, nextState);
+            updateNavPreference(key, nextState);
             applyNavState();
           });
         }
@@ -514,9 +589,410 @@
         }
       }
 
+      const htmlEscaper = document.createElement('div');
+
+      function escapeHtml(value) {
+        htmlEscaper.textContent = value == null ? '' : String(value);
+        return htmlEscaper.innerHTML;
+      }
+
+      function highlightMatch(text, ranges) {
+        if (!ranges || !ranges.length) {
+          return escapeHtml(text);
+        }
+        let cursor = 0;
+        let output = '';
+        for (const [start, end] of ranges) {
+          if (start > cursor) {
+            output += escapeHtml(text.slice(cursor, start));
+          }
+          output += '<mark>' + escapeHtml(text.slice(start, end + 1)) + '</mark>';
+          cursor = end + 1;
+        }
+        if (cursor < text.length) {
+          output += escapeHtml(text.slice(cursor));
+        }
+        return output;
+      }
+
+      function createFuseInstance(entries, key) {
+        if (typeof Fuse !== 'function') {
+          return null;
+        }
+        return new Fuse(entries, {
+          keys: [key],
+          includeMatches: true,
+          threshold: 0.3,
+          ignoreLocation: true,
+          minMatchCharLength: 1,
+        });
+      }
+
+      function buildMatchMap(entries, matches, hasQuery, getKey) {
+        const map = new Map();
+        if (hasQuery) {
+          for (const match of matches) {
+            const key = getKey(match.item);
+            if (key != null) {
+              map.set(key, match.matches && match.matches[0]);
+            }
+          }
+          return map;
+        }
+        for (const entry of entries) {
+          const key = getKey(entry);
+          if (key != null) {
+            map.set(key, null);
+          }
+        }
+        return map;
+      }
+
+      function syncSearchInputs(inputs, source, value) {
+        for (const input of inputs) {
+          if (input !== source) {
+            input.value = value;
+          }
+        }
+      }
+
+      function updateNavEmptyState(hasResults) {
+        const placeholders = document.querySelectorAll('[data-md2html-nav-empty]');
+        for (const node of placeholders) {
+          node.classList.toggle('is-hidden', hasResults);
+        }
+      }
+
+      function ensureNavEntry(index, entries, key) {
+        let entry = index.get(key);
+        if (!entry) {
+          entry = {
+            key,
+            title: '',
+            parentKey: null,
+            elements: [],
+            labels: [],
+            children: new Set(),
+          };
+          index.set(key, entry);
+          entries.push(entry);
+        }
+        return entry;
+      }
+
+      function hydrateNavEntry(item, index, entries) {
+        const key = item.dataset.navNode;
+        if (!key) {
+          return;
+        }
+        const entry = ensureNavEntry(index, entries, key);
+        const parentKey = item.dataset.navParent || '';
+        if (parentKey && !entry.parentKey) {
+          entry.parentKey = parentKey;
+        }
+        const label = item.querySelector('[data-nav-title]');
+        if (label) {
+          if (!label.dataset.originalText) {
+            label.dataset.originalText = label.textContent || '';
+          }
+          if (!entry.title && label.dataset.originalText) {
+            entry.title = label.dataset.originalText;
+          }
+          entry.labels.push(label);
+        }
+        entry.elements.push(item);
+      }
+
+      function linkNavParents(index) {
+        for (const entry of index.values()) {
+          if (entry.parentKey && index.has(entry.parentKey)) {
+            const parent = index.get(entry.parentKey);
+            parent.children.add(entry.key);
+          }
+        }
+      }
+
+      function collectNavEntries(containers) {
+        const index = new Map();
+        const entries = [];
+        for (const container of containers) {
+          const items = container.querySelectorAll('[data-nav-node]');
+          for (const item of items) {
+            hydrateNavEntry(item, index, entries);
+          }
+        }
+        linkNavParents(index);
+        return { entries, entryMap: index };
+      }
+
+      function applyMatchToLabel(label, matchInfo, hasQuery) {
+        const original = label.dataset.originalText || '';
+        if (!hasQuery || !matchInfo || !matchInfo.indices) {
+          label.innerHTML = escapeHtml(original);
+          return;
+        }
+        label.innerHTML = highlightMatch(original, matchInfo.indices);
+      }
+
+      function addNavAncestors(key, entryMap, visible) {
+        let current = key;
+        while (current && !visible.has(current)) {
+          visible.add(current);
+          const entry = entryMap.get(current);
+          current = entry && entry.parentKey ? entry.parentKey : null;
+        }
+      }
+
+      function addNavDescendants(key, entryMap, visible) {
+        const entry = entryMap.get(key);
+        if (!entry) {
+          return;
+        }
+        for (const child of entry.children) {
+          if (!visible.has(child)) {
+            visible.add(child);
+            addNavDescendants(child, entryMap, visible);
+          }
+        }
+      }
+
+      function collectNavVisibleKeys(matchMap, entryMap, hasQuery) {
+        if (!hasQuery) {
+          return new Set(entryMap.keys());
+        }
+        const visible = new Set();
+        for (const key of matchMap.keys()) {
+          addNavAncestors(key, entryMap, visible);
+          addNavDescendants(key, entryMap, visible);
+        }
+        return visible;
+      }
+
+      function manageSearchExpansion(element, toggle, shouldExpand) {
+        if (shouldExpand) {
+          if (!element.classList.contains('md2html-nav__item--expanded')) {
+            element.dataset.navSearchExpanded = 'true';
+            element.classList.add('md2html-nav__item--expanded');
+            if (toggle) {
+              setToggleState(toggle, true);
+            }
+          }
+          return;
+        }
+        if (element.dataset.navSearchExpanded) {
+          delete element.dataset.navSearchExpanded;
+          element.classList.remove('md2html-nav__item--expanded');
+          if (toggle) {
+            setToggleState(toggle, element.classList.contains('md2html-nav__item--expanded'));
+          }
+        }
+      }
+
+      function resetNavElementFromSearch(element, toggle) {
+        element.classList.remove('md2html-nav__item--search-hidden');
+        manageSearchExpansion(element, toggle, false);
+      }
+
+      function applyNavMatches(entryMap, matchMap, hasQuery) {
+        const visibleKeys = collectNavVisibleKeys(matchMap, entryMap, hasQuery);
+        for (const [key, entry] of entryMap.entries()) {
+          const matchInfo = matchMap.get(key) || null;
+          const isVisible = visibleKeys.has(key);
+          const hasChildren = entry.children.size > 0;
+          for (const element of entry.elements) {
+            const toggle = element.querySelector('[data-nav-toggle]');
+            if (hasQuery) {
+              element.classList.toggle('md2html-nav__item--search-hidden', !isVisible);
+              manageSearchExpansion(element, toggle, isVisible && hasChildren);
+            } else {
+              resetNavElementFromSearch(element, toggle);
+            }
+          }
+          for (const label of entry.labels) {
+            applyMatchToLabel(label, matchInfo, hasQuery);
+          }
+        }
+        return visibleKeys.size;
+      }
+
+      function collectTocEntries(containers) {
+        const entryMap = new Map();
+        const entries = [];
+        for (const container of containers) {
+          const items = container.querySelectorAll('.md2html-toc__item[data-toc-slug]');
+          for (const item of items) {
+            const slug = item.dataset.tocSlug;
+            const link = item.querySelector('a');
+            if (!slug || !link) {
+              continue;
+            }
+            if (!link.dataset.originalText) {
+              link.dataset.originalText = link.textContent || '';
+            }
+            const level = Number.parseInt(item.dataset.tocLevel || '1', 10) || 1;
+            let entry = entryMap.get(slug);
+            if (!entry) {
+              entry = { slug, title: link.dataset.originalText, level, elements: [] };
+              entryMap.set(slug, entry);
+              entries.push(entry);
+            }
+            entry.elements.push(item);
+          }
+        }
+        return { entries, entryMap };
+      }
+
+      function updateTocEmptyState(hasResults) {
+        const placeholders = document.querySelectorAll('[data-md2html-toc-empty]');
+        for (const node of placeholders) {
+          node.classList.toggle('is-hidden', hasResults);
+        }
+      }
+
+      function applyMatchToLink(link, matchInfo, hasQuery) {
+        const original = link.dataset.originalText || '';
+        if (!hasQuery || !matchInfo || !matchInfo.indices) {
+          link.innerHTML = escapeHtml(original);
+          return;
+        }
+        link.innerHTML = highlightMatch(original, matchInfo.indices);
+      }
+
+      function applyMatches(entryMap, matchMap, hasQuery) {
+        for (const [slug, entry] of entryMap.entries()) {
+          const matchInfo = matchMap.get(slug);
+          const shouldShow = hasQuery ? Boolean(matchInfo) : true;
+          for (const element of entry.elements) {
+            element.classList.toggle('md2html-toc__item--hidden', !shouldShow);
+            const link = element.querySelector('a');
+            if (link) {
+              applyMatchToLink(link, matchInfo, hasQuery);
+            }
+          }
+        }
+      }
+
+      function initNavSearch() {
+        const navContainers = Array.from(document.querySelectorAll('[data-md2html-nav]'));
+        if (!navContainers.length) {
+          return;
+        }
+
+        const { entries, entryMap } = collectNavEntries(navContainers);
+        if (!entries.length) {
+          return;
+        }
+
+        const fuse = createFuseInstance(entries, 'title');
+        const searchInputs = Array.from(document.querySelectorAll('[data-md2html-nav-search]'));
+        if (!searchInputs.length) {
+          return;
+        }
+
+        function performSearch(rawQuery) {
+          const trimmed = rawQuery.trim();
+          const hasQuery = trimmed.length > 0;
+          let matches = [];
+          if (hasQuery) {
+            if (fuse) {
+              matches = fuse.search(trimmed);
+            } else {
+              const lower = trimmed.toLowerCase();
+              for (const entry of entries) {
+                if (entry.title && entry.title.toLowerCase().includes(lower)) {
+                  matches.push({ item: entry, matches: null });
+                }
+              }
+            }
+          }
+
+          const matchMap = buildMatchMap(entries, matches, hasQuery, (entry) => entry.key);
+          const visibleCount = applyNavMatches(entryMap, matchMap, hasQuery);
+          updateNavEmptyState(visibleCount > 0);
+          if (!hasQuery) {
+            applyNavState();
+          }
+        }
+
+        for (const input of searchInputs) {
+          input.addEventListener('input', () => {
+            const value = input.value;
+            syncSearchInputs(searchInputs, input, value);
+            performSearch(value);
+          });
+          input.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+              input.value = '';
+              syncSearchInputs(searchInputs, input, '');
+              performSearch('');
+              input.blur();
+            }
+          });
+        }
+
+        performSearch('');
+      }
+
+      function initOutlineSearch() {
+          const tocContainers = Array.from(document.querySelectorAll('[data-md2html-toc]'));
+          if (!tocContainers.length) {
+            return;
+          }
+
+          const { entries, entryMap } = collectTocEntries(tocContainers);
+          if (!entries.length) {
+            return;
+          }
+
+          const fuse = createFuseInstance(entries, 'title');
+          const searchInputs = Array.from(document.querySelectorAll('[data-md2html-toc-search]'));
+
+          function performSearch(rawQuery) {
+            const trimmed = rawQuery.trim();
+            const hasQuery = trimmed.length > 0;
+            let matches = [];
+            if (hasQuery) {
+              if (fuse) {
+                matches = fuse.search(trimmed);
+              } else {
+                const lower = trimmed.toLowerCase();
+                for (const entry of entries) {
+                  if (entry.title && entry.title.toLowerCase().includes(lower)) {
+                    matches.push({ item: entry, matches: null });
+                  }
+                }
+              }
+            }
+
+            const matchMap = buildMatchMap(entries, matches, hasQuery, (entry) => entry.slug);
+            applyMatches(entryMap, matchMap, hasQuery);
+            updateTocEmptyState(matchMap.size > 0);
+          }
+
+          for (const input of searchInputs) {
+            input.addEventListener('input', () => {
+              const value = input.value;
+              syncSearchInputs(searchInputs, input, value);
+              performSearch(value);
+            });
+            input.addEventListener('keydown', (event) => {
+              if (event.key === 'Escape') {
+                input.value = '';
+                syncSearchInputs(searchInputs, input, '');
+                performSearch('');
+                input.blur();
+              }
+            });
+          }
+
+          performSearch('');
+        }
+
       initNavHandlers();
       initDrawerHandlers();
       initFloatingObservers();
+  initNavSearch();
+      initOutlineSearch();
 
       if (themeButton) {
         themeButton.addEventListener('click', toggleTheme);

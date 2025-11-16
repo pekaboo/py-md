@@ -4,11 +4,12 @@ description: Hello world！
 ---
 # 面试题参考答案
 
-## 1. HashMap / ConcurrentHashMap / AQS / HashSet 与相关并发工具
+## 1. HashMap / HashSet / ConcurrentHashMap / AQS / HashSet 与相关并发工具 
 
-### 要点速览 · 1
-
-- `HashMap` 数组+链表/红黑树，线程不安全；`ConcurrentHashMap` 分段锁→CAS；`HashSet` 基于 `HashMap`。
+- `HashMap` ➊数组+链表/红黑树，线程不安全，默认加载因子 0.75；➋数组扩容(元素是Entry)➌`put`  key hash 定位桶位，桶位冲突时形成链表，链表长度> 8 且容量 ≥64 时转红黑树。
+  - `HashMap` 扩容流程：(1) 新建 2 倍容量新数组，(2) 遍历旧数组，(3) 按 key hash 定位桶位，(4) 元素迁移：链表/树迁移到新桶位，或者转链表(<6)/树(≥64,> 8)后迁移
+- `HashSet` 基于 `HashMap`，内部将元素作为 `HashMap` 的 key，value 为常量 `PRESENT`，因此所有行为复用 `HashMap`。 `public static final Object PRESENT = new Object(); transient HashMap<E, Object> map;`
+- `ConcurrentHashMap` 分段锁→CAS；。
 - AQS 提供模板化同步器；`synchronized`、`ReentrantLock`、`CopyOnWriteArrayList` 分别适配不同场景。
 - 并发结构选型取决于冲突概率、读写比例、迭代需求。
 
