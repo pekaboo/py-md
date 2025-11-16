@@ -8,6 +8,7 @@ import shutil
 import threading
 import time
 from dataclasses import dataclass
+from fnmatch import fnmatch
 from html import escape
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
@@ -192,6 +193,8 @@ class SiteBuilder:
         self.renderer = MarkdownRenderer(theme, site_metadata=site_metadata)
         self._output_path_map: Dict[Tuple[str, ...], List[str]] = {}
         self._used_output_paths: set[Tuple[str, ...]] = set()
+        self._resolved_source_dir = self.config.source_dir.resolve()
+        self._ignore_rules = self._prepare_ignore_rules(self.config.ignore)
 
     def build_all(self) -> List[RenderResult]:
         logger.info("Starting static site build from %s", self.config.source_dir)
@@ -209,6 +212,9 @@ class SiteBuilder:
         navigation = self._build_navigation_structure()
         results: List[RenderResult] = []
         for path in sorted(self.config.source_dir.rglob("*")):
+            if self._should_ignore(path):
+                logger.debug("Skipping ignored path %s", path)
+                continue
             if path.is_dir():
                 continue
             relative = path.relative_to(self.config.source_dir)
@@ -259,6 +265,9 @@ class SiteBuilder:
         documents: List[Dict[str, Any]] = []
         for path in sorted(self.config.source_dir.rglob("*")):
             if path.is_dir() or not is_markdown_file(path):
+                continue
+            if self._should_ignore(path):
+                logger.debug("Excluding %s from navigation due to ignore rules", path)
                 continue
             relative = path.relative_to(self.config.source_dir)
             segments = list(relative.with_suffix("").parts)
@@ -377,6 +386,73 @@ class SiteBuilder:
 
         return format_segment_title(path.stem)
 
+    def _prepare_ignore_rules(self, patterns: Iterable[str]) -> List[Tuple[str, bool]]:
+        rules: List[Tuple[str, bool]] = []
+        for raw in patterns:
+            rule = self._normalise_ignore_pattern(raw)
+            if rule is not None:
+                rules.append(rule)
+        return rules
+
+    def _normalise_ignore_pattern(self, raw: str) -> Optional[Tuple[str, bool]]:
+        text = str(raw).strip()
+        if not text:
+            return None
+        text = text.strip('"\'')
+        if not text:
+            return None
+        text = text.replace("\\", "/")
+        text = text.lstrip("/")
+        text = self._strip_source_prefix(text)
+        if not text:
+            return None
+        is_prefix = text.endswith("/")
+        if is_prefix:
+            text = text.rstrip("/")
+        if not text:
+            return None
+        return text, is_prefix
+
+    def _strip_source_prefix(self, text: str) -> str:
+        resolved_prefix = self._resolved_source_dir.as_posix().rstrip("/") + "/"
+        if resolved_prefix and text.startswith(resolved_prefix):
+            return text[len(resolved_prefix) :]
+        source_dir_name = self.config.source_dir.name
+        if source_dir_name:
+            prefix = f"{source_dir_name}/"
+            if text.startswith(prefix):
+                return text[len(prefix) :]
+            if text == source_dir_name:
+                return ""
+        return text
+
+    def _should_ignore(self, path: Path) -> bool:
+        if not self._ignore_rules:
+            return False
+        relative = self._relative_to_source(path)
+        if relative is None:
+            return False
+        candidate = relative.as_posix()
+        for pattern, is_prefix in self._ignore_rules:
+            if is_prefix:
+                if candidate == pattern or candidate.startswith(f"{pattern}/"):
+                    return True
+                continue
+            if fnmatch(candidate, pattern):
+                return True
+        return False
+
+    def _relative_to_source(self, path: Path) -> Optional[Path]:
+        candidates = [self.config.source_dir]
+        if self._resolved_source_dir not in candidates:
+            candidates.append(self._resolved_source_dir)
+        for base in candidates:
+            try:
+                return path.relative_to(base)
+            except ValueError:
+                continue
+        return None
+
     def watch(self, on_rebuild: Optional[Callable[[Path], None]] = None) -> None:
         logger.info("Entering watch mode. Monitoring %s", self.config.source_dir)
         observer = Observer()
@@ -394,6 +470,10 @@ class SiteBuilder:
 
     def rebuild_path(self, path: Path) -> None:
         if path.is_dir():
+            return
+
+        if self._should_ignore(path):
+            logger.debug("Skipping rebuild for ignored path %s", path)
             return
 
         if is_markdown_file(path):
@@ -448,6 +528,9 @@ class _WatchHandler(FileSystemEventHandler):
             return
         path = destination or Path(event.src_path)
         if not path.exists():
+            return
+        if self.builder._should_ignore(path):  # pylint: disable=protected-access
+            logger.debug("Ignoring change event for %s", path)
             return
         with self._lock:
             logger.debug("Detected change in %s", path)

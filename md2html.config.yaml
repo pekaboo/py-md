@@ -13,3 +13,6 @@ base_url: /py-md
 
 navigation_label: 我的文档
 outline_label: 大纲
+
+ignore:
+  - "/docs/mianshiya/"
