@@ -126,6 +126,9 @@ class DevServer:
                         stripped = path[len(base_prefix):] or "/"
                         if not stripped.startswith("/"):
                             stripped = "/" + stripped
+                        fs_target = Path(output_dir, stripped.lstrip("/"))
+                        if fs_target.is_dir() and not stripped.endswith("/"):
+                            stripped = stripped + "/"
                         parsed = parsed._replace(path=stripped)
                         self.path = urlunsplit(parsed)
                 super().do_GET()
