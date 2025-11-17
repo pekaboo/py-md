@@ -8,24 +8,26 @@ description: Java基础
 
 - `HashMap` (1)数组+链表/红黑树，线程不安全，默认加载因子 0.75；(2)数组扩容(元素是Entry) (3)`put`  key hash 定位桶位，桶位冲突时形成链表，链表长度> 8 且容量 ≥64 时转红黑树。
 - `HashMap` 扩容流程：(1) 新建 2 倍容量新数组，(2) 遍历旧数组，(3) 按 key hash 定位桶位，(4) 元素迁移：链表/树迁移到新桶位，或者转链表(<6)/树(≥64,> 8)后迁移
-- `HashSet` (1)基于 `HashMap`，内部将元素作为 `HashMap` 的 key，value 为常量 `PRESENT`，因此所有行为复用 `HashMap`。(3) `public static final Object PRESENT = new Object(); transient HashMap<E, Object> map;`
-- `ConcurrentHashMap` JDK7 分段锁（Segment），JDK8 采用 `CAS + synchronized` 在桶位粒度控制，链表转树同样触发条件。读操作基本无锁，写操作竞争点较少。
+- LinkedHashMap(1) 继承 HashMap，数组 + 链表 / 红黑树 + 双向链表，保留插入 / 访问顺序；(2) 线程不安全，默认加载因子 0.75，扩容逻辑同 HashMap；(3) 双向链表维护顺序，accessOrder=true 支持 LRU 特性。
+- `HashSet` (1)基于 `HashMap`，内部将元素作为 `HashMap` 的 key，value 为常量 `PRESENT`，因此所有行为复用 `HashMap`。(3) `public static final Object PRESENT = new Object(); transient HashMap<E, Object> map;`去重依赖 HashMap 的 key 唯一性，添加元素本质是 map.put (elem, PRESENT)
+- `HashSet` 【cpu密集型用并行流】若两个元素 equals() 返回 true 且 hashCode() 返回值相同，则视为重复元素，无法重复添加（与 HashMap 去重逻辑完全一致）。HashSet 的元素允许：基本类型包装类（Integer、String 等，已重写 hashCode() 和 equals()）、自定义对象（需正确重写上述两个方法）、null（仅一个）；不允许：无意义的自定义对象（未重写 hashCode()/equals()）（会导致无法去重）、重复元素（无论类型）。
+- `ConcurrentHashMap` JDK7 分段锁（Segment），JDK8 采用 `CAS + synchronized` 在桶位粒度控制，链表转树同样触发条件。读操作基本无锁，写操作竞争点较少。(1) 跳表实现，并发安全，key 必须可比较，天然有序；(2) 无固定容量，无加载因子，通过跳表分层提升查询效率；(3) 插入 / 查询 / 删除 O (log n)，支持并发读写，无锁设计为主。
+- `TreeMap`：红黑树实现，key 必须可比较，天然有序；线程不安全，无加载因子，无扩容； 插入 / 查询 / 删除 O (log n)，依赖 key 比较定位节点，无 hash 冲突问题。
+- `TreeSet`： (1) 基于 TreeMap 实现，元素作为 key，value 为常量 PRESENT；(2) 线程不安全，元素有序且唯一；(3) 排序依赖 TreeMap 的 key 比较，去重依据 compareTo () 返回 0。
+- `Hashtable`
+(1) 数组 + 链表，线程安全（全局 synchronized 锁）；(2) 默认容量 11，加载因子 0.75，扩容为旧容量 * 2+1；(3) 不允许 key/value 为 null，hash 逻辑未优化，冲突概率高。
+ConcurrentHashMap（JDK8）
+(1) 数组 + 链表 / 红黑树，CAS + 桶位 synchronized 锁，并发安全；(2) 默认加载因子 0.75，扩容同 HashMap，支持并发扩容；(3) 读操作无锁，写操作桶位级锁，链表 > 8 且容量≥64 转红黑树。
+- `WeakHashMap` (1) 数组 + 链表 / 红黑树，key 为弱引用，线程不安全；(2) 默认加载因子 0.75，扩容逻辑同 HashMap；(3) 当 key 无强引用时会被 GC 回收，自动移除对应条目。
 ---
 - `synchronized` (1)Jvm级别内置锁,通过对象头Markword+Monitor锁，通过锁升级保证不同并发场景下性能/安全平衡，支持偏向，轻重自适应优化（2）基于对象头Markword(存锁状态，线程id)+Monitor（互斥锁，包含owner，EntryList，Waitlist） ，
 - `synchronized核心逻辑` （1）一个线程加锁时，try Monitor owner 设置为自己，失败接入EntryList（2）解锁时，唤醒EntryList线程（3）调用wait时，线程释放锁，进入waitlist，需被Notify(All)唤醒
 ---
-- **AQS(AbstractQueuedSynchronizer)** 维护 `state` 和 FIFO 队列，提供 `acquire/release` 模板方法。`ReentrantLock`、`CountDownLatch`、`Semaphore` 等均基于 AQS。
 - **ReentrantLock**：可公平/非公平、可中断、可定时、可配合条件变量。底层依赖 AQS 的可重入 state 计数。
-- **CopyOnWriteArrayList**：写时复制，适合读多写少且迭代快照一致性需求。
-
-::: note 使用指南 
-- `HashMap` (1)数组+链表/红黑树，线程不安全，默认加载因子 0.75；(2)数组扩容(元素是Entry) (3)`put`  key hash 定位桶位，桶位冲突时形成链表，链表长度> 8 且容量 ≥64 时转红黑树。
-- HashMap 在多线程扩容可能导致环形链表死循环，绝不能直接共享。
-- ConcurrentHashMap 迭代弱一致，不保证实时视图；需要强一致时考虑加锁或快照。
-- CopyOnWrite 类在写多场景下开销巨大（复制数组），及时回收旧数组避免内存压力。
-:::
- 
-
+- **CopyOnWriteArrayList**：写时复制，适合读多写少且迭代快照一致性需求。 
+- **CountDownLatch**：
+- **Semaphore**：
+- **AQS(AbstractQueuedSynchronizer)** 维护 `state` 和 FIFO 队列，提供 `acquire/release` 模板方法。`ReentrantLock`、`CountDownLatch`、`Semaphore` 等均基于 AQS。
 
 <!-- ::: 测试
 折叠区域中的内容默认隐藏，点击标题后展开。

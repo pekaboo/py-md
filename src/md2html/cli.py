@@ -20,6 +20,12 @@ def build_argument_parser() -> argparse.ArgumentParser:
         prog="md2html",
         description="Convert Markdown documents under a directory into themed HTML output.",
     )
+    parser.add_argument(
+        "--exclude-hide",
+        dest="exclude_hide",
+        action="store_true",
+        help="Exclude all ::: hide blocks from output HTML",
+    )
     parser.add_argument("--src", dest="source_dir", help="Source directory containing markdown files")
     parser.add_argument("--dst", dest="output_dir", help="Destination directory for generated HTML")
     parser.add_argument("--theme", dest="theme", help="Theme name or path to use")
@@ -73,6 +79,9 @@ def build_argument_parser() -> argparse.ArgumentParser:
 
 
 def resolve_configuration(args: argparse.Namespace) -> AppConfig:
+    cli_updates: Dict[str, Any] = {}
+    if getattr(args, "exclude_hide", False):
+        cli_updates["exclude_hide"] = True
     config = AppConfig()
 
     config_path = Path(args.config).resolve() if args.config else None
@@ -80,7 +89,6 @@ def resolve_configuration(args: argparse.Namespace) -> AppConfig:
     base_path = config_path.parent if config_path else Path.cwd()
     config.apply_updates(file_payload, base_path=base_path)
 
-    cli_updates: Dict[str, Any] = {}
     for key in ("source_dir", "output_dir", "theme", "theme_dirs"):
         value = getattr(args, key, None)
         if value is not None:

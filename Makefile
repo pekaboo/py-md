@@ -15,7 +15,10 @@ LOCAL_PYTHONPATH := $(abspath $(SRC_DIR))
 export PYTHONPATH := $(LOCAL_PYTHONPATH)$(if $(strip $(USER_PYTHONPATH)),:$(USER_PYTHONPATH))
 
 # Phony targets are not real files, they are recipes
-.PHONY: help install test run watch serve clean
+.PHONY: help install test run run-hide watch serve clean
+run-hide: ## Generate the static site, excluding ::: hide blocks
+	@echo ">>> Generating site (excluding hide blocks) from '$(DOCS_DIR)' to '$(BUILD_DIR)/html'..."
+	@$(PYTHON) -m md2html --src $(DOCS_DIR) --dst $(BUILD_DIR)/html --exclude-hide
 
 # Default target executed when you just run `make`
 .DEFAULT_GOAL := help
@@ -49,8 +52,16 @@ serve: ## Serve with auto-reload after rebuilding on changes
 	@echo ">>> Serving docs with live reload on http://127.0.0.1:8000 (Press Ctrl+C to exit)"
 	@$(PYTHON) -m md2html.devserver --src $(DOCS_DIR) --dst $(BUILD_DIR)/html --host 127.0.0.1 --port 8000
 
+serve-hide: ## Serve with auto-reload after rebuilding on changes
+	@echo ">>> Serving docs with live reload on http://127.0.0.1:8000 (Press Ctrl+C to exit)"
+	@$(PYTHON) -m md2html.devserver --src $(DOCS_DIR) --dst $(BUILD_DIR)/html --host 127.0.0.1 --port 8000 --exclude-hide
+
 clean: ## Clean up build artifacts and Python cache files
 	@echo ">>> Cleaning up..."
 	@rm -rf $(BUILD_DIR) .pytest_cache
 	@find . -type d -name "__pycache__" -exec rm -r {} +
 	@find . -type f -name "*.pyc" -delete
+
+# Alias: build the static site (same as run)
+build: run  ## Build the static site (alias for run)
+

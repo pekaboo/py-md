@@ -62,9 +62,10 @@ class RenderedDocument:
 class MarkdownRenderer:
     """Render markdown into themed HTML fragments."""
 
-    def __init__(self, theme: Theme, site_metadata: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, theme: Theme, site_metadata: Optional[Dict[str, Any]] = None, exclude_hide: bool = False) -> None:
         self.theme = theme
         self.site_metadata = dict(site_metadata or {})
+        self.exclude_hide = exclude_hide
         self.md = self._create_markdown_parser()
 
     def render(self, text: str, *, source_path: Path) -> RenderedDocument:
@@ -79,6 +80,8 @@ class MarkdownRenderer:
         }
 
         tokens = self.md.parse(body, env)
+        if self.exclude_hide:
+            tokens = self._filter_hide_tokens(tokens)
         toc = self._decorate_headings(tokens)
         html_body = self.md.renderer.render(tokens, self.md.options, env)
 
@@ -96,6 +99,21 @@ class MarkdownRenderer:
             toc=toc,
             front_matter=front_matter,
         )
+
+    def _filter_hide_tokens(self, tokens: List[Token]) -> List[Token]:
+        # Remove all tokens between ::: hide ... and its close
+        result = []
+        skip = 0
+        for token in tokens:
+            if token.type == 'container_hide_open':
+                skip += 1
+                continue
+            if token.type == 'container_hide_close' and skip > 0:
+                skip -= 1
+                continue
+            if skip == 0:
+                result.append(token)
+        return result
 
     def _create_markdown_parser(self) -> MarkdownIt:
         md = MarkdownIt("commonmark", {"html": True, "linkify": True, "typographer": True})
@@ -267,7 +285,11 @@ class SiteBuilder:
         self.theme = theme
         site_metadata = dict(config.metadata)
         site_metadata.update(config.extra)
-        self.renderer = MarkdownRenderer(theme, site_metadata=site_metadata)
+        self.renderer = MarkdownRenderer(
+            theme,
+            site_metadata=site_metadata,
+            exclude_hide=getattr(config, "exclude_hide", False),
+        )
         self._output_path_map: Dict[Tuple[str, ...], List[str]] = {}
         self._used_output_paths: set[Tuple[str, ...]] = set()
         self._resolved_source_dir = self.config.source_dir.resolve()

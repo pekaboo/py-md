@@ -26,6 +26,7 @@ class AppConfig:
     metadata: Dict[str, Any] = field(default_factory=dict)
     extra: Dict[str, Any] = field(default_factory=dict)
     ignore: list[str] = field(default_factory=list)
+    exclude_hide: bool = False
 
     def apply_updates(self, data: Mapping[str, Any], base_path: Optional[Path] = None) -> None:
         """Apply updates from a dictionary onto the current configuration."""
@@ -90,7 +91,7 @@ class AppConfig:
             self.theme = str(value)
             return True
 
-        if key in {"clean_output", "copy_static", "watch"}:
+        if key in {"clean_output", "copy_static", "watch", "exclude_hide"}:
             self._apply_boolean_setting(key, value)
             return True
 

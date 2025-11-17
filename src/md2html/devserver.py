@@ -239,6 +239,12 @@ def build_argument_parser() -> argparse.ArgumentParser:
         prog="md2html-serve",
         description="Run the md2html development server with live reload.",
     )
+    parser.add_argument(
+        "--exclude-hide",
+        dest="exclude_hide",
+        action="store_true",
+        help="Exclude all ::: hide blocks from output HTML",
+    )
     parser.add_argument("--config", dest="config", default="md2html.config.yaml", help="Path to configuration YAML file")
     parser.add_argument("--src", dest="source_dir", help="Source directory containing markdown files")
     parser.add_argument("--dst", dest="output_dir", help="Destination directory for generated HTML")
