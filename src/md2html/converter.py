@@ -30,7 +30,8 @@ logger = logging.getLogger(__name__)
 _HEADING_PATTERN = re.compile(r"^\s*(#{1,6})\s+(.+?)\s*(?:#+\s*)?$", re.MULTILINE)
 _OUTPUT_SEGMENT_SANITISER = re.compile(r"[^0-9A-Za-z\u4e00-\u9fff._-]")
 _OUTPUT_SEGMENT_WHITESPACE = re.compile(r"\s+")
-_HIDE_SHORTHAND_PATTERN = re.compile(r"^:::\s+(.+)$", re.MULTILINE)
+_HIDE_SHORTHAND_PATTERN = re.compile(r"^:::[ \t]+(.+)$", re.MULTILINE)
+_HIDE_CLOSING_PATTERN = re.compile(r"^:::[ \t]*$", re.MULTILINE)
 _KNOWN_CONTAINER_KEYWORDS = {"hide", "note", "warning"}
 
 
@@ -211,14 +212,16 @@ class MarkdownRenderer:
             info = match.group(1)
             stripped = info.strip()
             if not stripped:
-                return match.group(0)
+                return ":::"
             head, _, tail = stripped.partition(" ")
             if head.lower() in _KNOWN_CONTAINER_KEYWORDS:
-                return match.group(0)
+                return f"::: {head}{(' ' + tail) if tail else ''}".rstrip()
             label = stripped if not tail else f"{head} {tail}".strip()
             return f"::: hide {label}"
 
-        return _HIDE_SHORTHAND_PATTERN.sub(_replace, markdown)
+        normalised = _HIDE_SHORTHAND_PATTERN.sub(_replace, markdown)
+        # Ensure bare closing markers drop trailing whitespace
+        return _HIDE_CLOSING_PATTERN.sub(":::", normalised)
 
     def _render_hide_container(self):
         def _renderer(
