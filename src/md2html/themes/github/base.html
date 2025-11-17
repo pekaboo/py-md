@@ -48,6 +48,11 @@
       {% endif %}
     {% endif %}
   {% endif %}
+  {% set nav_meta = namespace(primary=None, items=nav_scope) %}
+  {% if nav_scope and nav_scope|length > 0 %}
+    {% set nav_meta.primary = nav_scope[0] %}
+    {% set nav_meta.items = nav_scope[1:] %}
+  {% endif %}
   {% macro nav_href(url) -%}
     {%- if base_url -%}{{ base_url }}/{{ url }}{%- else -%}/{{ url }}{%- endif -%}
   {%- endmacro %}
@@ -60,6 +65,8 @@
   {% set child_id = ('nav-' ~ node_key) | replace('/', '-') | replace('.', '-') %}
       <div class="md2html-nav__item{% if is_active %} md2html-nav__item--active{% endif %}{% if is_expanded %} md2html-nav__item--expanded{% endif %}"
         data-nav-node="{{ node_key }}"
+        data-nav-name="{{ node.segments | join('/') }}"
+        data-nav-mtime="{{ node.mtime or 0 }}"
         {% if parent_key %}data-nav-parent="{{ parent_key }}"{% endif %}>
         <div class="md2html-nav__entry{% if not node.children %} md2html-nav__entry--leaf{% endif %}">
           {% if node.children %}
@@ -101,14 +108,33 @@
       {% if navigation %}
       <nav class="md2html-sidebar__nav" aria-label="{{ navigation_label }}">
         <div class="md2html-sidebar__header">
-          <!-- --- -->
-          <!-- <div class="md2html-sidebar__section-title">{{ navigation_label }}</div> -->
+          {% if nav_meta.primary %}
+          <div class="md2html-sidebar__current">
+            {% set is_active_primary = nav_meta.primary.segments == current_segments %}
+            {% if nav_meta.primary.url %}
+            <a class="md2html-sidebar__current-link{% if is_active_primary %} md2html-sidebar__current-link--active{% endif %}"
+              href="{{ nav_href(nav_meta.primary.url) }}"
+              data-nav-title="{{ nav_meta.primary.title }}">
+              <span class="md2html-sidebar__current-text">{{ nav_meta.primary.title }}</span>
+            </a>
+            {% else %}
+            <span class="md2html-sidebar__current-text">{{ nav_meta.primary.title }}</span>
+            {% endif %}
+          </div>
+          {% endif %}
           <div class="md2html-sidebar__search">
             <input type="search" class="md2html-sidebar__search-input" placeholder="搜索章节" aria-label="搜索章节" data-md2html-nav-search />
+            <button type="button" class="md2html-sidebar__sort-button" data-md2html-nav-sort data-sort-order="asc" aria-label="按名称倒序排序" title="按名称倒序排序">
+              <span class="md2html-sidebar__sort-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M8.75 4a1 1 0 0 1 .7.29l3 3a1 1 0 1 1-1.42 1.42L10 7.09V19a1 1 0 1 1-2 0V7.09L6.97 8.71A1 1 0 0 1 5.55 7.3l3-3A1 1 0 0 1 8.75 4Zm6.5 16a1 1 0 0 1-.7-.29l-3-3a1 1 0 0 1 1.42-1.42L14 16.91V5a1 1 0 0 1 2 0v11.91l1.03-1.62a1 1 0 0 1 1.42 1.42l-3 3a1 1 0 0 1-.7.29Z" />
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
         <div class="md2html-nav" data-md2html-nav>
-          {{ render_nav(nav_scope, current_segments) }}
+          {{ render_nav(nav_meta.items, current_segments) }}
         </div>
         <div class="md2html-nav__empty is-hidden" data-md2html-nav-empty>未找到匹配目录</div>
       </nav>
@@ -181,11 +207,32 @@
           </div>
           <div class="md2html-drawer__body">
             <nav class="md2html-drawer__section" aria-label="{{ navigation_label }}">
+              {% if nav_meta.primary %}
+              <div class="md2html-sidebar__current">
+                {% set is_active_primary = nav_meta.primary.segments == current_segments %}
+                {% if nav_meta.primary.url %}
+                <a class="md2html-sidebar__current-link{% if is_active_primary %} md2html-sidebar__current-link--active{% endif %}"
+                  href="{{ nav_href(nav_meta.primary.url) }}"
+                  data-nav-title="{{ nav_meta.primary.title }}">
+                  <span class="md2html-sidebar__current-text">{{ nav_meta.primary.title }}</span>
+                </a>
+                {% else %}
+                <span class="md2html-sidebar__current-text">{{ nav_meta.primary.title }}</span>
+                {% endif %}
+              </div>
+              {% endif %}
               <div class="md2html-sidebar__search">
                 <input type="search" class="md2html-sidebar__search-input" placeholder="搜索章节" aria-label="搜索章节" data-md2html-nav-search />
+                <button type="button" class="md2html-sidebar__sort-button" data-md2html-nav-sort data-sort-order="asc" aria-label="按名称倒序排序" title="按名称倒序排序">
+                  <span class="md2html-sidebar__sort-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M8.75 4a1 1 0 0 1 .7.29l3 3a1 1 0 1 1-1.42 1.42L10 7.09V19a1 1 0 1 1-2 0V7.09L6.97 8.71A1 1 0 0 1 5.55 7.3l3-3A1 1 0 0 1 8.75 4Zm6.5 16a1 1 0 0 1-.7-.29l-3-3a1 1 0 0 1 1.42-1.42L14 16.91V5a1 1 0 0 1 2 0v11.91l1.03-1.62a1 1 0 0 1 1.42 1.42l-3 3a1 1 0 0 1-.7.29Z" />
+                    </svg>
+                  </span>
+                </button>
               </div>
               <div class="md2html-nav" data-md2html-nav>
-                {{ render_nav(nav_scope, current_segments) }}
+                {{ render_nav(nav_meta.items, current_segments) }}
               </div>
               <div class="md2html-nav__empty is-hidden" data-md2html-nav-empty>未找到匹配目录</div>
             </nav>
@@ -268,6 +315,8 @@
         }
       }
   const navContainers = document.querySelectorAll('[data-md2html-nav]');
+      const navSortButtons = document.querySelectorAll('[data-md2html-nav-sort]');
+      const navSortKey = 'md2html-nav-sort';
 
       const prefersDark = globalThis.matchMedia && globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -534,6 +583,91 @@
           navState.expanded.delete(key);
         }
         persistNavState();
+      }
+
+      function getNavSortOrder() {
+        try {
+          const stored = localStorage.getItem(navSortKey);
+          return stored === 'desc' ? 'desc' : 'asc';
+        } catch (err) {
+          console.debug('Failed to read navigation sort preference', err);
+          return 'asc';
+        }
+      }
+
+      function setNavSortOrder(order) {
+        try {
+          localStorage.setItem(navSortKey, order);
+        } catch (err) {
+          console.debug('Failed to persist navigation sort preference', err);
+        }
+      }
+
+      function updateNavSortButton(button, order) {
+        button.dataset.sortOrder = order;
+        const nextLabel = order === 'asc' ? '按名称倒序排序' : '按名称正序排序';
+        button.setAttribute('aria-label', nextLabel);
+        button.title = nextLabel;
+      }
+
+      function compareNavItems(order) {
+        const direction = order === 'desc' ? -1 : 1;
+        return (a, b) => {
+          const nameA = (a.dataset.navName || '').toLowerCase();
+          const nameB = (b.dataset.navName || '').toLowerCase();
+          if (nameA < nameB) return -1 * direction;
+          if (nameA > nameB) return 1 * direction;
+          const mtimeA = Number.parseFloat(a.dataset.navMtime || '0') || 0;
+          const mtimeB = Number.parseFloat(b.dataset.navMtime || '0') || 0;
+          if (mtimeA === mtimeB) {
+            return 0;
+          }
+          return mtimeA < mtimeB ? -1 * direction : 1 * direction;
+        };
+      }
+
+      function sortNavChildren(container, compare) {
+        if (!container) {
+          return;
+        }
+        const items = Array.from(container.children).filter((child) => child instanceof HTMLElement && child.dataset && child.dataset.navNode);
+        if (!items.length) {
+          return;
+        }
+        items.sort(compare);
+        for (const item of items) {
+          container.appendChild(item);
+          const childList = item.querySelector(':scope > .md2html-nav__list');
+          if (childList) {
+            sortNavChildren(childList, compare);
+          }
+        }
+      }
+
+      function applyNavSort(order) {
+        const compare = compareNavItems(order);
+        for (const container of navContainers) {
+          sortNavChildren(container, compare);
+        }
+        setNavSortOrder(order);
+        for (const button of navSortButtons) {
+          updateNavSortButton(button, order);
+        }
+        applyNavState();
+      }
+
+      function initNavSortControls() {
+        if (!navSortButtons.length || !navContainers.length) {
+          return;
+        }
+        let currentOrder = getNavSortOrder();
+        applyNavSort(currentOrder);
+        for (const button of navSortButtons) {
+          button.addEventListener('click', () => {
+            currentOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+            applyNavSort(currentOrder);
+          });
+        }
       }
 
       function applyNavState() {
@@ -1048,6 +1182,7 @@
         }
 
       initHideCollapseHandlers();
+    initNavSortControls();
       initNavHandlers();
       initDrawerHandlers();
       initFloatingObservers();

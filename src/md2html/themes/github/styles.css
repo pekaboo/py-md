@@ -146,6 +146,42 @@ a:focus {
 	margin-bottom: 16px;
 }
 
+.md2html-sidebar__current {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.md2html-sidebar__current-link,
+.md2html-sidebar__current-text {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 10px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--md2html-heading);
+	background-color: rgba(9, 105, 218, 0.08);
+}
+
+.md2html-sidebar__current-link {
+	text-decoration: none;
+}
+
+.md2html-sidebar__current-link:hover,
+.md2html-sidebar__current-link:focus-visible {
+	text-decoration: none;
+	background-color: rgba(9, 105, 218, 0.16);
+	outline: none;
+}
+
+.md2html-sidebar__current-link--active {
+	background-color: rgba(9, 105, 218, 0.24);
+	color: var(--md2html-outline-active);
+}
+
 .md2html-sidebar__section-title {
 	font-size: 12px;
 	font-weight: 600;
@@ -162,12 +198,58 @@ a:focus {
 
 .md2html-sidebar__search-input {
 	width: 100%;
-	padding: 8px 12px;
+	padding: 8px 40px 8px 12px;
 	border-radius: 8px;
 	border: 1px solid var(--md2html-nav-divider);
 	background-color: var(--md2html-body-bg);
 	color: var(--md2html-nav-link);
 	font-size: 13px;
+}
+
+.md2html-sidebar__sort-button {
+	position: absolute;
+	top: 50%;
+	right: 8px;
+	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	color: var(--md2html-nav-muted);
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.md2html-sidebar__sort-button:hover,
+.md2html-sidebar__sort-button:focus-visible {
+	background-color: rgba(9, 105, 218, 0.08);
+	color: var(--md2html-nav-link);
+	outline: none;
+}
+
+.md2html-sidebar__sort-button:focus-visible {
+	box-shadow: 0 0 0 2px rgba(9, 105, 218, 0.35);
+}
+
+.md2html-sidebar__sort-icon {
+	display: inline-flex;
+	width: 16px;
+	height: 16px;
+	transition: transform 0.2s ease;
+}
+
+.md2html-sidebar__sort-button svg {
+	width: 100%;
+	height: 100%;
+	fill: currentColor;
+}
+
+.md2html-sidebar__sort-button[data-sort-order="desc"] .md2html-sidebar__sort-icon {
+	transform: rotate(180deg);
 }
 
 .md2html-sidebar__search-input:focus {
@@ -758,7 +840,6 @@ a:focus {
 	border-radius: 8px;
 	padding: 12px 16px;
 	margin: 16px 0;
-	/* background-color: rgba(9, 105, 218, 0.04); */
 }
 
 .md2html-hide__body {

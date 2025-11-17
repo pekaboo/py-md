@@ -320,9 +320,13 @@ class SiteBuilder:
             front_matter=rendered.front_matter,
         )
 
-    def _build_navigation_structure(self) -> List[Dict[str, Any]]:
+    def _build_navigation_structure(self, sort_by: str = "name", order: str = "asc") -> List[Dict[str, Any]]:
+        """
+        sort_by: 'name' or 'mtime'
+        order: 'asc' or 'desc'
+        """
         documents: List[Dict[str, Any]] = []
-        for path in sorted(self.config.source_dir.rglob("*")):
+        for path in self.config.source_dir.rglob("*"):
             if path.is_dir() or not is_markdown_file(path):
                 continue
             if self._should_ignore(path):
@@ -332,14 +336,28 @@ class SiteBuilder:
             segments = list(relative.with_suffix("").parts)
             title = self._extract_title(path)
             output_segments = self._register_output_path(segments)
+            mtime = 0
+            try:
+                mtime = path.stat().st_mtime
+            except Exception:
+                pass
             documents.append(
                 {
                     "segments": segments,
                     "title": title,
                     "url": self._segments_to_url(output_segments),
                     "output_segments": output_segments,
+                    "mtime": mtime,
+                    "name": "/".join(segments),
                 }
             )
+
+        # sort documents
+        reverse = order == "desc"
+        if sort_by == "mtime":
+            documents.sort(key=lambda d: d["mtime"], reverse=reverse)
+        else:
+            documents.sort(key=lambda d: d["name"].lower(), reverse=reverse)
 
         tree: Dict[str, Any] = {}
         for doc in documents:
@@ -354,20 +372,24 @@ class SiteBuilder:
                         "children": {},
                         "url": None,
                         "is_leaf": False,
+                        "mtime": doc["mtime"],
+                        "name": doc["name"],
                     },
                 )
                 if index == len(segments) - 1:
                     node["title"] = doc["title"]
                     node["url"] = doc["url"]
                     node["is_leaf"] = True
+                    node["mtime"] = doc["mtime"]
+                    node["name"] = doc["name"]
                 current = node["children"]
 
-        return self._serialise_navigation(tree)
+        return self._serialise_navigation(tree, sort_by=sort_by, order=order)
 
-    def _serialise_navigation(self, tree: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _serialise_navigation(self, tree: Dict[str, Any], sort_by: str = "name", order: str = "asc") -> List[Dict[str, Any]]:
         nodes: List[Dict[str, Any]] = []
         for name, data in tree.items():
-            children = self._serialise_navigation(data["children"])
+            children = self._serialise_navigation(data["children"], sort_by=sort_by, order=order)
             nodes.append(
                 {
                     "name": name,
@@ -376,8 +398,14 @@ class SiteBuilder:
                     "is_leaf": data.get("is_leaf", False),
                     "segments": list(data["segments"]),
                     "children": children,
+                    "mtime": data.get("mtime", 0),
                 }
             )
+        reverse = order == "desc"
+        if sort_by == "mtime":
+            nodes.sort(key=lambda d: d["mtime"], reverse=reverse)
+        else:
+            nodes.sort(key=lambda d: d["name"].lower(), reverse=reverse)
         return nodes
 
     def _register_output_path(self, segments: List[str]) -> List[str]:
