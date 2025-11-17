@@ -63,6 +63,9 @@ class Theme:
     def default_hide_title(self) -> str:
         return str(self.config.get("default_hide_title", "点击展开"))
 
+    def default_hide_collapse_title(self) -> str:
+        return str(self.config.get("default_hide_collapse_title", "收起"))
+
     def admonition_defaults(self) -> Dict[str, Dict[str, str]]:
         return self.config.get("admonitions", {})
 

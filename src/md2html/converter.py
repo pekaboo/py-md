@@ -71,6 +71,7 @@ class MarkdownRenderer:
             "doc_path": str(source_path),
             "front_matter": front_matter,
             "default_hide_title": self.theme.default_hide_title(),
+            "default_hide_collapse_title": self.theme.default_hide_collapse_title(),
             "admonitions": self.theme.admonition_defaults(),
         }
 
@@ -114,12 +115,6 @@ class MarkdownRenderer:
             "warning",
             render=self._render_admonition("warning"),
             validate=self._make_container_validator("warning"),
-        )  # type: ignore[arg-type]
-        md.use(
-            container_plugin,
-            "info",
-            render=self._render_admonition("info"),
-            validate=self._make_container_validator("info"),
         )  # type: ignore[arg-type]
         return md
 
@@ -200,6 +195,8 @@ class MarkdownRenderer:
             token = tokens[idx]
             params = token.info
             title = self._extract_container_label(params, "hide")
+            collapse_label_value = env.get("default_hide_collapse_title", "收起")
+            collapse_label = escape(str(collapse_label_value))
             if token.nesting == 1:
                 summary = title or env.get("default_hide_title", "点击展开")
                 summary = escape(summary)
@@ -208,7 +205,12 @@ class MarkdownRenderer:
                     f"  <summary>{summary}</summary>\n"
                     "  <div class=\"md2html-hide__body\">\n"
                 )
-            return "  </div>\n</details>\n"
+            return (
+                "    <div class=\"md2html-hide__footer\">\n"
+                f"      <button type=\"button\" class=\"md2html-hide__collapse\" data-md2html-hide-collapse>{collapse_label}</button>\n"
+                "    </div>\n"
+                "  </div>\n</details>\n"
+            )
 
         return _renderer
 

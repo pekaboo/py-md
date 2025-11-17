@@ -23,6 +23,21 @@ def test_hide_container_renders_details(renderer: MarkdownRenderer) -> None:
     assert "<details" in result.html
     assert "更多" in result.html
     assert "隐藏内容" in result.html
+    assert "data-md2html-hide-collapse" in result.html
+    assert "收起" in result.html
+
+
+def test_hide_container_shorthand_without_keyword(renderer: MarkdownRenderer) -> None:
+    markdown = """::: 自定义标题
+
+内容
+:::
+"""
+    result = renderer.render(markdown, source_path=Path("doc.md"))
+    assert '<details class="md2html-hide"' in result.html
+    assert "自定义标题" in result.html
+    assert "内容" in result.html
+    assert "data-md2html-hide-collapse" in result.html
 
 
 def test_note_container_renders_admonition(renderer: MarkdownRenderer) -> None:
@@ -33,16 +48,6 @@ def test_note_container_renders_admonition(renderer: MarkdownRenderer) -> None:
     result = renderer.render(markdown, source_path=Path("doc.md"))
     assert "md2html-admonition--note" in result.html
     assert "提示" in result.html
-
-
-def test_info_container_renders_admonition(renderer: MarkdownRenderer) -> None:
-    markdown = """::: info 说明
-内容
-:::
-"""
-    result = renderer.render(markdown, source_path=Path("doc.md"))
-    assert "md2html-admonition--info" in result.html
-    assert "说明" in result.html
 
 
 def test_front_matter_parser() -> None:

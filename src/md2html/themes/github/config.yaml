@@ -4,10 +4,9 @@ description: GitHub Markdown 风格的响应式主题
 template: base.html
 pygments_style: friendly
 default_hide_title: 点击展开
+default_hide_collapse_title: 收起
 admonitions:
   note:
     title: 提示
   warning:
     title: 注意
-  info:
-    title: 说明

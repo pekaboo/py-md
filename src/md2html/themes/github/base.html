@@ -363,6 +363,29 @@
         applyExpand(!isExpanded);
       }
 
+      function initHideCollapseHandlers() {
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          const trigger = target instanceof Element ? target.closest('[data-md2html-hide-collapse]') : null;
+          if (!trigger) {
+            return;
+          }
+          event.preventDefault();
+          const details = trigger.closest('details');
+          if (!details || !(details instanceof HTMLDetailsElement)) {
+            return;
+          }
+          details.open = false;
+          if (details.dataset.md2htmlForceOpen === 'true') {
+            delete details.dataset.md2htmlForceOpen;
+          }
+          const summary = details.querySelector('summary');
+          if (summary instanceof HTMLElement) {
+            summary.focus();
+          }
+        });
+      }
+
       function createEmptyNavState() {
         return {
           expanded: new Set(),
@@ -1024,6 +1047,7 @@
           performSearch('');
         }
 
+      initHideCollapseHandlers();
       initNavHandlers();
       initDrawerHandlers();
       initFloatingObservers();
