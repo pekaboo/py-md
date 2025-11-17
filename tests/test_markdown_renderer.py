@@ -60,3 +60,13 @@ def test_front_matter_parser() -> None:
 def test_slugify_generates_unique_slug() -> None:
     assert slugify("Hello World") == "hello-world"
     assert slugify("中文 标题") == "中文-标题"
+
+
+def test_table_markdown_renders_table(renderer: MarkdownRenderer) -> None:
+    markdown = """| 列1 | 列2 |
+| --- | --- |
+| A   | B   |
+"""
+    result = renderer.render(markdown, source_path=Path("table.md"))
+    assert "<table" in result.html
+    assert "<td" in result.html

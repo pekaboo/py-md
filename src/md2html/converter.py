@@ -17,6 +17,7 @@ from markdown_it import MarkdownIt  # type: ignore[import]
 from markdown_it.token import Token  # type: ignore[import]
 from mdit_py_plugins.container import container_plugin  # type: ignore[import]
 from mdit_py_plugins.front_matter import front_matter_plugin  # type: ignore[import]
+from mdit_py_plugins.table import table_plugin  # type: ignore[import]
 from mdit_py_plugins.tasklists import tasklists_plugin  # type: ignore[import]
 from watchdog.events import FileSystemEventHandler  # type: ignore[import]
 from watchdog.observers import Observer  # type: ignore[import]
@@ -98,6 +99,7 @@ class MarkdownRenderer:
         md = MarkdownIt("commonmark", {"html": True, "linkify": True, "typographer": True})
         md.use(tasklists_plugin, enabled=True)
         md.use(front_matter_plugin)
+        md.use(table_plugin)
         md.use(
             container_plugin,
             "hide",
