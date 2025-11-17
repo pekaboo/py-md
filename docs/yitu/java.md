@@ -10,18 +10,29 @@ description: Java基础
 - `HashMap` 扩容流程：(1) 新建 2 倍容量新数组，(2) 遍历旧数组，(3) 按 key hash 定位桶位，(4) 元素迁移：链表/树迁移到新桶位，或者转链表(<6)/树(≥64,> 8)后迁移
 - LinkedHashMap(1) 继承 HashMap，数组 + 链表 / 红黑树 + 双向链表，保留插入 / 访问顺序；(2) 线程不安全，默认加载因子 0.75，扩容逻辑同 HashMap；(3) 双向链表维护顺序，accessOrder=true 支持 LRU 特性。
 - `HashSet` (1)基于 `HashMap`，内部将元素作为 `HashMap` 的 key，value 为常量 `PRESENT`，因此所有行为复用 `HashMap`。(3) `public static final Object PRESENT = new Object(); transient HashMap<E, Object> map;`去重依赖 HashMap 的 key 唯一性，添加元素本质是 map.put (elem, PRESENT)
+-  `transient` 仅用于**实现 `Serializable` 接口**的序列化场景（Java 原生序列化）
 - `HashSet` 【cpu密集型用并行流】若两个元素 equals() 返回 true 且 hashCode() 返回值相同，则视为重复元素，无法重复添加（与 HashMap 去重逻辑完全一致）。HashSet 的元素允许：基本类型包装类（Integer、String 等，已重写 hashCode() 和 equals()）、自定义对象（需正确重写上述两个方法）、null（仅一个）；不允许：无意义的自定义对象（未重写 hashCode()/equals()）（会导致无法去重）、重复元素（无论类型）。
 - `ConcurrentHashMap` JDK7 分段锁（Segment），JDK8 采用 `CAS + synchronized` 在桶位粒度控制，链表转树同样触发条件。读操作基本无锁，写操作竞争点较少。(1) 跳表实现，并发安全，key 必须可比较，天然有序；(2) 无固定容量，无加载因子，通过跳表分层提升查询效率；(3) 插入 / 查询 / 删除 O (log n)，支持并发读写，无锁设计为主。
 - `TreeMap`：红黑树实现，key 必须可比较，天然有序；线程不安全，无加载因子，无扩容； 插入 / 查询 / 删除 O (log n)，依赖 key 比较定位节点，无 hash 冲突问题。
 - `TreeSet`： (1) 基于 TreeMap 实现，元素作为 key，value 为常量 PRESENT；(2) 线程不安全，元素有序且唯一；(3) 排序依赖 TreeMap 的 key 比较，去重依据 compareTo () 返回 0。
 - `Hashtable`
 (1) 数组 + 链表，线程安全（全局 synchronized 锁）；(2) 默认容量 11，加载因子 0.75，扩容为旧容量 * 2+1；(3) 不允许 key/value 为 null，hash 逻辑未优化，冲突概率高。
-ConcurrentHashMap（JDK8）
-(1) 数组 + 链表 / 红黑树，CAS + 桶位 synchronized 锁，并发安全；(2) 默认加载因子 0.75，扩容同 HashMap，支持并发扩容；(3) 读操作无锁，写操作桶位级锁，链表 > 8 且容量≥64 转红黑树。
 - `WeakHashMap` (1) 数组 + 链表 / 红黑树，key 为弱引用，线程不安全；(2) 默认加载因子 0.75，扩容逻辑同 HashMap；(3) 当 key 无强引用时会被 GC 回收，自动移除对应条目。
 ---
 - `synchronized` (1)Jvm级别内置锁,通过对象头Markword+Monitor锁，通过锁升级保证不同并发场景下性能/安全平衡，支持偏向，轻重自适应优化（2）基于对象头Markword(存锁状态，线程id)+Monitor（互斥锁，包含owner，EntryList，Waitlist） ，
 - `synchronized核心逻辑` （1）一个线程加锁时，try Monitor owner 设置为自己，失败接入EntryList（2）解锁时，唤醒EntryList线程（3）调用wait时，线程释放锁，进入waitlist，需被Notify(All)唤醒
+- 对象包含markword，用于存储锁状态、哈希码、GC 年龄等核心信息 ——Mark Word 是对象头的固定组成部。 Java 对象头由两部分组成（32 位 JVM 示例）
+-  JVM 在创建对象时，会先分配对象头的内存（包括 Mark Word 的固定字节数：32 位 JVM 中 Mark Word 占 4 字节，64 位 JVM 中占 8 字节），再分配对象的实例字段内存。
+-  组成部分	作用	是否必选
+   - Mark Word	存储锁状态、线程 ID、哈希码、GC 分代年龄等	✅ 必选（所有对象都有）
+   - Klass Pointer（类型指针）	指向对象所属类的元数据（如User.class），确定对象类型	- ✅ 必选（除数组外，数组的类型指针略有不同）
+   - 数组长度（仅数组对象）	存储数组的长度（如new int[10]的长度 10）	❌ 仅数组有，普通对象无
+- synchronized 锁获取流程核心是「按需升级、不可逆」，全程由 JVM 自动控制，简述如下：
+   - 初始状态为「无锁」，锁对象的 Mark Word 存储哈希码 + 无锁标记；
+   - 单线程请求：直接升级为「偏向锁」，Mark Word 记录当前线程 ID，后续该线程可零开销复用锁；
+   - 多线程交替竞争：撤销偏向锁，升级为「轻量级锁」，线程通过自旋 CAS 尝试抢占锁（避免阻塞）；
+   - 竞争激烈（自旋超时 / 多线程并发）：轻量级锁膨胀为「重量级锁」，Mark Word 指向 Monitor，竞争失败的线程进入 EntryList 阻塞，等待被唤醒后重新竞争。
+   - 案例： 
 ---
 - **ReentrantLock**：可公平/非公平、可中断、可定时、可配合条件变量。底层依赖 AQS 的可重入 state 计数。
 - **CopyOnWriteArrayList**：写时复制，适合读多写少且迭代快照一致性需求。 
@@ -253,3 +264,62 @@ ConcurrentHashMap（JDK8）
  3. init方法执行时若构造方法抛异常，对象创建失败，但已分配的内存会被GC回收；  
  4. 数组对象的内存分配需额外存储数组长度，且数组类的元数据是JVM动态生成的（如[Ljava.lang.String;）。  
 :::
+
+
+### 🔒 `synchronized` 底层实现：JVM 级别锁机制解析
+#### 1. 核心底层结构
+`synchronized` 是 JVM 内置锁（隐式锁），底层依赖 **对象头 Mark Word** + **Monitor（管程）** 实现互斥与同步，核心是「通过对象关联锁状态，通过 Monitor 控制线程竞争」。
+
+#### 2. 核心组件拆解
+##### （1）对象头 Mark Word（锁状态载体）
+- **作用**：存储对象的锁状态、持有锁的线程 ID 等核心信息，是 JVM 识别锁状态的关键。
+- **结构（32位JVM示例，压缩指针开启）**：
+  | 锁状态       | Mark Word 存储内容                          | 说明                                  |
+  |--------------|---------------------------------------------|---------------------------------------|
+  | 无锁状态     | 哈希码（31位） + 无锁标记（1位）            | 对象未被锁定，仅存储哈希值            |
+  | 偏向锁       | 线程ID（23位） + Epoch（2位） + 偏向标记（1位） | 单线程竞争时，直接关联线程ID，无CAS开销 |
+  | 轻量级锁     | 指向线程栈中锁记录的指针（30位） + 轻量标记（2位） | 多线程交替竞争，用CAS自旋获取锁        |
+  | 重量级锁     | 指向 Monitor 的指针（30位） + 重量标记（2位） | 多线程并发竞争，进入 Monitor 阻塞队列  |
+
+- **核心逻辑**：线程竞争锁时，JVM 会修改 Mark Word 的「锁状态标记」和「关联数据」（线程ID/Monitor指针），通过 CAS 操作保证原子性。
+
+##### （2）Monitor（管程/互斥锁核心）
+- **本质**：JVM 为每个对象关联的一个「同步监视器」，是操作系统级别的互斥锁（依赖 pthread_mutex 实现），负责控制线程的进入、阻塞、唤醒。
+- **核心结构（3个关键队列）**：
+  | 组件         | 作用                                  | 线程状态                              |
+  |--------------|---------------------------------------|---------------------------------------|
+  | Owner（拥有者） | 存储当前持有锁的线程                     | 线程处于「运行中」，独占 Monitor      |
+  | EntryList（入口队列） | 等待获取锁的线程集合（锁被占用时进入）   | 线程处于「阻塞状态」（BLOCKED）        |
+  | WaitSet（等待队列） | 调用 `wait()` 后释放锁的线程集合         | 线程处于「等待状态」（WAITING/TIMED_WAITING） |
+
+- **Monitor 工作流程**：
+  1. 线程请求锁时，先尝试通过 CAS 修改 Mark Word 抢占锁；
+  2. 抢占失败（锁已被占用）：线程进入 EntryList 阻塞；
+  3. 持有锁的线程（Owner）释放锁（执行完同步代码块/调用 `wait()`）：
+     - 若调用 `wait()`：线程释放锁，进入 WaitSet 等待，需被 `notify()` 唤醒后重新进入 EntryList 竞争；
+     - 若执行完毕：JVM 唤醒 EntryList 中一个线程，使其成为新的 Owner，抢占锁。
+
+#### 3. `synchronized` 锁升级流程（基于 Mark Word + Monitor）
+1. **无锁 → 偏向锁**：单线程首次获取锁，JVM 在 Mark Word 中记录当前线程ID，后续该线程可直接进入同步块（无竞争，零开销）。
+2. **偏向锁 → 轻量级锁**：出现第二个线程竞争锁，偏向锁撤销，JVM 为线程在栈中创建「锁记录」，通过 CAS 自旋尝试修改 Mark Word 为轻量级锁指针，自旋失败则升级。
+3. **轻量级锁 → 重量级锁**：多线程频繁竞争（自旋超过阈值/自旋时线程数过多），轻量级锁膨胀为重量级锁，Mark Word 指向 Monitor，竞争线程进入 EntryList 阻塞（避免 CPU 空转）。
+
+#### 4. 核心总结
+- `Mark Word` 是「锁状态的存储载体」，通过修改其内容标识锁的类型和持有线程；
+- `Monitor` 是「锁的执行引擎」，通过 Owner/EntryList/WaitSet 控制线程的竞争与同步；
+- `synchronized` 的高效性源于「锁升级机制」：从无锁→偏向锁→轻量级锁→重量级锁，按需升级，平衡性能与并发。
+####
+ReentrantLock 与 synchronized 对比（核心区别）
+
+对比维度	ReentrantLock（显式锁）	synchronized（隐式锁）
+锁的获取 / 释放	显式：lock()/unlock()（必须手动释放，需 finally）	隐式：JVM 自动获取释放（进入 / 退出同步块 / 方法）
+公平性	支持公平 / 非公平锁（构造函数指定）	仅支持非公平锁（默认）
+线程协作	支持多个 Condition 队列（精细唤醒）	仅支持一个 WaitSet 队列（wait()/notify()）
+可中断性	支持（lockInterruptibly()）	不支持（阻塞时无法中断）
+尝试锁	支持（tryLock()，非阻塞 / 超时）	不支持（仅阻塞式抢锁）
+锁状态查询	支持（isLocked()/getHoldCount() 等）	不支持（无公开 API 查询）
+底层实现	AQS（双向链表 + 状态变量）	Mark Word + Monitor 管程
+锁升级	无（始终是重量级锁的语义，AQS 队列实现）	支持（无锁→偏向锁→轻量级锁→重量级锁）
+适用场景	复杂并发（如多条件等待、可中断、超时抢锁）	简单并发（如普通同步、单例、基础原子操作）
+性能	高并发场景下性能优于 synchronized（JDK 1.6 后 synchronized 优化后差距缩小）	低并发场景下开销小（JVM 优化充分）
+
