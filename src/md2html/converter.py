@@ -11,13 +11,12 @@ from dataclasses import dataclass
 from fnmatch import fnmatch
 from html import escape
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Callable, Dict, Iterable, List, Match, Optional, Tuple
 
 from markdown_it import MarkdownIt  # type: ignore[import]
 from markdown_it.token import Token  # type: ignore[import]
 from mdit_py_plugins.container import container_plugin  # type: ignore[import]
 from mdit_py_plugins.front_matter import front_matter_plugin  # type: ignore[import]
-from mdit_py_plugins.table import table_plugin  # type: ignore[import]
 from mdit_py_plugins.tasklists import tasklists_plugin  # type: ignore[import]
 from watchdog.events import FileSystemEventHandler  # type: ignore[import]
 from watchdog.observers import Observer  # type: ignore[import]
@@ -31,6 +30,8 @@ logger = logging.getLogger(__name__)
 _HEADING_PATTERN = re.compile(r"^\s*(#{1,6})\s+(.+?)\s*(?:#+\s*)?$", re.MULTILINE)
 _OUTPUT_SEGMENT_SANITISER = re.compile(r"[^0-9A-Za-z\u4e00-\u9fff._-]")
 _OUTPUT_SEGMENT_WHITESPACE = re.compile(r"\s+")
+_HIDE_SHORTHAND_PATTERN = re.compile(r"^:::\s+(.+)$", re.MULTILINE)
+_KNOWN_CONTAINER_KEYWORDS = {"hide", "note", "warning"}
 
 
 def format_segment_title(segment: str) -> str:
@@ -68,6 +69,7 @@ class MarkdownRenderer:
 
     def render(self, text: str, *, source_path: Path) -> RenderedDocument:
         front_matter, body = parse_front_matter(text)
+        body = self._normalise_hide_shorthand(body)
         env: Dict[str, Any] = {
             "doc_path": str(source_path),
             "front_matter": front_matter,
@@ -99,7 +101,7 @@ class MarkdownRenderer:
         md = MarkdownIt("commonmark", {"html": True, "linkify": True, "typographer": True})
         md.use(tasklists_plugin, enabled=True)
         md.use(front_matter_plugin)
-        md.use(table_plugin)
+        md.enable("table")
         md.use(
             container_plugin,
             "hide",
@@ -185,6 +187,20 @@ class MarkdownRenderer:
         if info.lower().startswith(expected.lower()):
             return info[len(expected) :].lstrip()
         return info
+
+    def _normalise_hide_shorthand(self, markdown: str) -> str:
+        def _replace(match: Match[str]) -> str:
+            info = match.group(1)
+            stripped = info.strip()
+            if not stripped:
+                return match.group(0)
+            head, _, tail = stripped.partition(" ")
+            if head.lower() in _KNOWN_CONTAINER_KEYWORDS:
+                return match.group(0)
+            label = stripped if not tail else f"{head} {tail}".strip()
+            return f"::: hide {label}"
+
+        return _HIDE_SHORTHAND_PATTERN.sub(_replace, markdown)
 
     def _render_hide_container(self):
         def _renderer(
