@@ -47,4 +47,30 @@ AtomicMarkableReference：给变量绑定一个 “boolean 类型的标记”（
 -  ❓ReentrantLock： 基于 AQS、state 重入计数、FIFO 同步队列、CAS+synchronized 辅助。tryLock()（非阻塞）、lock()（阻塞）、lockInterruptibly()（可中断）  公平锁
 -  ❓CopyOnWriteArrayList 读多写少。 volatile 数组（保障读可见性）、ReentrantLock 写锁
 -  
+:::
 
+::: hide Redis
+- String(json 缓存对象 限流计数器，分布式锁)、Hash（字典，kv，用户消息，配置）、List（消息队列，任务队列，「有序、可重复、支持两端插入 / 删除」）、Set（无序去重， 好友，抽奖）、ZSet （有序，排行榜，延迟队列），Bitmap 活跃用户 ， 或者 签到 
+  - Bitmap（SETBIT key offset value） 比如签到：用户 ID=1001，2025 年 11 月 5 号签到（5 号对应 offset=4）  SETBIT user:sign:1001:202511 4 1 
+  - 查询某一天是否签到：GETBIT user:sign:1001:202511 4
+  - 统计某月签到：BITCOUNT user:sign:1001:202511
+  - 查询当月第一次 / 最后一次签到日期BITPOS user:sign:1001:202511 1
+  - 最后一次签到（需结合当月天数，反向查找）# 思路：从当月最后一天的偏移量（如30天=29）反向查第一个1  BITPOS user:sign:1001:202511 1 29 29  # 从offset=29开始查，步长-1
+  - 统计连续签到天数（核心业务逻辑） java 从今天向前遍历，直到遇到0或offset<0
+
+:::
+
+
+#### jstatck 分析死锁  
+ jps 获取 列表 pid，  jstatck pid
+
+#### 数据库连接池爆满
+可能： 线程数不够了 并发请求太高了 有慢SQL
+思路： 看流量监控，没有异常流量。
+      查下SQL 耗时，慢SQL日志。 
+      更新工单
+      WHERE id = ?   AND deleted = ?   AND lock_version = ? 
+简单的一个更新语句，其中使用了乐观锁进行并发控制。 热点行更新 
+
+
+#### 

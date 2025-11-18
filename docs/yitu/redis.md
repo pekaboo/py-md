@@ -6,6 +6,7 @@ description: Redis相关
 
 ## Redis 数据类型与场景
 - 常用五大类型：String、Hash、List、Set、ZSet 扩展类型：Bitmap、HyperLogLog、Geo、Stream。 
+-  [Redis Bitmap](https://blog.csdn.net/Allure_LoveU/article/details/154979540?sharetype=blogdetail&sharerId=154979540&sharerefer=PC&sharesource=Allure_LoveU&spm=1011.2480.3001.8118)
 - **String**：二进制安全，可**存 JSON**、计数器。典型场景：**缓存对象、分布式锁、限流计数**。
 - **Hash**：类似字典，适合存用户信息、配置项等结构化数据。
 - **List**：双端链表，用于消息队列、任务队列（`LPUSH`/`BRPOP`）。
