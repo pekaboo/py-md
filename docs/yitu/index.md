@@ -36,4 +36,15 @@ description: Yitu 笔记
 ---
 -  ❓ synchronized 和 ReentrantLock 的区别是什么？底层实现原理有何不同？
    -  区别：实现原理（s是jvm内置锁，字节码指令实现；R API层面，Java代码实现），灵活性（s非公平锁，R支持非/公平锁，R可以中断锁等待）、功能（s 1.6后性能优化接近R，R更稳定） 、性能
+-  ❓ volatile ？ 内存屏障，写操作加内存屏障，阻止后面指令，读操作加屏障保证读主内存最新。修改变量后主动刷新到主内存。可以保障可见性、有序性，不保障原子性。 无锁CAS。 
+   -  场景：停止标记，
+   -  CAS漏洞 ABA问题。大部分场景不影响，少部分影响。 比如链表A-B-C，T1想删除B（Anext修改为C），但是T2先删除B，然后在C增加了B（AnextCnextB）；后面T1再做删除，就会把新加的B删除变成（AnextC）。 解决方案（1）版本号+值一起作为CAS值比较 （2）使用带版本号的原子类（Java 自带，首选）AtomicStampedReference 和 AtomicMarkableReference，专门解决 ABA 问题：AtomicStampedReference：给变量绑定一个 “int 类型的版本号”，每次修改变量时，版本号自动 +1；
+AtomicMarkableReference：给变量绑定一个 “boolean 类型的标记”（仅表示 “是否被修改过”，不记录修改次数）
+-  ❓HashMap原理？ 数据结构，16, 0.75,12。64,8 。 key hash，冲突 加快查询效率，树化，扩容迁移
+-  ❓HshSet： Hashmap，key是值，value 常量PRESENT。 eques + hash
+-  ❓ConcurrentHashMap： synchronized+分段锁。 key不能为null（歧义）
+-  ❓AQS 抽象队列同步器：volatile state 同步状态、FIFO 双向同步队列（CLH 队列） ； acquire()（获取锁）、release()
+-  ❓ReentrantLock： 基于 AQS、state 重入计数、FIFO 同步队列、CAS+synchronized 辅助。tryLock()（非阻塞）、lock()（阻塞）、lockInterruptibly()（可中断）  公平锁
+-  ❓CopyOnWriteArrayList 读多写少。 volatile 数组（保障读可见性）、ReentrantLock 写锁
+-  
 
