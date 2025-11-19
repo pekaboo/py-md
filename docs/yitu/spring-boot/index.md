@@ -28,6 +28,7 @@ Spring Boot 就是 Spring 的“懒人版”，核心是让开发更高效。它
 自动配置并非“万能”，复杂场景（如多数据源、自定义MVC拦截器）仍需手动补充配置；起步依赖虽方便，但需避免引入不必要的Starter（如不需要Web功能却引入spring-boot-starter-web），导致应用体积增大；嵌入式服务器的端口、线程池等参数需根据业务需求优化（如配置server.tomcat.max-threads调整Tomcat最大线程数）；Spring Boot版本升级需注意兼容性（如2.x到3.x移除了部分自动配置类、调整了依赖坐标），建议通过spring-boot-dependencies管理版本，而非直接指定依赖版本。
 :::
 
+
 ## 📚【面试题目2：Spring Boot的自动配置原理是什么？如何自定义自动配置？】
 ### 回答要点关键字
 (1) 核心原理：`@EnableAutoConfiguration`、Spring Factories机制、自动配置类、`@Conditional`注解  
