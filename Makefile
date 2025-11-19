@@ -65,3 +65,16 @@ clean: ## Clean up build artifacts and Python cache files
 # Alias: build the static site (same as run)
 build: run  ## Build the static site (alias for run)
 
+.PHONY: docker docker-build docker-run docker-stop
+
+docker: build docker-build docker-run
+
+docker-build:
+	docker build -t md2html-local-build .
+
+docker-run:
+	docker run --rm -d -p 8080:80 --name my-md-site-local md2html-local-build
+
+docker-stop:
+	docker stop my-md-site-local
+
